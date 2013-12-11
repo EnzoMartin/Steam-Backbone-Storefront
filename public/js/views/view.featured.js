@@ -25,9 +25,6 @@
                 var items = this.model.items();
                 var view = this;
                 dust.render(this.template, items, function(err, out) {
-                    if(err){
-                        console.log('RENDER ERROR',err);
-                    }
                     view.$el.html(out);
                 });
             }

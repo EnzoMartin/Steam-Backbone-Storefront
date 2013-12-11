@@ -18,7 +18,10 @@
             },
 
             render: function(){
-                return {};
+                var view = this;
+                dust.render(this.template, {}, function(err, out) {
+                    view.$el.html(out);
+                });
             }
         });
     });
