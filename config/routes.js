@@ -39,11 +39,7 @@ module.exports = function(app,config,passport,auth){
         var files = {};
         files.views = fs.readdirSync('public/js/views');
         files.models = fs.readdirSync('public/js/models');
-        files.libraries = fs.readdirSync('public/js/libraries');
         var processed = {};
-
-        // Reverse the library array due to dependencies
-        files.libraries.reverse();
 
         for (var i in files) {
             var j = 0;
@@ -59,7 +55,6 @@ module.exports = function(app,config,passport,auth){
         // Render index page and pass through all the variables
         res.render('index',{
             lang: locale[0],
-            libs:processed.libraries,
             models:processed.models,
             views:processed.views
         });

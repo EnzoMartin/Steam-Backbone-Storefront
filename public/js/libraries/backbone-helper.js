@@ -1,7 +1,7 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['underscore', 'backbone', 'exports'], function (Backbone, _, exports) {
-            root.Backbone = factory(root, exports, Backbone, _);
+        define(['backbone', 'underscore', 'exports'], function (Backbone, _, exports) {
+            return factory(root, exports, Backbone, _);
         });
     } else if (typeof exports !== 'undefined') {
         var Backbone = require('backbone');

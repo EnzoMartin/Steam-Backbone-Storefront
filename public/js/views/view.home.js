@@ -1,19 +1,27 @@
-(function(window,$,_){
-    _.extend(window.BB.view_definitions,{
-        home: Backbone.View.extend({
-            id: 'home',
+(function (window){
+    requirejs([
+        'jquery',
+        'underscore',
+        'backbone',
+        'dust',
+        'BB'
+    ], function($, _, Backbone, dust, BB) {
+        _.extend(BB.view_definitions,{
+            home: Backbone.View.extend({
+                id: 'home',
 
-            title: 'Home',
+                title: 'Home',
 
-            template: 'tpl_home',
+                template: 'tpl_home',
 
-            events: {
+                events: {
 
-            },
+                },
 
-            render: function(){
-                return {};
-            }
-        })
+                render: function(){
+                    return {};
+                }
+            })
+        });
     });
-}(window,jQuery,_));
+})(window);

@@ -1,5 +1,11 @@
-(function(window,BB,$){
-	window.BB.router = Backbone.Router.extend({
+(function(window){
+define([
+    'underscore',
+    'backbone',
+    'BB',
+    'main'
+], function(_, Backbone, BB, WR) {
+	return Backbone.Router.extend({
 		initialize: function(){
             // Load header and footer views
 			var header = BB.get({view:'header',model:'header'});
@@ -32,4 +38,5 @@
 			'coming-soon'          :'render_coming_soon'
 		}
 	});
-}(window,window.BB,jQuery));
+});
+}(window));
