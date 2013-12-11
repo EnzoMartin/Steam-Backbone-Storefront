@@ -4,7 +4,8 @@
             "home": "Home",
             "search": "Search",
             "toggle-nav": "Toggle Nav",
-            "featured": "Featured"
+            "featured": "Featured",
+            "github": "GitHub Project"
         },
         "home": {
             "header": "Games"
