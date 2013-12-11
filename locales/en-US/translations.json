@@ -3,10 +3,14 @@
         "nav": {
             "home": "Home",
             "search": "Search",
-            "toggle-nav": "app.nav.toggle-nav"
+            "toggle-nav": "Toggle Nav",
+            "featured": "Featured"
         },
         "home": {
             "header": "Games"
+        },
+        "featured": {
+            "header": "Featured"
         },
         "errors": {
             "notfound": {
@@ -20,7 +24,9 @@
         "buttons": {
             "view": "View",
             "search": "Search",
-            "go": "Go"
+            "go": "Go",
+            "cancel": "Cancel",
+            "submit": "Submit"
         },
         "text": {
             "actions": "Actions",
@@ -30,7 +36,16 @@
         },
         "generic": {
             "loading": "Loading",
-            "wait": "Please wait"
+            "wait": "Please wait",
+            "coming-soon": {
+                "title": "Coming Soon!",
+                "body": "This page hasn't been built yet, but don't worry, it's coming soon!"
+            }
+        },
+        "error": {
+            "maximumminimum": "Maximum can't be lower than Minimum",
+            "minimummaximum": "Minimum can't be higher than Maximum",
+            "required": "This field is required"
         }
     }
 }

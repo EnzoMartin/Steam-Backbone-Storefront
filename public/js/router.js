@@ -17,11 +17,6 @@ define([
 			});
 		},
 
-		render_home: function(){
-			var home = BB.get({view:'home'});
-			WR.render(home);
-		},
-
 		render_loading: function(){
 			var loading = BB.get({view:'loading'});
 			WR.render(loading);
@@ -32,10 +27,23 @@ define([
 			WR.render(coming_soon);
 		},
 
+        render_home: function(){
+            var home = BB.get({view:'home'});
+            WR.render(home);
+        },
+
+        render_featured: function(){
+            var collection = BB.get({collection:'games'});
+            var featured = BB.get({view:'featured',model:{name:'featured',options:{collection:collection}},collection:collection});
+            featured.model.fetch();
+            WR.render(featured);
+        },
+
 		routes:{
-			'home'                 :'render_home',
 			'loading'              :'render_loading',
-			'coming-soon'          :'render_coming_soon'
+            'coming-soon'          :'render_coming_soon',
+            'home'                 :'render_home',
+            'featured'             :'render_featured'
 		}
 	});
 });

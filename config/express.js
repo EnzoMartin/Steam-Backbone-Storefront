@@ -10,7 +10,7 @@ module.exports = function(app,config,passport){
         ns: 'translations',
         saveMissing: true,
         ignoreRoutes: ['api/','img/', 'public/', 'css/', 'js/'],
-        debug: true
+        debug: config.il8nDebug
     });
 
 	app.set('showStackError',true);

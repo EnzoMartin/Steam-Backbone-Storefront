@@ -2,6 +2,27 @@
 //var User = mongoose.model('User');
 var fs = require('fs');
 var i18n = require('i18next');
+var http = require('http');
+
+var url = 'store.steampowered.com';
+
+var steam_fetch = function(fragment,callback){
+    var options = {
+        host: url,
+        path: '/api/' + fragment
+    };
+
+    http.request(options,function(response){
+        var str = '';
+        response.on('data',function(chunk){
+            str += chunk;
+        });
+
+        response.on('end',function(){
+            callback(str);
+        });
+    }).end();
+};
 
 module.exports = function(app,config,passport,auth){
 	// User Routes
@@ -39,6 +60,7 @@ module.exports = function(app,config,passport,auth){
         var files = {};
         files.views = fs.readdirSync('public/js/views');
         files.models = fs.readdirSync('public/js/models');
+        files.collections = fs.readdirSync('public/js/collections');
         var processed = {};
 
         for (var i in files) {
@@ -56,7 +78,27 @@ module.exports = function(app,config,passport,auth){
         res.render('index',{
             lang: locale[0],
             models:processed.models,
+            collections:processed.collections,
             views:processed.views
+        });
+    });
+
+    /**
+     * Fetch featured apps
+     */
+    app.get('/api/featured',function(req,res){
+        steam_fetch('featured',function(data){
+            res.send(data);
+        });
+    });
+
+    /**
+     * Fetch specific app ID(s)
+     * @param id {string}
+     */
+    app.get('/api/games',function(req,res){
+        steam_fetch('appdetails?appids=' + req.params.appids,function(data){
+            res.send(data);
         });
     })
 };

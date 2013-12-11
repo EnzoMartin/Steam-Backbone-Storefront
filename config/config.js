@@ -4,6 +4,7 @@ module.exports = {
 		//db:'mongodb://user:password@localhost:27017/database',
         generate_templates: false,
         expressLog: false,
+        il8nDebug: false,
         google: {
             clientID: "APP_ID",
             clientSecret: "APP_SECRET",
@@ -14,6 +15,7 @@ module.exports = {
         root:require('path').normalize(__dirname + '/..'),
 		//db:'mongodb://user:password@localhost:27017/database',
         expressLog: false,
+        il8nDebug: false,
         generate_templates: true,
         google: {
             clientID: "APP_ID",
@@ -26,6 +28,7 @@ module.exports = {
     },
     production:{
         // Live environment
-        expressLog: false
+        expressLog: false,
+        il8nDebug: false
     }
 };

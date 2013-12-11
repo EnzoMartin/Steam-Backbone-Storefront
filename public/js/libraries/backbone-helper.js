@@ -87,7 +87,7 @@
             }
         } else {
             console.trace();
-            throw new Error('Definition not found: ' + name +'. Did you add it to the BL.backbone.' + item + '_definitions window object with the extend function?');
+            throw new Error(item + ' definition not found: ' + name +'. Did you add it to the BL.backbone.' + item + '_definitions window object with the extend function?');
         }
         return instance;
     }

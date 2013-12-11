@@ -48,14 +48,8 @@ window.requestAnimFrame = (function(){
         }
         this.current_view = view.name;
         document.title = view.title || this.title;
-        dust.render(view.template, view.render(), function(err, out) {
-            if(err){
-                console.log('RENDER ERROR',err);
-            }
-            view.$el.html(out);
-            _this.$el.html(view.$el);
-            view.delegateEvents();
-        });
+        view.render();
+        _this.$el.html(view.$el);
     };
 
     /**
