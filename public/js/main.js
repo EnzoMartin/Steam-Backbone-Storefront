@@ -42,9 +42,9 @@ window.requestAnimFrame = (function(){
     WRCON.render = function(view,persist){
         var _this = this;
         if(typeof this.current_view !== 'undefined' && !persist){
-            var old_view = window.BB.get({view: this.current_view});
+            var old_view = BB.get({view: this.current_view});
             old_view.remove();
-            delete window.BB.view_instances[this.current_view];
+            delete BB.view_instances[this.current_view];
         }
         this.current_view = view.name;
         document.title = view.title || this.title;
