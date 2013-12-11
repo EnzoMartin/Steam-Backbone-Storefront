@@ -1,0 +1,8 @@
+extends layouts/default
+
+block main
+    h1 Page not found - Error 404
+    #error-message-box
+        #error-stack-trace
+            pre
+                code!= error

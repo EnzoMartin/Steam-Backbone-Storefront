@@ -1,0 +1,35 @@
+{
+    "name": "steam-backbone-storefront",
+    "description": "Backbone-powered Steam storefront",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:EnzoMartin78/Steam-Backbone-Storefront.git"
+    },
+    "author": "Enzo Martin <enzo.r.martin@gmail.com>",
+    "contributors": [
+        {
+            "name": "Enzo Martin",
+            "email": "enzo.r.martin@gmail.com"
+        }
+    ],
+    "dependencies": {
+        "express": "latest",
+        "underscore": "latest",
+        "moment": "latest",
+        "mongoose": "latest",
+        "jade": "latest",
+        "i18next": "latest",
+        "connect-mongo": "latest",
+        "passport": "latest",
+        "passport-local": "latest",
+        "passport-google-oauth": "latest"
+    },
+    "devDependencies": {
+        "grunt": "latest",
+        "grunt-contrib-uglify": "latest",
+        "grunt-contrib-clean": "latest",
+        "grunt-contrib-sass": "latest",
+        "grunt-contrib-watch": "latest"
+    }
+}

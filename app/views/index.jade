@@ -1,0 +1,74 @@
+extends layouts/default
+
+// Templates
+block templates
+    include templates
+
+block main
+    include templates/tpl_loading
+
+block footer
+    include includes/footer
+
+block loaderscript
+    script(type='text/javascript').
+        (function (window, document, $, yepnope) {
+            "use strict";
+            var count = 1;
+            var $bar = $('#progress-bar-inner');
+            var load_files = [
+                // Libraries
+                #{libs}
+                // CSS
+                '/css/ui-lightness/jquery-ui-1.10.3.custom.min.css',
+                '/css/font-awesome.min.css',
+                // Core
+                '/js/main.js',
+                // Models
+                #{models}
+                // Views
+                #{views}
+                // Router
+                '/js/router.js'
+            ];
+            var increment = 100 / load_files.length;
+            yepnope({
+                load: load_files,
+                callback: function(){
+                    if(typeof dust !== 'undefined'){
+                        var elements = document.getElementsByClassName('dust-template');
+                        var len = elements.length;
+
+                        // Build the templates, and then remove the script tags from the DOM
+                        while(len--){
+                            var element = elements.item(0);
+                            dust.loadSource(dust.compile(element.text, element.id));
+                            document.getElementById(element.id).parentNode.removeChild(element);
+                        }
+                    }
+                    $bar.stop().animate({width: ((increment * count) + '%')});
+                    count++;
+                },
+                complete: function(){
+                    // Upgrade marionette to use dust render
+                    Backbone.Marionette.Renderer.render = function (template, data) {
+                        var html;
+                        dust.render(template, data, function (err, out) {
+                            if(err){
+                                console.log('RENDER ERROR',err);
+                            }
+                            html = out;
+                        });
+                        return html;
+                    };
+
+                    window.setTimeout(function(){
+                        $('#loading').slideUp(function(){
+                            window.WR = new window.WRCON();
+                            $(this).remove();
+                            WR.init();
+                        });
+                    },1000);
+                }
+            });
+        })(window,document,$,yepnope);

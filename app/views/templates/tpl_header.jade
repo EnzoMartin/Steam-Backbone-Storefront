@@ -1,0 +1,17 @@
+nav.navbar.navbar-inverse.navbar-fixed-top
+    .container
+        .navbar-header
+            a.navbar-brand(href='#home')
+                | {name}
+                small  {version}
+            button.navbar-toggle(data-target='.navbar-collapse', data-toggle='collapse', type='button')
+                span.sr-only= t('app.nav.toggle-nav')
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+        nav.collapse.navbar-collapse.navbar-inverse-collapse(role='navigation')
+            ul.nav.navbar-nav
+                li
+                    a(href='#home')
+                        i.fa.fa-home
+                        = t('app.nav.home')

@@ -1,0 +1,19 @@
+/* line 1, ../../scss/global.scss */
+body {
+  padding-top: 53px;
+}
+
+/* line 5, ../../scss/global.scss */
+i {
+  margin-right: 5px;
+}
+
+/* line 9, ../../scss/global.scss */
+.btn + .btn {
+  margin-left: 10px;
+}
+
+/* line 16, ../../scss/global.scss */
+.table.table-align-middle tbody td {
+  vertical-align: middle;
+}

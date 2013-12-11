@@ -1,0 +1,21 @@
+body {
+    padding-top: 53px;
+}
+
+i {
+    margin-right: 5px;
+}
+
+.btn + .btn {
+    margin-left: 10px;
+}
+
+.table {
+    &.table-align-middle {
+        tbody {
+            td {
+                vertical-align: middle;
+            }
+        }
+    }
+}

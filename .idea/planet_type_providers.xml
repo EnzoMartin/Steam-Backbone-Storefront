@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PlanetPyTypeConfig">
+    <provider name="ConfigTypeProvider" enabled="true" />
+    <provider name="ConfigYmlValueTypeProvider" enabled="true" />
+    <provider name="SurfaceDictTypeProvider" enabled="true" />
+    <provider name="ContextTypeProvider" enabled="true" />
+    <provider name="QueryTypeProvider" enabled="true" />
+    <provider name="RelationTypeProvider" enabled="true" />
+    <provider name="WithTypeProvider" enabled="true" />
+    <provider name="AggressiveResolveTypeProvider" enabled="true" />
+  </component>
+</project>
+

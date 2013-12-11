@@ -1,0 +1,36 @@
+{
+    "app": {
+        "nav": {
+            "home": "Home",
+            "search": "Search",
+            "toggle-nav": "app.nav.toggle-nav"
+        },
+        "home": {
+            "header": "Games"
+        },
+        "errors": {
+            "notfound": {
+                "plural": "No __TYPE__ were found"
+            }
+        },
+        "enums": {
+            "games": "games",
+            "game": "game"
+        },
+        "buttons": {
+            "view": "View",
+            "search": "Search",
+            "go": "Go"
+        },
+        "text": {
+            "actions": "Actions",
+            "online": "Online",
+            "offline": "Offline",
+            "active": "Active"
+        },
+        "generic": {
+            "loading": "Loading",
+            "wait": "Please wait"
+        }
+    }
+}
