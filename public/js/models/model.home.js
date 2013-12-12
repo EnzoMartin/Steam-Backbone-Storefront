@@ -4,19 +4,18 @@
         'backbone',
         'BB'
     ], function(_, Backbone, BB) {
-        BB.model_definitions.featured = Backbone.Model.extend({
+        BB.model_definitions.home = Backbone.Model.extend({
             defaults: {
 
             },
 
-            url: '/api/featuredcategories',
+            url: '/api/featured',
 
             parse: function(data){
-                console.log(data);
                 var categories = {};
 
                 for(var category in data){
-                    var items = data[category].items;
+                    var items = data[category];
 
                     if(typeof items === 'object'){
                         categories[category] = [];
@@ -26,10 +25,8 @@
 
                         while(i < len){
                             var item = items[i];
-                            if(typeof item.id !== 'undefined'){
-                                categories[category].push(item.id);
-                                models.push(new BB.model_definitions.game(item));
-                            }
+                            categories[category].push(item.id);
+                            models.push(new BB.model_definitions.game(item));
                             i++;
                         }
                         this.collection.add(models);

@@ -27,7 +27,9 @@ define([
 		},
 
         render_home: function(){
-            var home = BB.get({view:'home'});
+            var collection = BB.get({collection:'games'});
+            var home = BB.get({view:'home',model:{name:'home',options:{collection:collection}},collection:collection});
+            home.model.fetch();
             WR.render(home);
         },
 

@@ -17,9 +17,14 @@
 
             },
 
+            initialize: function(){
+                this.listenTo(this.model, 'sync', this.render);
+            },
+
             render: function(){
+                var items = this.model.toJSON();
                 var view = this;
-                dust.render(this.template, {}, function(err, out) {
+                dust.render(this.template, items, function(err, out) {
                     view.$el.html(out);
                 });
             }

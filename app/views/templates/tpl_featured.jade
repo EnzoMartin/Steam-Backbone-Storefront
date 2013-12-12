@@ -3,25 +3,31 @@
         .page-header
             h1= t('app.featured.header')
         .page-content
-            |{?large_capsules}
+            |{?coming_soon}
             .row
-                h3 Capsules
-                | {#large_capsules}
+                h3 Coming Soon
+                | {#coming_soon.items}
                 .col-3.col-sm-3.col-lg-3.col-offset-1
                     | {>tpl_game_featured/}
-                | {/large_capsules}
+                | {/coming_soon.items}
             .row
-                h3 Windows
-                | {#featured_win}
+                h3 New Releases
+                | {#new_releases.items}
                 .col-3.col-sm-3.col-lg-3.col-offset-1
                     | {>tpl_game_featured/}
-                | {/featured_win}
+                | {/new_releases.items}
             .row
-                h3 Mac
-                | {#featured_mac}
+                h3 Specials
+                | {#specials.items}
                 .col-3.col-sm-3.col-lg-3.col-offset-1
                     | {>tpl_game_featured/}
-                | {/featured_mac}
+                | {/specials.items}
+            .row
+                h3 Top Sellers
+                | {#top_sellers.items}
+                .col-3.col-sm-3.col-lg-3.col-offset-1
+                    | {>tpl_game_featured/}
+                | {/top_sellers.items}
             | {:else}
             include tpl_loader
-            | {/large_capsules}
+            | {/coming_soon}

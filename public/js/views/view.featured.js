@@ -24,7 +24,6 @@
             render: function(){
                 var items = this.model.toJSON();
                 var view = this;
-                console.log('sup',items)
                 dust.render(this.template, items, function(err, out) {
                     view.$el.html(out);
                 });
