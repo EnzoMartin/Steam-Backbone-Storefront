@@ -1,7 +1,7 @@
 Steam Backbone Experiment
 =========================
 
-Recent discovery that Steam's Big Picture mode has a public JSON API, I decided to tackle some of the issues I have with Steam's storefront and search
+With my recent discovery of Steam's Big Picture mode having a public JSON API, I decided to tackle some of the issues I have with Steam's storefront and search and see what sorts of possible solutions one could come up with using Node and Backbone as a proof-of-concept/prototype for fun.
 
 You can view the in-development version here: http://steam-backbone.azurewebsites.net/
 
@@ -18,7 +18,7 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
  
 ##Technologies
 
-#####Server Platform
+#####Platform
 * [Node JS](http://nodejs.org/)
 * [Hosted on Azure](http://www.windowsazure.com/)
  
