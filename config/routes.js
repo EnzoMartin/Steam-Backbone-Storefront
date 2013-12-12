@@ -140,4 +140,15 @@ module.exports = function(app,config,passport,auth){
             res.send(data);
         });
     });
+
+    /**
+     * Perform a search
+     * @param term {string}
+     */
+    app.get('/api/search',function(req,res){
+        // /api/storesearch/?term=payday&l=english&cc=SE
+        steam_fetch('storesearch?term=' + req.query.term,function(data){
+            res.send(data);
+        });
+    });
 };
