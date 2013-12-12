@@ -21,8 +21,9 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
  
 #####Backend Code
 * [Express](http://expressjs.com/)
-* [JADE]()
-* [JADE]()
+* [JADE](http://jade-lang.com/)
+* [i18next](http://i18next.com/node/)
+* [GruntJS](http://gruntjs.com/)
 
 #####Frontend Code
 * [Backbone](http://backbonejs.org/)
