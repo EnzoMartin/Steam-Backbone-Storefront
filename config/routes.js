@@ -84,7 +84,7 @@ module.exports = function(app,config,passport,auth){
     });
 
     /**
-     * Fetch featured apps
+     * Fetch homepage apps
      */
     app.get('/api/featured',function(req,res){
         steam_fetch('featured',function(data){
@@ -93,12 +93,51 @@ module.exports = function(app,config,passport,auth){
     });
 
     /**
-     * Fetch specific app ID(s)
-     * @param id {string}
+     * Fetch featured category apps
+     */
+    app.get('/api/featuredcategories',function(req,res){
+        steam_fetch('featuredcategories',function(data){
+            res.send(data);
+        });
+    });
+
+    /**
+     * Fetch package details based off ID(s)
+     * @param packageids {string}
+     */
+    app.get('/api/packagedetails',function(req,res){
+        steam_fetch('packagedetails?packageids=' + req.query.packageids,function(data){
+            res.send(data);
+        });
+    });
+
+    /**
+     * Fetch specific app based off ID(s)
+     * @param appids {string}
      */
     app.get('/api/games',function(req,res){
         steam_fetch('appdetails?appids=' + req.query.appids,function(data){
             res.send(data);
         });
-    })
+    });
+
+    /**
+     * Fetch sale page
+     * @param id {string}
+     */
+    app.get('/api/salepage',function(req,res){
+        steam_fetch('salepage?id=' + req.query.id,function(data){
+            res.send(data);
+        });
+    });
+
+    /**
+     * Fetch app details by ID(s) based off the current authenticated user
+     * @param appids {string}
+     */
+    app.get('/api/appuserdetails',function(req,res){
+        steam_fetch('appuserdetails?appids=' + req.query.appids,function(data){
+            res.send(data);
+        });
+    });
 };
