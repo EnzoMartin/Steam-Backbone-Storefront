@@ -20,14 +20,15 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
 
 #####Server Platform
 * [Node JS](http://nodejs.org/)
+* [Hosted on Azure](http://www.windowsazure.com/)
  
-#####Backend Code
+#####Backend
 * [Express](http://expressjs.com/)
 * [JADE](http://jade-lang.com/)
 * [i18next](http://i18next.com/node/)
 * [GruntJS](http://gruntjs.com/)
 
-#####Frontend Code
+#####Frontend
 * [Backbone](http://backbonejs.org/)
 * [Underscore](http://underscorejs.org/)
 * [jQuery](http://jquery.com/)
