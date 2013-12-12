@@ -9,7 +9,6 @@ define([
 		initialize: function(){
             // Load header and footer views
 			var header = BB.get({view:'header',model:'header'});
-			var footer = BB.get({view:'footer',model:'footer'});
 
             // Set up the bind to update the header active links
 			this.on('route',function(){
@@ -39,11 +38,27 @@ define([
             WR.render(featured);
         },
 
+        render_game: function(id){
+            var collection = BB.get({collection:'games'});
+            var model = collection.get(id);
+
+            if(typeof model === 'undefined'){
+                // Game not found, create and fetch it
+                collection.add(new BB.model_definitions.game({id:id}));
+                model = collection.get(id);
+            }
+
+            model.fetch();
+            var game = BB.get({view:'game',model:model,collection:collection});
+            WR.render(game);
+        },
+
 		routes:{
 			'loading'              :'render_loading',
             'coming-soon'          :'render_coming_soon',
             'home'                 :'render_home',
-            'featured'             :'render_featured'
+            'featured'             :'render_featured',
+            'game/:id'             :'render_game'
 		}
 	});
 });

@@ -34,12 +34,6 @@
                 }
 
                 return data;
-            },
-
-            items: function(){
-                //console.log('collection',this.collection.toJSON());
-                //console.log('model',this.toJSON());
-                return this.toJSON();
             }
         });
     });

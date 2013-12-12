@@ -6,12 +6,12 @@
         'dust',
         'BB'
     ], function($, _, Backbone, dust, BB) {
-        BB.view_definitions.featured = Backbone.View.extend({
-            id: 'featured',
+        BB.view_definitions.game = Backbone.View.extend({
+            id: 'game-detail',
 
-            title: 'Featured',
+            title: 'Game Detail',
 
-            template: 'tpl_featured',
+            template: 'tpl_game_detail',
 
             events: {
 
@@ -22,10 +22,9 @@
             },
 
             render: function(){
-                var items = this.model.toJSON();
+                var model = this.model.toJSON();
                 var view = this;
-                console.log('sup',items)
-                dust.render(this.template, items, function(err, out) {
+                dust.render(this.template, model, function(err, out) {
                     view.$el.html(out);
                 });
             }

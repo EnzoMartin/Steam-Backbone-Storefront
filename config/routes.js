@@ -97,7 +97,7 @@ module.exports = function(app,config,passport,auth){
      * @param id {string}
      */
     app.get('/api/games',function(req,res){
-        steam_fetch('appdetails?appids=' + req.params.appids,function(data){
+        steam_fetch('appdetails?appids=' + req.query.appids,function(data){
             res.send(data);
         });
     })
