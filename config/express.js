@@ -1,5 +1,5 @@
 var express = require('express');
-//var mongoStore = require('connect-mongo')(express);
+var mongoStore = require('connect-mongo')(express);
 var viewHelpers = require('./middlewares/view');
 var i18n = require('i18next');
 
@@ -45,9 +45,9 @@ module.exports = function(app,config,passport){
 		app.use(express.methodOverride());
 
 		// express/mongo session storage
-		/*app.use(express.session(
+		app.use(express.session(
 			{
-				secret: 'c0g8+em8x%@=45%^kdrn=&+$1qgw91dsn@a6z3pwoyx_&y++fs',
+				secret: config.secret,
 				store: new mongoStore(
 					{
 						url: config.db,
@@ -55,7 +55,7 @@ module.exports = function(app,config,passport){
 					}
 				)
 			}
-		));*/
+		));
 
 		// use passport session
 		//app.use(passport.initialize());

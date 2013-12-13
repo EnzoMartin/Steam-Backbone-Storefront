@@ -3,26 +3,8 @@
 var fs = require('fs');
 var i18n = require('i18next');
 var http = require('http');
-
-var url = 'store.steampowered.com';
-
-var steam_fetch = function(fragment,callback){
-    var options = {
-        host: url,
-        path: '/api/' + fragment
-    };
-
-    http.request(options,function(response){
-        var str = '';
-        response.on('data',function(chunk){
-            str += chunk;
-        });
-
-        response.on('end',function(){
-            callback(str);
-        });
-    }).end();
-};
+var games = require('../app/controller/games');
+var steam_fetch = require('../app/modules/steam');
 
 module.exports = function(app,config,passport,auth){
 	// User Routes
@@ -116,7 +98,10 @@ module.exports = function(app,config,passport,auth){
      * @param appids {string}
      */
     app.get('/api/games',function(req,res){
-        steam_fetch('appdetails?appids=' + req.query.appids,function(data){
+        //TODO: Add support for fetching multiple
+        var gameId = parseInt(req.query.appids,10);
+
+        games.getGame(gameId,function(data){
             res.send(data);
         });
     });

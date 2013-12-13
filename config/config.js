@@ -1,33 +1,31 @@
 module.exports = {
     development:{
-        root:require('path').normalize(__dirname + '/..'),
-		//db:'mongodb://user:password@localhost:27017/database',
+        root: require('path').normalize(__dirname + '/..'),
+        port: 3000,
+		db: 'mongodb://localhost/steam',
+        secret: 'c0g8+em8x%@=45%^kdrn=&+$1qgw91dsn@a6z3pwoyx_&y++fs',
         generate_templates: false,
         expressLog: false,
-        il8nDebug: false,
-        google: {
-            clientID: "APP_ID",
-            clientSecret: "APP_SECRET",
-            callbackURL: "http://localhost:3000/auth/google/callback"
-        }
+        il8nDebug: false
     },
     staging:{
-        root:require('path').normalize(__dirname + '/..'),
-		//db:'mongodb://user:password@localhost:27017/database',
-        expressLog: false,
-        il8nDebug: false,
+        root: require('path').normalize(__dirname + '/..'),
+        port: process.env.PORT,
+		db: process.env.MONGO,
+		secret: process.env.SECRET,
         generate_templates: true,
-        google: {
-            clientID: "APP_ID",
-            clientSecret: "APP_SECRET",
-            callbackURL: "http://localhost:3000/auth/google/callback"
-        }
+        expressLog: false,
+        il8nDebug: false
     },
     test:{
         // Unit tests config
     },
     production:{
-        // Live environment
+        root: require('path').normalize(__dirname + '/..'),
+        port: process.env.PORT,
+        db: process.env.MONGO,
+        secret: process.env.SECRET,
+        generate_templates: true,
         expressLog: false,
         il8nDebug: false
     }

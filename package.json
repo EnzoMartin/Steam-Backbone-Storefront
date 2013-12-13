@@ -17,13 +17,12 @@
         "express": "latest",
         "underscore": "latest",
         "moment": "latest",
-        "mongoose": "latest",
+        "mongojs": "latest",
         "jade": "latest",
         "i18next": "latest",
         "connect-mongo": "latest",
         "passport": "latest",
-        "passport-local": "latest",
-        "passport-google-oauth": "latest"
+        "passport-steam": "latest"
     },
     "devDependencies": {
         "grunt": "latest",
