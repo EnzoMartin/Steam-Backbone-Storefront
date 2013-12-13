@@ -18,6 +18,7 @@
         "underscore": "latest",
         "moment": "latest",
         "mongojs": "latest",
+        "newrelic": "latest",
         "jade": "latest",
         "i18next": "latest",
         "connect-mongo": "latest",

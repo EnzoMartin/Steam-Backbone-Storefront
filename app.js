@@ -1,3 +1,8 @@
+if(process.env.NEWRELIC){
+    // Load new relic only if the API key is set
+    require('newrelic');
+}
+
 var express = require('express');
 var fs = require('fs');
 var passport = {}; //require('passport');
