@@ -6,7 +6,7 @@ block templates
 
 // Show the initial loading page
 block main
-    include templates/tpl_loading
+    include templates/tpl_loader
 
 // Include the footer, which includes RequiresJS
 block footer
@@ -45,7 +45,15 @@ block loaderscript
                 },
                 'jqueryui': ['jquery'],
                 'bootstrap': ['jquery'],
-                'router': ['backbone','main'],
+                'router': [
+                    // Models
+                    #{models}
+                    // Collections
+                    #{collections}
+                    // Views
+                    #{views}
+                    'backbone','main'
+                ],
                 'BB': ['backbone'],
                 'marionette': {
                     deps: ['backbone'],
@@ -63,46 +71,14 @@ block loaderscript
             "use strict";
             // Use RequireJS to get the base libraries, and then use yepnope to load the rest and show a nice progress bar
             requirejs(['jquery','yepnope', 'dust', 'main', 'router'], function($, yepnope, dust, WRCON, router){
-                var count = 1;
-                var $bar = $('#progress-bar-inner');
-                var load_files = [
-                    // Models
-                    #{models}
-                    // Collections
-                    #{collections}
-                    // Views
-                    #{views}
-                    // CSS
-                    '/css/ui-lightness/jquery-ui-1.10.3.custom.min.css',
-                    '/css/font-awesome.min.css'
-                ];
-                var increment = 100 / load_files.length;
-
-                window.yepnope({
-                    load: load_files,
-                    callback: function(){
-                        $bar.stop().animate({width: ((increment * count) + '%')},250);
-                        count++;
-                    },
-                    complete: function(){
-                        // Build the templates, and then remove the script tags from the DOM
-                        var elements = document.getElementsByClassName('dust-template');
-                        var len = elements.length;
-                        while(len--){
-                            var element = elements.item(0);
-                            dust.loadSource(dust.compile(element.text, element.id));
-                            document.getElementById(element.id).parentNode.removeChild(element);
-                        }
-
-                        // Small delay to show that it's done loading
-                        window.setTimeout(function(){
-                            $bar.stop(false,true).addClass('progress-bar-success').parent().removeClass('progress-striped active');
-                            $('#loading').slideUp(function(){
-                                $(this).remove();
-                                WRCON.init(router);
-                            });
-                        },1000);
-                    }
-                });
+                // Build the templates, and then remove the script tags from the DOM
+                var elements = document.getElementsByClassName('dust-template');
+                var len = elements.length;
+                while(len--){
+                    var element = elements.item(0);
+                    dust.loadSource(dust.compile(element.text, element.id));
+                    document.getElementById(element.id).parentNode.removeChild(element);
+                }
+                WRCON.init(router);
             });
         })(window,document);
