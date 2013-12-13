@@ -16,14 +16,13 @@ window.requestAnimFrame = (function(){
         'jquery',
         'underscore',
         'backbone',
-        'dust',
         'BB',
         'lib',
         'exports'
-    ], function ($, _, Backbone, dust, BB, lib, exports) {
-        return factory(root, exports, $, _, Backbone, dust, BB, lib);
+    ], function ($, _, Backbone, BB, lib, exports) {
+        return factory(root, exports, $, _, Backbone, BB, lib);
     });
-}(this, function (root, WRCON, $, _, Backbone, dust, BB, Lib) {
+}(this, function (root, WRCON, $, _, Backbone, BB, Lib) {
 	WRCON = {
 		// Object Variables
 		main_ele: '#content',
@@ -56,7 +55,7 @@ window.requestAnimFrame = (function(){
                 title = view.title;
             }
         }
-        document.title = title;
+        root.document.title = title;
         view.render();
         _this.$el.html(view.$el);
     };
@@ -92,8 +91,8 @@ window.requestAnimFrame = (function(){
         this.set_options(options);
 
         // Set up the primary route if not set
-        if(typeof window.location.hash === 'undefined' || window.location.hash == ''){
-            window.location.hash = this.default_route;
+        if(typeof root.window.location.hash === 'undefined' || root.window.location.hash == ''){
+            root.window.location.hash = this.default_route;
         }
 
         // Make new instance of the router
