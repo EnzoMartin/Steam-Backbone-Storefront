@@ -47,7 +47,16 @@ window.requestAnimFrame = (function(){
             delete BB.view_instances[this.current_view];
         }
         this.current_view = view.name;
-        document.title = view.title || this.title;
+        var title = this.title;
+        var type = typeof view.title;
+        if(type !== 'undefined'){
+            if(type === 'function'){
+                title = view.title();
+            } else {
+                title = view.title;
+            }
+        }
+        document.title = title;
         view.render();
         _this.$el.html(view.$el);
     };

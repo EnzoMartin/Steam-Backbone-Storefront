@@ -9,7 +9,9 @@
         BB.view_definitions.game = Backbone.View.extend({
             id: 'game-detail',
 
-            title: 'Game Detail',
+            title: function(){
+                return this.model.get('name') || 'Loading';
+            },
 
             template: 'tpl_game_detail',
 
