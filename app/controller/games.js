@@ -1,5 +1,8 @@
 var db = require('../modules/database');
 var steam_fetch = require('../modules/steam');
+var Cache = require('../modules/cache');
+
+// Collections
 var Games = db.collection('games');
 var Achievements = db.collection('achievements_index');
 var Categories = db.collection('category_types');
@@ -20,19 +23,30 @@ var RecommendationsIndex = db.collection('recommendations_index');
  * @param callback
  */
 exports.getGame = function(id,callback){
-    Games.findOne({
-        steam_appid: id
-    },function(err, data){
-        if(err || data == null){
-            steam_fetch('appdetails?appids=' + id,function(data){
-                var game = JSON.parse(data);
-                if(game){
-                    game = game[id].data;
-                    game.steam_appid = parseInt(game.steam_appid,10);
-                    indexGame(id,game);
-                    Games.save(game);
+    Cache.get('app-'+id, function (error, data) {
+        if(!data || error){
+            Games.findOne({
+                steam_appid: id
+            },function(err, data){
+                if(err || data == null){
+                    steam_fetch('appdetails?appids=' + id,function(data){
+                        var game = JSON.parse(data);
+                        if(game){
+                            game = game[id].data;
+                            game.steam_appid = parseInt(game.steam_appid,10);
+                            indexGame(id,game);
+                            Cache.put('app-'+id, game);
+                            Games.save(game);
+                        }
+                        callback(data);
+                    });
+                } else {
+                    // Return in the same format that steam returns {<app_id>: { data: <game> }}
+                    var response = {};
+                    response[id] = {data: data};
+                    Cache.put('app-'+id, data);
+                    callback(response);
                 }
-                callback(data);
             });
         } else {
             // Return in the same format that steam returns {<app_id>: { data: <game> }}

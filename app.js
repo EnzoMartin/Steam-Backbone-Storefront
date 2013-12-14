@@ -15,6 +15,13 @@ var auth = {}; //require('./config/middlewares/authorization');
 // Connect to mongo
 var db = require('./app/modules/database').connect(config);
 
+// Connect to Azure Cache
+if(process.env.CACHE_ENDPOINT){
+    var cache = require('./app/modules/cache').connect();
+} else {
+    throw new Error('Need Azure cache');
+}
+
 if(config.generate_templates){
     // Generate all the templates
     var templates = require('./app/modules/templates');
