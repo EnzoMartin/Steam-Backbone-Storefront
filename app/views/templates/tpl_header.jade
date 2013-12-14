@@ -1,7 +1,7 @@
 nav.navbar.navbar-inverse.navbar-fixed-top
     .container
         .navbar-header
-            a.navbar-brand(href='#home')
+            a.navbar-brand(href='/')
                 | {name}
                 small  {version}
             button.navbar-toggle(data-target='.navbar-collapse', data-toggle='collapse', type='button')
@@ -12,15 +12,15 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         nav.collapse.navbar-collapse.navbar-inverse-collapse(role='navigation')
             ul.nav.navbar-nav
                 li
-                    a(href='#home')
+                    a(href='/')
                         i.fa.fa-home
                         = t('app.nav.home')
                 li
-                    a(href='#featured')
+                    a(href='/featured')
                         i.fa.fa-tags
                         = t('app.nav.featured')
                 li
-                    a(href='#search')
+                    a(href='/search')
                         i.fa.fa-search
                         = t('app.nav.search')
                 li

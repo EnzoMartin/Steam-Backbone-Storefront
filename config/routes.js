@@ -7,63 +7,49 @@ var games = require('../app/controller/games');
 var steam_fetch = require('../app/modules/steam');
 var Cache = require('../app/modules/cache');
 
+
+// Load all the JS files for backbone
+var files = {};
+files.views = fs.readdirSync('public/js/views');
+files.models = fs.readdirSync('public/js/models');
+files.collections = fs.readdirSync('public/js/collections');
+var processed = {};
+
+for (var i in files) {
+    var j = 0;
+    processed[i] = '';
+    while(j < files[i].length){
+        var file = files[i][j];
+        if(file.indexOf('.js') != -1){
+            processed[i] += '\'/js/' + i + '/' + file + '\'' + ',\n';
+        }
+        j++;
+    }
+}
+
+function index(){
+    // Render index page and pass through all the variables
+    return {
+        lang: 'en',
+        models:processed.models,
+        collections:processed.collections,
+        views:processed.views
+    };
+}
+
 module.exports = function(app,config,passport,auth){
-	// User Routes
-	/*var users = require('../app/controllers/users');
-	app.get('/login',users.login);
-	app.get('/signup',users.signup);
-	app.get('/logout',users.logout);
-	app.post('/users',users.create);
-	app.post('/users/session',passport.authenticate('local',{failureRedirect: '/login',failureFlash: 'Invalid email or password.'}),users.session);
-	app.get('/users/:userId',users.show);
-	app.get('/auth/google',passport.authenticate('google',{failureRedirect: '/login',scope: 'https://www.google.com/m8/feeds'}),users.signin);
-	app.get('/auth/google/callback',passport.authenticate('google',{failureRedirect: '/login',scope: 'https://www.google.com/m8/feeds'}),users.authCallback);
-
-	app.param('userId',function(req,res,next,id){
-		User
-			.findOne({ _id: id })
-			.exec(function(err,user){
-				if(err) return next(err);
-				if(!user) return next(new Error('Failed to load User ' + id));
-				req.profile = user;
-				next();
-			});
-	});*/
-
 	// Home Route
     app.get('/:locale?',function(req,res){
         // Handle switching language
-        var locale = (req.params.locale || 'en-US').split('-');
-        if(locale.length != 2){
-            locale = ['en','US'];
-        }
-        req.i18n.setLng(locale[0] + '-' + locale[1].toUpperCase());
-
-        // Load all the JS files for backbone
-        var files = {};
-        files.views = fs.readdirSync('public/js/views');
-        files.models = fs.readdirSync('public/js/models');
-        files.collections = fs.readdirSync('public/js/collections');
-        var processed = {};
-
-        for (var i in files) {
-            var j = 0;
-            processed[i] = '';
-            while(j < files[i].length){
-                var file = files[i][j];
-                if(file.indexOf('.js') != -1){
-                    processed[i] += '\'/js/' + i + '/' + file + '\'' + ',\n';
-                }
-                j++;
+        if(req.params.locale){
+            var locale = (req.params.locale || 'en-US').split('-');
+            if(locale.length != 2){
+                locale = ['en','US'];
             }
+            req.i18n.setLng(locale[0] + '-' + locale[1].toUpperCase());
         }
-        // Render index page and pass through all the variables
-        res.render('index',{
-            lang: locale[0],
-            models:processed.models,
-            collections:processed.collections,
-            views:processed.views
-        });
+
+        res.render('index',index());
     });
 
     /**
@@ -150,5 +136,12 @@ module.exports = function(app,config,passport,auth){
         steam_fetch('storesearch?term=' + req.query.term,function(data){
             res.send(data);
         });
+    });
+
+    /**
+     * Backbone pass-through route
+     */
+    app.use(function(req, res){
+        res.render('index',index());
     });
 };

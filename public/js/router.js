@@ -7,6 +7,8 @@ define([
 ], function(_, Backbone, BB, WR) {
 	return Backbone.Router.extend({
 		initialize: function(){
+            var _this = this;
+
             // Load header and footer views
 			var header = BB.get({view:'header',model:'header'});
 
@@ -14,6 +16,18 @@ define([
 			this.on('route',function(){
 				header.set_active(Backbone.History.prototype.getHash(window));
 			});
+
+            $(window.document).on('click', 'a[href^="/"]', function(event) {
+                if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+                    var href = this.getAttribute('href');
+                    var protocol = this.protocol + '//';
+
+                    if (href.slice(protocol.length) !== protocol) {
+                        event.preventDefault();
+                        _this.navigate(href, true);
+                    }
+                }
+            });
 		},
 
 		render_loading: function(){
@@ -63,7 +77,7 @@ define([
 		routes:{
 			'loading'              :'render_loading',
             'coming-soon'          :'render_coming_soon',
-            'home'                 :'render_home',
+            ''                     :'render_home',
             'featured'             :'render_featured',
             'game/:id'             :'render_game',
             'search'               :'render_search'
