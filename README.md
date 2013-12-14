@@ -13,22 +13,24 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
 * Deeper and richer search functionality - Extend searching to cover features available in each game such as steam achievements, cloud save, co-op shooter, singleplayer rpg, etc.
 
 ###Stretch goals
+* Average page load time of ~200ms
 * "Big Picture Mode" on web
 * Support controller input/navigation
 * Experiment with different layouts for pages
-* Average page load time of ~200ms
  
 ##Technologies
 
 #####Platform
 * [Node JS](http://nodejs.org/)
 * [Hosted on Azure](http://www.windowsazure.com/)
+* [New Relic](http://newrelic.com/)
  
 #####Backend
 * [Express](http://expressjs.com/)
 * [JADE](http://jade-lang.com/)
 * [i18next](http://i18next.com/node/)
 * [GruntJS](http://gruntjs.com/)
+* [MongoDB](http://www.mongodb.org/)
 
 #####Frontend
 * [Backbone](http://backbonejs.org/)
@@ -39,4 +41,3 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
 * [DustJS](http://akdubya.github.io/dustjs/)
 * [RequireJS](http://requirejs.org/)
 * [Bootstrap 3](http://getbootstrap.com/)
-* [YepNope](http://yepnopejs.com/)
