@@ -1,0 +1,14 @@
+.row
+    .col-lg-12
+        .page-header
+            h1= t('app.search.header')
+        .page-content
+            .row
+                .col-12.col-lg-12
+                    form#command-form(role="form")
+                        .form-group
+                            .input-group
+                                input#command.form-control(type="text",name="command",placeholder="")
+                                span.input-group-btn
+                                    button.btn.btn-primary(type="submit")= t('app.buttons.search')
+                            span#help.help-block

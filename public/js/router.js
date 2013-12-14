@@ -55,12 +55,18 @@ define([
             WR.render(game);
         },
 
+        render_search: function(){
+            var search = BB.get({view:'search',model:'search'});
+            WR.render(search);
+        },
+
 		routes:{
 			'loading'              :'render_loading',
             'coming-soon'          :'render_coming_soon',
             'home'                 :'render_home',
             'featured'             :'render_featured',
-            'game/:id'             :'render_game'
+            'game/:id'             :'render_game',
+            'search'               :'render_search'
 		}
 	});
 });

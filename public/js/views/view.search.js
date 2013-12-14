@@ -6,14 +6,12 @@
         'dust',
         'BB'
     ], function($, _, Backbone, dust, BB) {
-        BB.view_definitions.game = Backbone.View.extend({
-            id: 'game-detail',
+        BB.view_definitions.search = Backbone.View.extend({
+            id: 'search',
 
-            title: function(){
-                return this.model.get('name') || 'Loading';
-            },
+            title: 'Search',
 
-            template: 'tpl_game_detail',
+            template: 'tpl_search',
 
             events: {
 
@@ -24,10 +22,9 @@
             },
 
             render: function(){
-                var model = this.model.toJSON();
-                console.log(model);
+                var items = this.model.toJSON();
                 var view = this;
-                dust.render(this.template, model, function(err, out) {
+                dust.render(this.template, items, function(err, out) {
                     view.$el.html(out);
                 });
             }

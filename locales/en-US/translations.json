@@ -47,6 +47,9 @@
             "maximumminimum": "Maximum can't be lower than Minimum",
             "minimummaximum": "Minimum can't be higher than Maximum",
             "required": "This field is required"
+        },
+        "search": {
+            "header": "Search"
         }
     }
 }
