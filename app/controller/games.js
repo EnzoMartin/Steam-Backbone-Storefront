@@ -35,7 +35,7 @@ exports.getGame = function(id,callback){
                             game = game[id].data;
                             game.steam_appid = parseInt(game.steam_appid,10);
                             indexGame(id,game);
-                            Cache.put('app-'+id, game);
+                            Cache.put('app-'+id,game,86400);
                             Games.save(game);
                         }
                         callback(data);
@@ -44,7 +44,7 @@ exports.getGame = function(id,callback){
                     // Return in the same format that steam returns {<app_id>: { data: <game> }}
                     var response = {};
                     response[id] = {data: data};
-                    Cache.put('app-'+id, data);
+                    Cache.put('app-'+id,data,86400);
                     callback(response);
                 }
             });

@@ -5,6 +5,7 @@ var i18n = require('i18next');
 var http = require('http');
 var games = require('../app/controller/games');
 var steam_fetch = require('../app/modules/steam');
+var Cache = require('../app/modules/cache');
 
 module.exports = function(app,config,passport,auth){
 	// User Routes
@@ -69,8 +70,15 @@ module.exports = function(app,config,passport,auth){
      * Fetch homepage apps
      */
     app.get('/api/featured',function(req,res){
-        steam_fetch('featured',function(data){
-            res.send(data);
+        Cache.get('featured',function(err,data){
+            if(!data || err){
+                steam_fetch('featured',function(data){
+                    Cache.put('featured',data);
+                    res.send(data);
+                });
+            } else {
+                res.send(data);
+            }
         });
     });
 
@@ -78,8 +86,15 @@ module.exports = function(app,config,passport,auth){
      * Fetch featured category apps
      */
     app.get('/api/featuredcategories',function(req,res){
-        steam_fetch('featuredcategories',function(data){
-            res.send(data);
+        Cache.get('featuredcategories',function(err,data){
+            if(!data || err){
+                steam_fetch('featuredcategories',function(data){
+                    Cache.put('featuredcategories',data);
+                    res.send(data);
+                });
+            } else {
+                res.send(data);
+            }
         });
     });
 
