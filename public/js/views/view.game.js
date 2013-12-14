@@ -30,6 +30,7 @@
                 dust.render(this.template, model, function(err, out) {
                     view.$el.html(out);
                 });
+                window.document.title = this.title();
             }
         });
     });
