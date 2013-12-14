@@ -7,7 +7,8 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
 
 ##Goals
 ###Key focus areas
-* Performance - One of the biggest complaints I've found with Steam's store has to do with navigation. All navigation is done through full-page loads. Instead I'm focusing on building a single-page web application using Backbone and relying on JSON API calls to fetch relevant data for the page being requested.
+* Performance - One of the biggest complaints I've found with Steam's store has to do with navigation. All navigation is done through full-page loads. Instead I'm focusing on building a single-page web application using Backbone and relying on JSON API calls to fetch relevant data for the page being requested. Some pages take up to 1,500ms to load
+* Average page load time of ~400ms
 * UI Responsiveness (Web/Tablet/Mobile)
 * Deeper and richer search functionality - Extend searching to cover features available in each game such as steam achievements, cloud save, co-op shooter, singleplayer rpg, etc.
 
@@ -15,6 +16,7 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
 * "Big Picture Mode" on web
 * Support controller input/navigation
 * Experiment with different layouts for pages
+* Average page load time of ~200ms
  
 ##Technologies
 
