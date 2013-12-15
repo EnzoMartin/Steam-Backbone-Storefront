@@ -14,7 +14,7 @@ define([
 
             // Set up the bind to update the header active links
 			this.on('route',function(){
-				header.set_active(Backbone.History.prototype.getHash(window));
+				header.set_active(Backbone.history.fragment);
 			});
 
             $(window.document).on('click', 'a[href^="/"]', function(event) {

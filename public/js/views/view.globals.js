@@ -25,9 +25,9 @@
             },
 
             set_active: function(event){
-                var path = (typeof event === 'object') ? $(event.currentTarget).attr('href') : '#' + event.split('/')[0];
+                var path = (typeof event === 'object') ? $(event.currentTarget).attr('href') : '/' + event.split('/')[0];
                 this.$el.find('li').removeClass('active');
-                this.$el.find('a[href=' + path + ']').parent('li').addClass('active');
+                this.$el.find('a[href="' + path + '"]').parent('li').addClass('active');
             },
 
             render: function(){
