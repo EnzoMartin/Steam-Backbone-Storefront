@@ -25,7 +25,9 @@ var RecommendationsIndex = db.collection('recommendations_index');
 function addToCache(id,game){
     game.name = escape(game.name);
     game.detailed_description = escape(game.detailed_description);
-    game.legal_notice = escape(game.legal_notice);
+    if(game.legal_notice){
+        game.legal_notice = escape(game.legal_notice);
+    }
     Cache.put('app-'+id,game,7200);
 }
 
@@ -41,7 +43,9 @@ function responseFormat(id,data,escaped){
     if(escaped){
         data.name = unescape(data.name);
         data.detailed_description = unescape(data.detailed_description);
-        data.legal_notice = unescape(data.legal_notice);
+        if(data.legal_notice){
+            data.legal_notice = unescape(data.legal_notice);
+        }
     }
     response[id] = {data: data};
     return response;
