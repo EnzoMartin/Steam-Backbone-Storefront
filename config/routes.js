@@ -1,5 +1,3 @@
-//var mongoose = require('mongoose');
-//var User = mongoose.model('User');
 var fs = require('fs');
 var i18n = require('i18next');
 var http = require('http');
@@ -37,7 +35,7 @@ function index(){
     };
 }
 
-module.exports = function(app,config,passport,auth){
+module.exports = function(app,config){
 	// Home Route
     app.get('/:locale?',function(req,res){
         // Handle switching language

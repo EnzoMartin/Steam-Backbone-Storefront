@@ -5,6 +5,7 @@ module.exports = {
 		db: 'mongodb://localhost/steam',
         secret: 'c0g8+em8x%@=45%^kdrn=&+$1qgw91dsn@a6z3pwoyx_&y++fs',
         generate_templates: false,
+        stackError: true,
         expressLog: false,
         il8nDebug: false
     },
@@ -14,6 +15,7 @@ module.exports = {
 		db: process.env.MONGO,
 		secret: process.env.SECRET,
         generate_templates: true,
+        stackError: false,
         expressLog: false,
         il8nDebug: false
     },
@@ -26,6 +28,7 @@ module.exports = {
         db: process.env.MONGO,
         secret: process.env.SECRET,
         generate_templates: true,
+        stackError: false,
         expressLog: false,
         il8nDebug: false
     }

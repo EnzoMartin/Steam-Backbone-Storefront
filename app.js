@@ -5,12 +5,10 @@ if(process.env.NEWRELIC){
 
 var express = require('express');
 var fs = require('fs');
-var passport = {}; //require('passport');
 
 // Load configurations
 var env = process.env.NODE_ENV || 'development';
 var config = require('./config/config')[env];
-var auth = {}; //require('./config/middlewares/authorization');
 
 // Connect to mongo
 var db = require('./app/modules/database')(config);
@@ -28,16 +26,12 @@ if(config.generate_templates){
     templates();
 }
 
-// TODO: Add user handling later
-// bootstrap passport config
-//require('./config/passport')(passport,config);
-
 var app = express();
 // express settings
-require('./config/express')(app,config,passport);
+require('./config/express')(app,config);
 
 // Bootstrap routes
-require('./config/routes')(app,config,passport,auth);
+require('./config/routes')(app,config);
 
 // Start the app by listening on <port>
 var port = config.port;

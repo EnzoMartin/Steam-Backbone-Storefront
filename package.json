@@ -22,7 +22,6 @@
         "newrelic": "latest",
         "jade": "latest",
         "i18next": "latest",
-        "connect-mongo": "latest",
         "passport": "latest",
         "passport-steam": "latest"
     },
