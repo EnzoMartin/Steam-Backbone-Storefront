@@ -20,6 +20,7 @@
         "mongojs": "latest",
         "azurecache": "latest",
         "newrelic": "latest",
+        "q": "latest",
         "jade": "latest",
         "i18next": "latest",
         "passport": "latest",

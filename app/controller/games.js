@@ -1,6 +1,7 @@
 var db = require('../modules/database');
 var steam_fetch = require('../modules/steam');
 var Cache = require('../modules/cache');
+var Q = require('q');
 
 // Collections
 var Games = db.collection('games');
@@ -56,7 +57,7 @@ function responseFormat(id,data,escaped){
  * @param id
  * @param callback
  */
-exports.getGame = function(id,callback){
+exports.getGameById = function(id,callback){
     Cache.get('app-'+id, function (error, data) {
         if(!data || error){
             Games.findOne({
@@ -83,6 +84,34 @@ exports.getGame = function(id,callback){
             callback(responseFormat(id,data,true));
         }
     });
+};
+
+/**
+ * Get a game by query
+ * @param params {{}}
+ * @param callback function
+ */
+exports.getGame = function(params,callback){
+    var limit = 25;
+    var query = {};
+
+    if(params.name){
+        query.name = params.name.replace(/\W/g, '');
+    }
+
+    if(params.genre){
+        query.genre = '';
+    }
+
+    // Set new limit if it's a number
+    if(params.limit){
+        params.limit = parseInt(params.limit,10);
+        limit = (!isNaN(params.limit))? Math.abs(params.limit) : limit;
+    }
+
+    Games.find(query,function(err, data){
+        callback(err || data);
+    }).limit(limit || 25);
 };
 
 /**
@@ -184,14 +213,17 @@ var updateCategoryType = function(category,id){
     Categories.findOne({id:category.id},function(err,res){
         if(err || res == null){
             // Create the category type
-            Categories.save(category);
-            // Create the index with initial game
-            CategoriesIndex.save({id: category.id, games: [id]});
+            category.games = [id];
+            category.total = 1;
+            CategoriesIndex.save(category);
         } else {
             // Append new game to the category index
             CategoriesIndex.findAndModify({
                 query: {id: category.id},
-                update: {$addToSet: {games: id}}
+                update: {
+                    $addToSet: {games: id},
+                    $inc: {total: 1}
+                }
             });
         }
     });
@@ -219,14 +251,17 @@ var updateGenreType = function(genre,id){
     Genres.findOne({id:genre.id},function(err,res){
         if(err || res == null){
             // Create the genre type
-            Genres.save(genre);
-            // Create the index with initial game
-            GenresIndex.save({id: genre.id, games: [id]});
+            genre.games = [id];
+            genre.total = 1;
+            GenresIndex.save(genre);
         } else {
             // Append new game to the genre index
             GenresIndex.findAndModify({
                 query: {id: genre.id},
-                update: {$addToSet: {games: id}}
+                update: {
+                    $addToSet: {games: id},
+                    $inc: {total: 1}
+                }
             });
         }
     });

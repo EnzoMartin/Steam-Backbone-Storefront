@@ -4,7 +4,7 @@ var http = require('http');
 var games = require('../app/controller/games');
 var steam_fetch = require('../app/modules/steam');
 var Cache = require('../app/modules/cache');
-var pjson = require('./package.json');
+var pjson = require('../package.json');
 
 // Load all the JS files for backbone
 var files = {};
@@ -102,7 +102,7 @@ module.exports = function(app,config){
         //TODO: Add support for fetching multiple
         var gameId = parseInt(req.query.appids,10);
 
-        games.getGame(gameId,function(data){
+        games.getGameById(gameId,function(data){
             res.send(data);
         });
     });
@@ -129,13 +129,13 @@ module.exports = function(app,config){
 
     /**
      * Perform a search
-     * @param term {string}
+     * @param query {string}
      */
-    app.get('/api/search',function(req,res){
+    app.get('/api/search?',function(req,res){
         // /api/storesearch/?term=payday&l=english&cc=SE
-        steam_fetch('storesearch?term=' + req.query.term,function(data){
+        games.getGame(req.params,function(data){
             res.send(data);
-        });
+        })
     });
 
     /**
