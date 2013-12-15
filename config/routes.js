@@ -12,6 +12,7 @@ files.views = fs.readdirSync('public/js/views');
 files.models = fs.readdirSync('public/js/models');
 files.collections = fs.readdirSync('public/js/collections');
 var processed = {};
+var version = Math.floor(100000000 + Math.random() * 900000000);
 
 for (var i in files) {
     var j = 0;
@@ -19,7 +20,7 @@ for (var i in files) {
     while(j < files[i].length){
         var file = files[i][j];
         if(file.indexOf('.js') != -1){
-            processed[i] += '\'/js/' + i + '/' + file + '\'' + ',\n';
+            processed[i] += '\'/js/' + i + '/' + file + '?' + version + '\',\n';
         }
         j++;
     }
