@@ -74,13 +74,13 @@ define([
             WR.render(search);
         },
 
-		routes:{
+		routes: {
+            ''                     :'render_home',
 			'loading'              :'render_loading',
             'coming-soon'          :'render_coming_soon',
-            ''                     :'render_home',
             'featured'             :'render_featured',
             'game/:id'             :'render_game',
-            'search'               :'render_search'
+            'search/*'             :'render_search'
 		}
 	});
 });
