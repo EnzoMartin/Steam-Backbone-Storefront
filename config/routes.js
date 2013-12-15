@@ -4,7 +4,7 @@ var http = require('http');
 var games = require('../app/controller/games');
 var steam_fetch = require('../app/modules/steam');
 var Cache = require('../app/modules/cache');
-
+var pjson = require('./package.json');
 
 // Load all the JS files for backbone
 var files = {};
@@ -30,6 +30,7 @@ function index(){
     // Render index page and pass through all the variables
     return {
         lang: 'en',
+        version: pjson.version,
         models:processed.models,
         collections:processed.collections,
         views:processed.views
