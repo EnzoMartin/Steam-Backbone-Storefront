@@ -18,6 +18,36 @@ var PublishersIndex = db.collection('publishers_index');
 var RecommendationsIndex = db.collection('recommendations_index');
 
 /**
+ * Add game to the cache
+ * @param id
+ * @param game
+ */
+function addToCache(id,game){
+    game.name = escape(game.name);
+    game.detailed_description = escape(game.detailed_description);
+    game.legal_notice = escape(game.legal_notice);
+    Cache.put('app-'+id,game,7200);
+}
+
+/**
+ * Return in the same format that steam returns {<app_id>: { data: <game> }}
+ * @param id
+ * @param data
+ * @returns {{}}
+ * @param escaped
+ */
+function responseFormat(id,data,escaped){
+    var response = {};
+    if(escaped){
+        data.name = unescape(data.name);
+        data.detailed_description = unescape(data.detailed_description);
+        data.legal_notice = unescape(data.legal_notice);
+    }
+    response[id] = {data: data};
+    return response;
+}
+
+/**
  * Fetches a given game from the ID, first tries to fetch from local DB, otherwise fetches from Steam API and adds to DB
  * @param id
  * @param callback
@@ -35,24 +65,18 @@ exports.getGame = function(id,callback){
                             game = game[id].data;
                             game.steam_appid = parseInt(game.steam_appid,10);
                             indexGame(id,game);
-                            Cache.put('app-'+id,game,86400);
                             Games.save(game);
+                            addToCache(id,game);
                         }
                         callback(data);
                     });
                 } else {
-                    // Return in the same format that steam returns {<app_id>: { data: <game> }}
-                    var response = {};
-                    response[id] = {data: data};
-                    Cache.put('app-'+id,data,86400);
-                    callback(response);
+                    addToCache(id,data);
+                    callback(responseFormat(id,data,false));
                 }
             });
         } else {
-            // Return in the same format that steam returns {<app_id>: { data: <game> }}
-            var response = {};
-            response[id] = {data: data};
-            callback(response);
+            callback(responseFormat(id,data,true));
         }
     });
 };
