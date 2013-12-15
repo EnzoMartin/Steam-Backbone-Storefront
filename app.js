@@ -13,11 +13,11 @@ var config = require('./config/config')[env];
 var auth = {}; //require('./config/middlewares/authorization');
 
 // Connect to mongo
-var db = require('./app/modules/database').connect(config);
+var db = require('./app/modules/database')(config);
 
 // Connect to Azure Cache
 if(process.env.CACHE_ENDPOINT){
-    var cache = require('./app/modules/cache').connect();
+    var cache = require('./app/modules/cache')();
 } else {
     throw new Error('Need Azure cache');
 }
