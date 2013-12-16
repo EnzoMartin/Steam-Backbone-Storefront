@@ -129,13 +129,23 @@ module.exports = function(app,config){
 
     /**
      * Perform a search
-     * @param query {string}
+     * @param query {{}}
      */
-    app.get('/api/search?',function(req,res){
+    app.get('/api/search',function(req,res){
         // /api/storesearch/?term=payday&l=english&cc=SE
-        games.getGame(req.params,function(data){
+        games.getGame(req.query,function(data){
             res.send(data);
-        })
+        });
+    });
+
+    /**
+     * Perform a search against steam's search engine
+     * @param term {string}
+     */
+    app.get('/api/steamsearch',function(req,res){
+        steam_fetch('storesearch/?term=' + req.query.term + '&l=english',function(data){
+            res.send(data);
+        });
     });
 
     /**
