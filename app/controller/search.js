@@ -27,6 +27,14 @@ function makeQueryPromise(collection,query){
     });
     return d.promise;
 }
+/**
+ * Ensures alphanumeric only and builds match-any regex
+ * @param value
+ * @returns {string}
+ */
+function matchAny(value){
+    return '.*' + value.replace(/\W/g, '') + '.*';
+}
 
 /**
  * Get a game by query
@@ -39,8 +47,9 @@ exports.getGame = function(params,callback){
     var query = {};
     var queue = [];
 
+    // Find by game title
     if(params.name){
-        query.name = '.*' + params.name.replace(/\W/g, '') + '.*';
+        query.name = matchAny(params.name);
     }
 
     // Find games by genre
