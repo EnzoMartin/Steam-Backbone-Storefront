@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 	]);
 
 	// Add the JADE includes
-	grunt.registerTask('build_templates', 'Generates the JADE doT template includes', function(){
+	grunt.registerTask('build_templates', 'Generates the JADE template includes', function(){
 		templates();
 		return true;
 	});
