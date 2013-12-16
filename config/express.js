@@ -22,7 +22,7 @@ module.exports = function(app,config){
 	));
 	app.use(express.static(config.root + '/public'));
 	if(config.expressLog){
-        app.use(express.logger('dev'));
+        app.use(express.logger(config.expressLogLevel));
     }
 
 	// set views path, template engine and default layout

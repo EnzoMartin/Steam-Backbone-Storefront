@@ -1,10 +1,8 @@
+var express = require('express');
 if(process.env.NEWRELIC){
     // Load new relic only if the API key is set
     require('newrelic');
 }
-
-var express = require('express');
-var fs = require('fs');
 
 // Load configurations
 var env = process.env.NODE_ENV || 'development';
@@ -17,6 +15,7 @@ var db = require('./app/modules/database')(config);
 if(process.env.CACHE_ENDPOINT){
     require('./app/modules/cache')();
 } else {
+    // If no Cache configured, this puts dummy functions in it's place
     require('./app/modules/cache')(true);
 }
 
@@ -27,14 +26,15 @@ if(config.generate_templates){
 }
 
 var app = express();
-// express settings
+// Express settings
 require('./config/express')(app,config);
 
-// Bootstrap routes
+// Express routes
 require('./config/routes')(app,config);
 
-// Start the app by listening on <port>
-var port = config.port;
-app.listen(port);
+// Start
+app.listen(config.port);
 
-console.log('Express app started on port ' + port);
+if(config.expressLog){
+    console.log('Express app started on port ' + config.port);
+}
