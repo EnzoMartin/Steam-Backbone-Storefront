@@ -110,7 +110,7 @@ exports.getGame = function(params,callback){
     var queue = [];
 
     if(params.name){
-        query.name = '/.*' + params.name.replace(/\W/g, '') + '*/';
+        query.name = '.*' + params.name.replace(/\W/g, '') + '.*';
     }
 
     // Find games by genre
@@ -173,7 +173,7 @@ exports.getGame = function(params,callback){
         }
 
         Games.find({
-            name: new RegExp(query.name),
+            name: new RegExp(query.name, 'i'),
             steam_appid: {$in: final}
         },function(err, data){
             callback(err || data);
