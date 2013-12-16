@@ -136,7 +136,7 @@ var updateDevelopers = function(developer,id){
     DevelopersIndex.findAndModify({
         query: {name: developer},
         update: {$addToSet: {games: id}},
-        upset: true
+        upsert: true
     });
 };
 
@@ -178,7 +178,7 @@ var updatePlatforms = function(platforms,id){
         PlatformsIndex.findAndModify({
             query: {name: platform},
             update: action,
-            upset: true
+            upsert: true
         });
     }
 };
@@ -192,7 +192,7 @@ var updatePublishers = function(publisher,id){
     PublishersIndex.findAndModify({
         query: {name: publisher},
         update: {$addToSet: {games: id}},
-        upset: true
+        upsert: true
     });
 };
 
@@ -205,6 +205,6 @@ var updateLanguages = function(language,id){
     LanguagesIndex.findAndModify({
         query: {name: language},
         update: {$addToSet: {games: id}},
-        upset: true
+        upsert: true
     });
 };
