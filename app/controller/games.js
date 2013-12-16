@@ -35,14 +35,14 @@ function makeQueryPromise(collection,query){
  * @param id
  * @param game
  */
-function addToCache(id,game){
+var addToCache = function(id,game){
     game.name = escape(game.name);
     game.detailed_description = escape(game.detailed_description);
     if(game.legal_notice){
         game.legal_notice = escape(game.legal_notice);
     }
     Cache.put('app-'+id,game,7200);
-}
+};
 
 /**
  * Return in the same format that steam returns {<app_id>: { data: <game> }}
@@ -65,38 +65,54 @@ function responseFormat(id,data,escaped){
 }
 
 /**
- * Fetches a given game from the ID, first tries to fetch from local DB, otherwise fetches from Steam API and adds to DB
+ * Fetches a given game from the ID, first tries to fetch from local DB, otherwise fetches from Steam API and adds to DB and cache
+ * @param id
+ * @param callback
+ */
+var getGameById = function(id,callback){
+    Games.findOne({
+        steam_appid: id
+    },function(err, data){
+        if(err || data == null){
+            steam_fetch('appdetails?appids=' + id,function(data){
+                var game = JSON.parse(data);
+                if(game && game[id].data){
+                    game = game[id].data;
+                    game.steam_appid = parseInt(game.steam_appid,10);
+                    indexGame(id,game);
+                    Games.save(game);
+                    addToCache(id,game);
+                }
+                callback(data);
+            });
+        } else {
+            addToCache(id,data);
+            callback(responseFormat(id,data,false));
+        }
+    });
+};
+
+/**
+ * Fetches a given game by ID from the cache, delegates to getGameById if it doesn't exist in cache
  * @param id
  * @param callback
  */
 exports.getGameById = function(id,callback){
     Cache.get('app-'+id, function (error, data) {
         if(!data || error){
-            Games.findOne({
-                steam_appid: id
-            },function(err, data){
-                if(err || data == null){
-                    steam_fetch('appdetails?appids=' + id,function(data){
-                        var game = JSON.parse(data);
-                        if(game && game[id].data){
-                            game = game[id].data;
-                            game.steam_appid = parseInt(game.steam_appid,10);
-                            indexGame(id,game);
-                            Games.save(game);
-                            addToCache(id,game);
-                        }
-                        callback(data);
-                    });
-                } else {
-                    addToCache(id,data);
-                    callback(responseFormat(id,data,false));
-                }
-            });
+            getGameById(id,callback);
         } else {
             callback(responseFormat(id,data,true));
         }
     });
 };
+
+// If cache is not initialized, skip caching
+if(typeof Cache === 'function'){
+    addToCache = function(){ return true; };
+
+    exports.getGameById = getGameById;
+}
 
 /**
  * Get a game by query
