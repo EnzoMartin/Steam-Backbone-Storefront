@@ -64,7 +64,7 @@ exports.getGameById = function(id,callback){
                 if(err || data == null){
                     steam_fetch('appdetails?appids=' + id,function(data){
                         var game = JSON.parse(data);
-                        if(game){
+                        if(game && game[id].data){
                             game = game[id].data;
                             game.steam_appid = parseInt(game.steam_appid,10);
                             indexGame(id,game);
