@@ -34,7 +34,7 @@ function makeQueryPromise(collection,query){
  * @param callback function
  */
 exports.getGame = function(params,callback){
-    //console.log('params',params);
+    console.log('params',params);
     var limit = 25;
     var query = {};
     var queue = [];
@@ -65,12 +65,18 @@ exports.getGame = function(params,callback){
         }));
     }
 
+    // Set new limit if it's a number
+    if(params.limit){
+        params.limit = parseInt(params.limit,10);
+        limit = (!isNaN(params.limit))? Math.abs(params.limit) : limit;
+    }
 
     //console.log('queue',queue);
     Q.allSettled(queue).spread(function(test){
         var lists = [];
         var i = 0;
         var len = arguments.length;
+        // Extract all returned values
         while(i < len){
             var argument = arguments[i];
             argument.value.forEach(function(result){
@@ -78,13 +84,17 @@ exports.getGame = function(params,callback){
             });
             i++;
         }
+
+        // Get total queries
         var total = lists.length;
         var combined = [];
+        // Concatenate all the results into 1 array
         combined = combined.concat.apply(combined, lists);
 
         var occurrences = {};
         var j = 0;
         var len_j = combined.length;
+        // Count the occurrences of each ID
         while(j < len_j){
             var id = combined[j];
             if (occurrences[id]) {
@@ -95,6 +105,7 @@ exports.getGame = function(params,callback){
             j++;
         }
 
+        // Compared occurrences with the total to see which ones match what we're searching for
         var final = [];
         for(var item in occurrences){
             if(occurrences[item] === total){
@@ -102,6 +113,7 @@ exports.getGame = function(params,callback){
             }
         }
 
+        // Fetch the game ID we end up with and return the results
         Games.find({
             name: new RegExp(query.name, 'i'),
             steam_appid: {$in: final}
@@ -109,11 +121,4 @@ exports.getGame = function(params,callback){
             callback(err || data);
         }).limit(limit || 25);
     }).done();
-
-
-    // Set new limit if it's a number
-    if(params.limit){
-        params.limit = parseInt(params.limit,10);
-        limit = (!isNaN(params.limit))? Math.abs(params.limit) : limit;
-    }
 };
