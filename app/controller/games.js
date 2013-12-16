@@ -6,10 +6,8 @@ var Q = require('q');
 // Collections
 var Games = db.collection('games');
 var Achievements = db.collection('achievements_index');
-var Categories = db.collection('category_types');
 var CategoriesIndex = db.collection('categories_index');
 var DevelopersIndex = db.collection('developers_index');
-var Genres = db.collection('genres_types');
 var GenresIndex = db.collection('genres_index');
 var DemosIndex = db.collection('demos_index');
 var LanguagesIndex = db.collection('languages_index');
@@ -101,6 +99,7 @@ exports.getGame = function(params,callback){
 
     if(params.genre){
         query.genre = '';
+        CategoriesIndex.find({id:params.genre.id});
     }
 
     // Set new limit if it's a number
@@ -210,7 +209,7 @@ var indexGame = function(id,game){
  * @param id
  */
 var updateCategoryType = function(category,id){
-    Categories.findOne({id:category.id},function(err,res){
+    CategoriesIndex.findOne({id:category.id},function(err,res){
         if(err || res == null){
             // Create the category type
             category.games = [id];
@@ -248,7 +247,7 @@ var updateDevelopers = function(developer,id){
  * @param id
  */
 var updateGenreType = function(genre,id){
-    Genres.findOne({id:genre.id},function(err,res){
+    GenresIndex.findOne({id:genre.id},function(err,res){
         if(err || res == null){
             // Create the genre type
             genre.games = [id];
