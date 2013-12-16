@@ -2,6 +2,7 @@ var fs = require('fs');
 var i18n = require('i18next');
 var http = require('http');
 var games = require('../app/controller/games');
+var search = require('../app/controller/search');
 var steam_fetch = require('../app/modules/steam');
 var Cache = require('../app/modules/cache');
 var pjson = require('../package.json');
@@ -133,7 +134,7 @@ module.exports = function(app,config){
      */
     app.get('/api/search',function(req,res){
         // /api/storesearch/?term=payday&l=english&cc=SE
-        games.getGame(req.query,function(data){
+        search.getGame(req.query,function(data){
             res.send(data);
         });
     });
