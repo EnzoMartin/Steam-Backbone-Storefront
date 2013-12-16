@@ -15,9 +15,9 @@ var db = require('./app/modules/database')(config);
 
 // Connect to Azure Cache
 if(process.env.CACHE_ENDPOINT){
-    var cache = require('./app/modules/cache')();
+    require('./app/modules/cache')();
 } else {
-    throw new Error('Need Azure cache');
+    require('./app/modules/cache')(true);
 }
 
 if(config.generate_templates){

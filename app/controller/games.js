@@ -107,7 +107,7 @@ exports.getGameById = function(id,callback){
     });
 };
 
-// If cache is not initialized, skip caching
+// If cache is not initialized, skip caching and eliminate a function call
 if(typeof Cache === 'function'){
     addToCache = function(){ return true; };
 
