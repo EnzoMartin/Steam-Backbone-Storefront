@@ -1,7 +1,7 @@
 var db = require('./database');
 
 // Collections
-var Achievements = db.collection('achievements_index');
+var AchievementsIndex = db.collection('achievements_index');
 var CategoriesIndex = db.collection('categories_index');
 var DevelopersIndex = db.collection('developers_index');
 var GenresIndex = db.collection('genres_index');
@@ -23,7 +23,7 @@ exports.parseGame = function(id,game){
 
     // Save the total achievement count for the game
     if(typeof game.achievements === 'object'){
-        Achievements.save({id: id, total: game.achievements.total});
+        AchievementsIndex.save({id: id, total: game.achievements.total});
     }
 
     // Save if it has a demo
