@@ -147,13 +147,19 @@ exports.getGame = function(params,callback){
         }));
     }
 
+    // Find by supported languages
+    if(params.languages){
+        queue.push(makeQueryPromise(LanguagesIndex,{
+            name: {$in: params.languages.split(',')}
+        }));
+    }
+
     // Set new limit if it's a number
     if(params.limit){
         params.limit = parseInt(params.limit,10);
         limit = (!isNaN(params.limit))? Math.abs(params.limit) : limit;
     }
 
-    console.log('queue',queue);
     Q.allSettled(queue).spread(function(){
         var lists = [];
         var i = 0;
