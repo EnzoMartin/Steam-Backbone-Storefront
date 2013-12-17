@@ -41,6 +41,25 @@ function responseFormat(id,data,escaped){
 }
 
 /**
+ * Fetch the game from Steam
+ * @param id number
+ * @param callback function
+ * @param [_id] Mongo _id attribute if updating
+ */
+function fetchParseGame(id,callback,_id){
+    steam_fetch('appdetails?appids=' + id,function(data){
+        var game = JSON.parse(data);
+        if(game && game[id].data){
+            game = game[id].data;
+            game.steam_appid = parseInt(game.steam_appid,10);
+            Index.parseGame(id,game,_id);
+            addToCache(id,game);
+        }
+        callback(data);
+    });
+}
+
+/**
  * Fetches a given game from the ID, first tries to fetch from local DB, otherwise fetches from Steam API and adds to DB and cache
  * @param id
  * @param callback
@@ -50,17 +69,7 @@ var getGameById = function(id,callback){
         steam_appid: id
     },function(err, data){
         if(err || data == null){
-            steam_fetch('appdetails?appids=' + id,function(data){
-                var game = JSON.parse(data);
-                if(game && game[id].data){
-                    game = game[id].data;
-                    game.steam_appid = parseInt(game.steam_appid,10);
-                    Index.parseGame(id,game);
-                    Games.save(game);
-                    addToCache(id,game);
-                }
-                callback(data);
-            });
+            fetchParseGame(id,callback);
         } else {
             addToCache(id,data);
             callback(responseFormat(id,data,false));
@@ -82,6 +91,9 @@ exports.getGameById = function(id,callback){
         }
     });
 };
+
+// Export it for Grunt use
+exports.fetchParseGame = fetchParseGame;
 
 // If cache is not initialized, skip caching and eliminate a function call
 if(typeof Cache === 'function'){

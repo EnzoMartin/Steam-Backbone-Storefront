@@ -1,6 +1,7 @@
 var db = require('./database');
 
 // Collections
+var Games = db.collection('games');
 var AchievementsIndex = db.collection('achievements_index');
 var CategoriesIndex = db.collection('categories_index');
 var DevelopersIndex = db.collection('developers_index');
@@ -14,12 +15,19 @@ var RecommendationsIndex = db.collection('recommendations_index');
 
 /**
  * Parses information from a game to build the search indexes
- * @param id
- * @param game
+ * @param id number
+ * @param game {{}}
+ * @param [_id] Mongo ID if updating
  */
-exports.parseGame = function(id,game){
+exports.parseGame = function(id,game,_id){
     var i;
     var len;
+
+    // Save the game, update if it already exists
+    if(_id){
+        game._id = _id;
+    }
+    Games.save(game);
 
     // Save the total achievement count for the game
     if(typeof game.achievements === 'object'){

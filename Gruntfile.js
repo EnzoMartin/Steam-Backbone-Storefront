@@ -1,4 +1,36 @@
+var env = process.env.NODE_ENV || 'development';
+var config = require('./config/config')[env];
 var templates = require('./app/modules/templates');
+
+// Connect to database
+require('./app/modules/database')(config);
+var db = require('./app/modules/database');
+var Games = require('./app/controller/games');
+var GamesIndex = db.collection('games');
+var Indexer = require('./app/modules/index');
+var SteamURL = require('./app/modules/steam');
+
+
+/**
+ * Fetches a game and starts a new 2 seconds timer if specified
+ * @param games {{}}
+ * @param current number
+ * @param callback function
+ **/
+function getGame(games,current,callback){
+    var game = games[current];
+    console.log('Updating game ID: ' + game.steam_appid + '| ' + current + ' of ' + games.length);
+    Games.fetchParseGame(game.steam_appid, function(){return null;},game._id);
+    current++;
+    if(typeof games[current] !== 'undefined'){
+        setTimeout(function(){
+            getGame(games,current,callback);
+        },2000);
+    } else {
+        console.log('Done, updated ' + current + ' games');
+        callback(current);
+    }
+}
 
 module.exports = function(grunt) {
 
@@ -78,4 +110,11 @@ module.exports = function(grunt) {
 		templates();
 		return true;
 	});
+
+    grunt.registerTask('update_games', 'Updates all the games in the DB by fetching from Steam', function(){
+        var done = this.async();
+        GamesIndex.find(function(err, games, done){
+            getGame(games,0);
+        });
+    });
 };
