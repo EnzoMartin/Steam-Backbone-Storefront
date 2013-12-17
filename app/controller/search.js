@@ -92,6 +92,13 @@ exports.getGame = function(params,callback){
         }));
     }
 
+    // Find by developer
+    if(params.developers){
+        queue.push(makeQueryPromise(DevelopersIndex,{
+            name: {$in: params.developers.split(',')}
+        }));
+    }
+
     // Set new limit if it's a number
     if(params.limit){
         params.limit = parseInt(params.limit,10);
