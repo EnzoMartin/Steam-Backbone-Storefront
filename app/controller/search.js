@@ -162,35 +162,34 @@ exports.getGame = function(params,callback){
 
     Q.allSettled(queue).spread(function(){
         var lists = [];
-        var i = 0;
-        var len = arguments.length;
+        var q = 0;
+        // Get total queries
+        var total = arguments.length;
         // Extract all returned values
-        while(i < len){
-            var argument = arguments[i];
+        while(q < total){
+            var argument = arguments[q];
             argument.value.forEach(function(result){
                 lists.push(result.games);
             });
-            i++;
+            q++;
         }
 
-        // Get total queries
-        var total = arguments.length;
         var combined = [];
         // Concatenate all the results into 1 array
         combined = combined.concat.apply(combined, lists);
 
         var occurrences = {};
-        var j = 0;
-        var len_j = combined.length;
+        var i = 0;
+        var len = combined.length;
         // Count the occurrences of each ID
-        while(j < len_j){
-            var id = combined[j];
+        while(i < len){
+            var id = combined[i];
             if (occurrences[id]) {
                 occurrences[id]++;
             } else {
                 occurrences[id] = 1;
             }
-            j++;
+            i++;
         }
 
         // Compared occurrences with the total to see which ones match what we're searching for
