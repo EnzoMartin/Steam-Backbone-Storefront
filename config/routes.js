@@ -169,7 +169,6 @@ module.exports = function(app,config){
      * @param query {{}}
      */
     app.get('/api/search',function(req,res){
-        // /api/storesearch/?term=payday&l=english&cc=SE
         search.getGame(req.query,function(data){
             res.send(data);
         });
@@ -180,6 +179,7 @@ module.exports = function(app,config){
      * @param term {string}
      */
     app.get('/api/steamsearch',function(req,res){
+        // /api/storesearch/?term=payday&l=english&cc=SE
         steam_fetch('storesearch/?term=' + req.query.term + '&l=english',function(data){
             res.send(data);
         });
