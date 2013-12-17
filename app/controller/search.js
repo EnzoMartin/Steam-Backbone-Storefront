@@ -129,6 +129,17 @@ exports.getGame = function(params,callback){
         }
     }
 
+    // Find by number of Recommendations
+    if(typeof params.recommendations !== 'undefined'){
+        var recommendations = parseInt(params.recommendations,10);
+        if(!isNaN(recommendations)){
+            //TODO: support GTE/GT/LT/LTE/EQ
+            queue.push(makeQueryPromise(RecommendationsIndex,{
+                total: {$gte: recommendations}
+            }));
+        }
+    }
+
     // Set new limit if it's a number
     if(params.limit){
         params.limit = parseInt(params.limit,10);
