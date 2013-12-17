@@ -1,3 +1,4 @@
+// TODO: Convert route functions to have require and use bundles instead of doing it in the view/model/collection files
 (function(window){
     define([
         'underscore',
