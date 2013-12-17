@@ -85,6 +85,13 @@ exports.getGame = function(params,callback){
         }
     }
 
+    // Find by publisher
+    if(params.publishers){
+        queue.push(makeQueryPromise(PublishersIndex,{
+            name: {$in: params.publishers.split(',')}
+        }));
+    }
+
     // Set new limit if it's a number
     if(params.limit){
         params.limit = parseInt(params.limit,10);
