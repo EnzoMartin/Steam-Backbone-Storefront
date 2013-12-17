@@ -26,7 +26,8 @@ block loaderscript
                 bootstrap: ['//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min', '/js/libraries/bootstrap-3.0.2.min'],
                 marionette: ['//cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.1.0-bundled/backbone.marionette.min', '/js/libraries/backbone-marionette-1.4.0.min'],
                 moment: ['//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min', '/js/libraries/moment-with-langs-2.4.0.min'],
-                dust: ['/js/libraries/dust-all-helpers'],
+                dust: ['/js/libraries/dust-iterate-helper'],
+                'dust-helpers': ['/js/libraries/dust-all-helpers'],
                 'dust-full': ['/js/libraries/dust-full-2.2.0'],
                 // My libs
                 lib: ['/js/libraries/lib'],
@@ -40,9 +41,10 @@ block loaderscript
                     exports: 'Backbone'
                 },
                 'dust': {
-                    deps: ['dust-full'],
+                    deps: ['dust-helpers'],
                     exports: 'dust'
                 },
+                'dust-helpers': ['dust-full'],
                 'jqueryui': ['jquery'],
                 'bootstrap': ['jquery'],
                 'router': [
