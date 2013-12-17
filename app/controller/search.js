@@ -89,7 +89,7 @@ exports.getGame = function(params,callback){
         if(!isNaN(count)){
             //TODO: support GTE/GT/LT/LTE/EQ
             queue.push(makeQueryPromise(AchievementsIndex,{
-                $gte: {total: count}
+                total: {$gte: count}
             }));
         }
     }
@@ -114,6 +114,17 @@ exports.getGame = function(params,callback){
         if(boolean){
             queue.push(makeQueryPromise(DemosIndex,{
                 hasDemo: true
+            }));
+        }
+    }
+
+    // Find by Metacritic score
+    if(typeof params.metacritic !== 'undefined'){
+        var score = parseInt(params.metacritic,10);
+        if(!isNaN(score)){
+            //TODO: support GTE/GT/LT/LTE/EQ
+            queue.push(makeQueryPromise(MetacriticIndex,{
+                score: {$gte: score}
             }));
         }
     }
