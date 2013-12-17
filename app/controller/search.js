@@ -140,6 +140,13 @@ exports.getGame = function(params,callback){
         }
     }
 
+    // Find by supported platform
+    if(params.platforms){
+        queue.push(makeQueryPromise(PlatformsIndex,{
+            name: {$in: params.platforms.split(',')}
+        }));
+    }
+
     // Set new limit if it's a number
     if(params.limit){
         params.limit = parseInt(params.limit,10);
@@ -192,8 +199,11 @@ exports.getGame = function(params,callback){
         Games.find({
             name: new RegExp(query.name, 'i'),
             steam_appid: {$in: final}
-        },function(err, data){
+        },
+        {},
+        {limit: limit || 25},
+        function(err, data){
             callback(err || data);
-        }).limit(limit || 25);
+        });
     }).done();
 };
