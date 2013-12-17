@@ -5,7 +5,7 @@
         .page-content
             .row
                 .col-12.col-lg-12
-                    form#search-form(role='form')
+                    form#search-form(role='form',method='GET',action='/search')
                         .form-group
                             label(for='name') Name
                             input#name.form-control(type='text',name='name',placeholder='')
