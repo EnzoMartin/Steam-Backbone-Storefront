@@ -36,7 +36,7 @@ exports.parseGame = function(id,game,_id){
 
     // Save if it has a demo
     if(typeof game.demos === 'object'){
-        DemosIndex.save({hasDemo: id, demos: game.demos});
+        DemosIndex.save({hasDemo: true,steam_appid: id, demos: game.demos});
     }
 
     // Save the game categories
