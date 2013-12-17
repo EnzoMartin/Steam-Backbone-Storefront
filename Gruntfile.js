@@ -9,7 +9,7 @@ var Games = require('./app/controller/games');
 var GamesIndex = db.collection('games');
 var Indexer = require('./app/modules/index');
 var SteamURL = require('./app/modules/steam');
-
+var timer = '';
 
 /**
  * Fetches a game and starts a new 2 seconds timer if specified
@@ -19,7 +19,7 @@ var SteamURL = require('./app/modules/steam');
  **/
 function getGame(games,current,callback){
     var game = games[current];
-    console.log('Updating game ID: ' + game.steam_appid + '| ' + current + ' of ' + games.length);
+    console.log('Updating game ID: ' + game.steam_appid + ' - ' + current + ' of ' + games.length);
     Games.fetchParseGame(game.steam_appid, function(){return null;},game._id);
     current++;
     if(typeof games[current] !== 'undefined'){
@@ -27,8 +27,8 @@ function getGame(games,current,callback){
             getGame(games,current,callback);
         },2000);
     } else {
-        console.log('Done, updated ' + current + ' games');
-        callback(current);
+        console.timeEnd(timer);
+        callback();
     }
 }
 
@@ -113,8 +113,10 @@ module.exports = function(grunt) {
 
     grunt.registerTask('update_games', 'Updates all the games in the DB by fetching from Steam', function(){
         var done = this.async();
-        GamesIndex.find(function(err, games, done){
-            getGame(games,0);
+        GamesIndex.find(function(err, games){
+            timer = 'Done, updated ' + games.length + ' games in';
+            console.time(timer);
+            getGame(games,0,done);
         });
     });
 };
