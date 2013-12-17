@@ -31,12 +31,12 @@ exports.parseGame = function(id,game,_id){
 
     // Save the total achievement count for the game
     if(typeof game.achievements === 'object'){
-        AchievementsIndex.save({id: id, total: game.achievements.total});
+        AchievementsIndex.save({id: id, games: [id], total: game.achievements.total});
     }
 
     // Save if it has a demo
     if(typeof game.demos === 'object'){
-        DemosIndex.save({hasDemo: true, games: [id], demos: game.demos});
+        DemosIndex.save({hasDemo: true, games: [id], id: id, demos: game.demos});
     }
 
     // Save the game categories
@@ -78,7 +78,7 @@ exports.parseGame = function(id,game,_id){
 
     // Save the metacritic score
     if(typeof game.metacritic === 'object'){
-        MetacriticIndex.save({id: id, score: game.metacritic.score});
+        MetacriticIndex.findAndModify({id: id, games: [id], score: game.metacritic.score});
     }
 
     // Save the platforms
@@ -99,7 +99,7 @@ exports.parseGame = function(id,game,_id){
 
     // Save the recommendations
     if(typeof game.recommendations === 'object'){
-        RecommendationsIndex.save({id: id, total: game.recommendations.total});
+        RecommendationsIndex.save({id: id, games: [id], total: game.recommendations.total});
     }
 
     // Save the languages
