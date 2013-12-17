@@ -18,6 +18,7 @@
      */
 
     BB = {
+        bootstrapped: {},
         view_definitions : {},
         model_definitions : {},
         collection_definitions : {},

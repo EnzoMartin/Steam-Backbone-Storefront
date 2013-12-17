@@ -27,10 +27,33 @@ for (var i in files) {
     }
 }
 
+/**
+ * Get available filter objects
+ * @param callback function
+ * @returns {*}
+ */
+function filters(callback){
+    search.getFields(function(data){
+        var files = index();
+
+        // TODO: Optimize this
+        var bootstrapped = JSON.parse(files.bootstrapped);
+        bootstrapped.filters = data;
+        files.bootstrapped = JSON.stringify(bootstrapped);
+        callback(files);
+    });
+}
+
+/**
+ * Get base file definitions and global app data
+ * @returns {{lang: string, version: (string|version|*), models: (*|models|models), collections: (*|Function), views: *}}
+ */
 function index(){
+    // TODO: Pass frontend translations
     // Render index page and pass through all the variables
     return {
         lang: 'en',
+        bootstrapped: '{}',
         version: pjson.version,
         models:processed.models,
         collections:processed.collections,
@@ -39,6 +62,19 @@ function index(){
 }
 
 module.exports = function(app,config){
+    // Search page, return with available search filters
+    app.get('/search',function(req,res){
+        if(req.is('json')){
+            search.getFields(function(data){
+                res.send(data);
+            });
+        } else {
+            filters(function(data){
+                res.render('index',data);
+            });
+        }
+    });
+
 	// Home Route
     app.get('/:locale?',function(req,res){
         // Handle switching language

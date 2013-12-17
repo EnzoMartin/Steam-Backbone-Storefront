@@ -1,4 +1,5 @@
 var db = require('../modules/database');
+var Cache = require('../modules/cache');
 var Q = require('q');
 
 // Collections
@@ -44,6 +45,47 @@ function matchAny(value){
 function isTrue(input) {
     return typeof input == 'string' ? input.toLowerCase() == 'true' : !!input;
 }
+
+/**
+ * Gets all the available sorting fields, saves/gets from Cache if available
+ * @param callback
+ */
+exports.getFields = function(callback){
+    Cache.get('filters',function(err,data){
+        if(err || !data){
+            var queue = [];
+
+            queue.push(makeQueryPromise(CategoriesIndex,{}));
+            queue.push(makeQueryPromise(GenresIndex,{}));
+            queue.push(makeQueryPromise(LanguagesIndex,{}));
+            queue.push(makeQueryPromise(DevelopersIndex,{}));
+            queue.push(makeQueryPromise(PublishersIndex,{}));
+            queue.push(makeQueryPromise(PlatformsIndex,{}));
+
+            Q.allSettled(queue).spread(function(categories,genres,languages,developers,publishers,platforms){
+                var keys = ['categories','genres','languages','developers','publishers','platforms'];
+                var filters = {};
+                var k = 0;
+                var len = keys.length;
+
+                while(k < len){
+                    var key = keys[k];
+                    filters[key] = [];
+                    arguments[k].value.forEach(function(item){
+                        if(item.name){
+                            filters[key].push({name:item.name,total:item.games.length});
+                        }
+                    });
+                    k++;
+                }
+                Cache.put('filters',filters);
+                callback(filters);
+            }).done();
+        } else {
+            callback(data);
+        }
+    });
+};
 
 /**
  * Get a game by query

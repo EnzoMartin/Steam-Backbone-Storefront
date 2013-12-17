@@ -70,7 +70,10 @@ block loaderscript
         (function (window, document) {
             "use strict";
             // Use RequireJS to get the base libraries, and then use yepnope to load the rest and show a nice progress bar
-            requirejs(['lib', 'jquery', 'dust', 'main', 'router'], function($, yepnope, dust, WRCON, router){
+            requirejs(['lib', 'jquery', 'dust', 'main', 'BB', 'router'], function($, yepnope, dust, WRCON, BB, router){
+                // Save bootstrapped data
+                BB.bootstrapped = !{bootstrapped};
+
                 // Build the templates, and then remove the script tags from the DOM
                 var elements = document.getElementsByClassName('dust-template');
                 var len = elements.length;
