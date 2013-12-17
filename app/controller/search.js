@@ -37,6 +37,15 @@ function matchAny(value){
 }
 
 /**
+ * Check if variable is a boolean
+ * @param input
+ * @returns {boolean}
+ */
+function isTrue(input) {
+    return typeof input == 'string' ? input.toLowerCase() == 'true' : !!input;
+}
+
+/**
  * Get a game by query
  * @param params {{}}
  * @param callback function
@@ -99,14 +108,24 @@ exports.getGame = function(params,callback){
         }));
     }
 
+    // Find by if it has a demo
+    if(typeof params.demo !== 'undefined'){
+        var boolean = isTrue(params.demo);
+        if(boolean){
+            queue.push(makeQueryPromise(DemosIndex,{
+                hasDemo: true
+            }));
+        }
+    }
+
     // Set new limit if it's a number
     if(params.limit){
         params.limit = parseInt(params.limit,10);
         limit = (!isNaN(params.limit))? Math.abs(params.limit) : limit;
     }
 
-    //console.log('queue',queue);
-    Q.allSettled(queue).spread(function(test){
+    console.log('queue',queue);
+    Q.allSettled(queue).spread(function(){
         var lists = [];
         var i = 0;
         var len = arguments.length;
@@ -120,7 +139,7 @@ exports.getGame = function(params,callback){
         }
 
         // Get total queries
-        var total = lists.length;
+        var total = arguments.length;
         var combined = [];
         // Concatenate all the results into 1 array
         combined = combined.concat.apply(combined, lists);
