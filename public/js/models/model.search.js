@@ -8,7 +8,7 @@
             defaults: {},
 
             initialize: function(){
-                if(BB.bootstrapped.filters4){
+                if(BB.bootstrapped.filters){
                     this.set(BB.bootstrapped.filters);
                 } else {
                     var model = this;
