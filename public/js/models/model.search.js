@@ -13,7 +13,7 @@
                 } else {
                     var model = this;
                     $.ajax({
-                        url: '/search',
+                        url: '/api/filters',
                         dataType: 'json',
                         contentType : 'application/json',
                         success: function(data){

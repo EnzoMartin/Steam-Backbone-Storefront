@@ -71,7 +71,8 @@
             },
 
             render_search: function(){
-                var search = BB.get({view:'search',model:'search'});
+                var collection = BB.get({collection:'games'});
+                var search = BB.get({view:'search',model:'search',collection:collection});
                 WR.render(search);
             },
 

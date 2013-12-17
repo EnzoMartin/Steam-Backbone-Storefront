@@ -1,6 +1,7 @@
 var fs = require('fs');
 var i18n = require('i18next');
 var http = require('http');
+var Q = require('q');
 var games = require('../app/controller/games');
 var search = require('../app/controller/search');
 var steam_fetch = require('../app/modules/steam');
@@ -28,23 +29,6 @@ for (var i in files) {
 }
 
 /**
- * Get available filter objects
- * @param callback function
- * @returns {*}
- */
-function filters(callback){
-    search.getFields(function(data){
-        var files = index();
-
-        // TODO: Optimize this
-        var bootstrapped = JSON.parse(files.bootstrapped);
-        bootstrapped.filters = data;
-        files.bootstrapped = JSON.stringify(bootstrapped);
-        callback(files);
-    });
-}
-
-/**
  * Get base file definitions and global app data
  * @returns {{lang: string, version: (string|version|*), models: (*|models|models), collections: (*|Function), views: *}}
  */
@@ -61,18 +45,54 @@ function index(){
     };
 }
 
+/**
+ *
+ * @param method
+ * @param [params]
+ * @returns {promise}
+ */
+function makePromise(method,params){
+    var d = Q.defer();
+    var args = [];
+    if(params){
+        args.push(params);
+    }
+    args.push(function(err, data){
+        d.resolve(err || data);
+    });
+    method.apply(method,args);
+    return d.promise;
+}
+
 module.exports = function(app,config){
     // Search page, return with available search filters
     app.get('/search',function(req,res){
-        if(req.is('json')){
-            search.getFields(function(data){
-                res.send(data);
-            });
-        } else {
-            filters(function(data){
-                res.render('index',data);
-            });
+        var json = req.is('json');
+        var queue = [];
+
+        // Get the filter fields if not JSON request
+        if(!json){
+            queue.push(makePromise(search.getFields));
         }
+
+        // Perform search if query found
+        if(Object.keys(req.query).length){
+            queue.push(makePromise(search.getGame,req.query));
+        }
+
+        Q.allSettled(queue).spread(function(){
+            if(json){
+                res.send(arguments[0].value);
+            } else {
+                var files = index();
+                var data = {filters: arguments[0].value};
+                if(arguments[1]){
+                    data.results = arguments[1].value;
+                }
+                files.bootstrapped = JSON.stringify(data);
+                res.render('index',files);
+            }
+        });
     });
 
 	// Home Route
@@ -170,6 +190,15 @@ module.exports = function(app,config){
      */
     app.get('/api/search',function(req,res){
         search.getGame(req.query,function(data){
+            res.send(data);
+        });
+    });
+
+    /**
+     * Get search filters
+     */
+    app.get('/api/filters',function(req,res){
+        search.getFields(function(data){
             res.send(data);
         });
     });
