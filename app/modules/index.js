@@ -78,7 +78,7 @@ exports.parseGame = function(id,game,_id){
 
     // Save the metacritic score
     if(typeof game.metacritic === 'object'){
-        MetacriticIndex.findAndModify({id: id, games: [id], score: game.metacritic.score});
+        MetacriticIndex.save({id: id, games: [id], score: game.metacritic.score});
     }
 
     // Save the platforms
