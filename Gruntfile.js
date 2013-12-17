@@ -19,9 +19,9 @@ var timer = '';
  **/
 function getGame(games,current,callback){
     var game = games[current];
+    current++;
     console.log('Updating game ID: ' + game.steam_appid + ' - ' + current + ' of ' + games.length);
     Games.fetchParseGame(game.steam_appid, function(){return null;},game._id);
-    current++;
     if(typeof games[current] !== 'undefined'){
         setTimeout(function(){
             getGame(games,current,callback);
