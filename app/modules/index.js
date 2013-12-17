@@ -103,9 +103,9 @@ exports.parseGame = function(id,game,_id){
     }
 
     // Save the languages
-    if(typeof game.supported_languages === 'object'){
+    if(typeof game.supported_languages === 'string'){
         game.supported_languages.split(',').forEach(function(lang){
-            updateLanguages(lang.split('<')[0],id);
+            updateLanguages(lang.split('<')[0].trim(),id);
         });
     }
 };
