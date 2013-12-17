@@ -47,6 +47,22 @@ function isTrue(input) {
 }
 
 /**
+ * Used for sorting by name
+ * @param a
+ * @param b
+ * @returns {number}
+ */
+function compareNames(a,b) {
+    if (a.name < b.name){
+        return -1;
+    }
+    if (a.name > b.name){
+        return 1;
+    }
+    return 0;
+}
+
+/**
  * Gets all the available sorting fields, saves/gets from Cache if available
  * @param callback
  */
@@ -76,6 +92,8 @@ exports.getFields = function(callback){
                             filters[key].push({name:item.name,total:item.games.length});
                         }
                     });
+                    // Sort by item names
+                    filters[key].sort(compareNames);
                     k++;
                 }
                 Cache.put('filters',filters);
