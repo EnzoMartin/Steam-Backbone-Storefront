@@ -119,6 +119,8 @@ var updateCategoryType = function(category,id){
     CategoriesIndex.findOne({id:category.id},function(err,res){
         if(err || res == null){
             // Create the category type
+            category.name = category.description;
+            delete category.description;
             category.games = [id];
             category.total = 1;
             CategoriesIndex.save(category);
@@ -157,6 +159,8 @@ var updateGenreType = function(genre,id){
     GenresIndex.findOne({id:genre.id},function(err,res){
         if(err || res == null){
             // Create the genre type
+            genre.name = genre.description;
+            delete genre.description;
             genre.games = [id];
             genre.total = 1;
             GenresIndex.save(genre);
