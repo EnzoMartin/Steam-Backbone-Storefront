@@ -63,6 +63,27 @@ function compareNames(a,b) {
 }
 
 /**
+ * Converts a param to a use-able array
+ * @param param
+ * @param [ints]
+ * @returns {*}
+ */
+function parseParam(param,ints){
+    var parsed;
+    if(typeof param === 'object'){
+        parsed = param;
+    } else if(typeof param === 'string') {
+        parsed = param.split(',');
+        if(ints){
+            parsed = parsed.map(function(x){
+                return parseInt(x, 10)
+            });
+        }
+    }
+    return parsed;
+}
+
+/**
  * Gets all the available sorting fields, saves/gets from Cache if available
  * @param callback
  */
@@ -124,9 +145,7 @@ exports.getGame = function(params,callback){
     if(params.genres){
         queue.push(makeQueryPromise(GenresIndex,{
             id: {
-                $in: params.genres.split(',').map(function(x){
-                    return parseInt(x, 10)
-                })
+                $in: parseParam(params.genres,true)
             }
         }));
     }
@@ -135,9 +154,7 @@ exports.getGame = function(params,callback){
     if(params.categories){
         queue.push(makeQueryPromise(CategoriesIndex,{
             id: {
-                $in: params.categories.split(',').map(function(x){
-                    return parseInt(x, 10)
-                })
+                $in: parseParam(params.categories,true)
             }
         }));
     }
@@ -156,14 +173,14 @@ exports.getGame = function(params,callback){
     // Find by publisher
     if(params.publishers){
         queue.push(makeQueryPromise(PublishersIndex,{
-            name: {$in: params.publishers.split(',')}
+            name: {$in: parseParam(params.publishers)}
         }));
     }
 
     // Find by developer
     if(params.developers){
         queue.push(makeQueryPromise(DevelopersIndex,{
-            name: {$in: params.developers.split(',')}
+            name: {$in: parseParam(params.developers)}
         }));
     }
 
@@ -202,14 +219,14 @@ exports.getGame = function(params,callback){
     // Find by supported platform
     if(params.platforms){
         queue.push(makeQueryPromise(PlatformsIndex,{
-            name: {$in: params.platforms.split(',')}
+            name: {$in: parseParam(params.platforms)}
         }));
     }
 
     // Find by supported languages
     if(params.languages){
         queue.push(makeQueryPromise(LanguagesIndex,{
-            name: {$in: params.languages.split(',')}
+            name: {$in: parseParam(params.languages)}
         }));
     }
 
