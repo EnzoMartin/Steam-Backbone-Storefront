@@ -111,14 +111,13 @@ exports.getFields = function(callback){
  * @param callback function
  */
 exports.getGame = function(params,callback){
-    console.log('params',params);
     var limit = 25;
     var query = {};
     var queue = [];
 
     // Find by game title
     if(params.name){
-        query.name = matchAny(params.name);
+        query.name = new RegExp(matchAny(params.name), 'gi');
     }
 
     // Find games by genre
@@ -260,11 +259,12 @@ exports.getGame = function(params,callback){
             }
         }
 
+        if(final.length){
+            query.steam_appid = {$in: final};
+        }
+
         // Fetch the game ID we end up with and return the results
-        Games.find({
-            name: new RegExp(query.name, 'i'),
-            steam_appid: {$in: final}
-        },
+        Games.find(query,
         {},
         {limit: limit || 25},
         function(err, data){
