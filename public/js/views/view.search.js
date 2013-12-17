@@ -18,13 +18,14 @@
             },
 
             initialize: function(){
-                this.listenTo(this.model, 'sync', this.render);
+                this.listenTo(this.model, 'change', this.render);
             },
 
             render: function(){
-                var items = this.model.toJSON();
+                var filters = this.model.toJSON();
+                console.log(filters);
                 var view = this;
-                dust.render(this.template, items, function(err, out) {
+                dust.render(this.template, filters, function(err, out) {
                     view.$el.html(out);
                 });
             }
