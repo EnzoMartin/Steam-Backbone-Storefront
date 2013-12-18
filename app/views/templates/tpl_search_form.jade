@@ -12,7 +12,7 @@
     label(for='recommendations') Number of Recommendations
     input#recommendations.form-control(type='text',name='recommendations',placeholder='')
 .row
-    |{@iterate key=filters}
+    |{@iterate key=.}
     .form-group.col-12.col-lg-4
         label.capitalize(for='{$key}') {$key}
         select.form-control(name='{$key}',multiple)
