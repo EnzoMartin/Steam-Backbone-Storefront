@@ -27,7 +27,6 @@ window.requestAnimFrame = (function(){
 		// Object Variables
 		main_ele: '#content',
         $el: null,
-		default_route: 'home',
 		timers: {},
 		title: 'BB Steam',
 		Lib: typeof Lib !== 'undefined'? Lib : false
@@ -88,11 +87,6 @@ window.requestAnimFrame = (function(){
 
         // Set the options
         this.set_options(options);
-
-        // Set up the primary route if not set
-        /*if(typeof root.window.location.hash === 'undefined' || root.window.location.hash == ''){
-            root.window.location.hash = this.default_route;
-        }*/
 
         // Make new instance of the router
         this.active_router = new router();
