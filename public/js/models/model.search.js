@@ -8,10 +8,10 @@
             defaults: {},
 
             initialize: function(){
+                var model = this;
                 if(BB.bootstrapped.filters){
                     this.set(BB.bootstrapped.filters);
                 } else {
-                    var model = this;
                     $.ajax({
                         url: '/api/filters',
                         dataType: 'json',
@@ -20,6 +20,22 @@
                             model.set(data);
                         }
                     });
+                }
+            }
+        });
+
+        BB.model_definitions.results = Backbone.Model.extend({
+            defaults: {},
+
+            initialize: function(){
+                this.collection = BB.get({collection:'games'});
+                var model = this;
+
+                if(BB.bootstrapped.results){
+                    BB.bootstrapped.results.forEach(function(item){
+                        model.collection.add(new BB.model_definitions.game(item));
+                    });
+                    this.set({results:BB.bootstrapped.results});
                 }
             },
 

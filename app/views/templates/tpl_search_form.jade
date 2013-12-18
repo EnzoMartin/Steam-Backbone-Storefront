@@ -1,0 +1,23 @@
+.form-group
+    label(for='name') Name
+    input#name.form-control(type='text',name='name',placeholder='')
+    span#help.help-block
+.form-group
+    label(for='achievements') Number of Achievements
+    input#achievements.form-control(type='text',name='achievements',placeholder='')
+.form-group
+    label(for='metacritic') Metacritic Score
+    input#metacritic.form-control(type='text',name='metacritic',placeholder='')
+.form-group
+    label(for='recommendations') Number of Recommendations
+    input#recommendations.form-control(type='text',name='recommendations',placeholder='')
+.row
+    |{@iterate key=filters}
+    .form-group.col-12.col-lg-4
+        label.capitalize(for='{$key}') {$key}
+        select.form-control(name='{$key}',multiple)
+            |{@iterate key=$value}
+            option.capitalize(value='{#$value.id}{$value.id}{:else}{$value.name}{/$value.id}') {$value.name}
+            |{/iterate}
+    |{/iterate}
+button.btn.btn-primary(type='submit')= t('app.buttons.search')
