@@ -44,6 +44,7 @@
             }
         });
 
+        // TODO: Add displaying current search params
         BB.view_definitions.search_form = Backbone.View.extend({
             template: 'tpl_search_form',
 
@@ -59,6 +60,7 @@
             }
         });
 
+        //TODO: Add pagination
         BB.view_definitions.search_results = Backbone.View.extend({
             template: 'tpl_search_results',
 
