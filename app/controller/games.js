@@ -12,10 +12,10 @@ var Games = db.collection('games');
  * @param game
  */
 var addToCache = function(id,game){
-    game.name = escape(game.name);
-    game.detailed_description = escape(game.detailed_description);
+    game.escaped_name = escape(game.name);
+    game.escaped_detailed_description = escape(game.detailed_description);
     if(game.legal_notice){
-        game.legal_notice = escape(game.legal_notice);
+        game.escaped_legal_notice = escape(game.legal_notice);
     }
     Cache.put('app-'+id,game,7200);
 };
@@ -30,10 +30,10 @@ var addToCache = function(id,game){
 function responseFormat(id,data,escaped){
     var response = {};
     if(escaped){
-        data.name = unescape(data.name);
-        data.detailed_description = unescape(data.detailed_description);
+        data.name = unescape(data.escaped_name);
+        data.detailed_description = unescape(data.escaped_detailed_description);
         if(data.legal_notice){
-            data.legal_notice = unescape(data.legal_notice);
+            data.legal_notice = unescape(data.escaped_legal_notice);
         }
     }
     response[id] = {data: data};

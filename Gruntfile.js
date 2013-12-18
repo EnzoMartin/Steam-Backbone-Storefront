@@ -7,8 +7,6 @@ require('./app/modules/database')(config);
 var db = require('./app/modules/database');
 var Games = require('./app/controller/games');
 var GamesIndex = db.collection('games');
-var Indexer = require('./app/modules/index');
-var SteamURL = require('./app/modules/steam');
 var timer = '';
 
 /**
