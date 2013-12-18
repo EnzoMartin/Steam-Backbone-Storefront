@@ -29,7 +29,7 @@ window.requestAnimFrame = (function(){
         $el: null,
 		default_route: 'home',
 		timers: {},
-		title: 'WRCON',
+		title: 'BB Steam',
 		Lib: typeof Lib !== 'undefined'? Lib : false
 	};
 
