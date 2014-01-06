@@ -37,11 +37,27 @@
         }
 
         function processBody(key, value) {
-            return body(chunk, context.push({
-                $key: key,
-                $value: value,
-                $type: typeof value
-            }));
+            var values = {};
+
+            if(params.t){
+                values['$' + params.t] = typeof value;
+            } else {
+                values.$type = typeof value;
+            }
+
+            if(params.k){
+                values['$' + params.k] = key;
+            } else {
+                values.$key = key;
+            }
+
+            if(params.v){
+                values['$' + params.v] = value;
+            } else {
+                values.$value = value;
+            }
+
+            return body(chunk, context.push(values));
         }
 
         if (params.key) {
