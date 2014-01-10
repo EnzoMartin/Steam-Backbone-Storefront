@@ -34,6 +34,8 @@
             },
 
             renderForm: function(){
+                // Update the params
+                this.model.get_params();
                 this.subviews.formView.render();
                 return this.subviews.formView.el;
             },
@@ -76,6 +78,7 @@
 
             render: function(){
                 var view = this;
+                //console.log('results',this.model.get('results'));
                 dust.render(this.template, this.model.get('results'), function(err, out) {
                     view.$el.html(out);
                 });

@@ -1,23 +1,29 @@
 .form-group
     label(for='name') Name
-    input#name.form-control(type='text',name='name',placeholder='')
+    input#name.form-control(type='text',name='name',placeholder='',value='{name}')
     span#help.help-block
 .form-group
     label(for='achievements') Number of Achievements
-    input#achievements.form-control(type='text',name='achievements',placeholder='')
+    input#achievements.form-control(type='text',name='achievements',placeholder='',value='{achievements}')
 .form-group
     label(for='metacritic') Metacritic Score
-    input#metacritic.form-control(type='text',name='metacritic',placeholder='')
+    input#metacritic.form-control(type='text',name='metacritic',placeholder='',value='{metacritic}')
 .form-group
     label(for='recommendations') Number of Recommendations
-    input#recommendations.form-control(type='text',name='recommendations',placeholder='')
+    input#recommendations.form-control(type='text',name='recommendations',placeholder='',value='{recommendations}')
 .row
-    |{@iterate key=.}
+    |{@iterate key=. k="category" v="data"}
+    |{@if cond="['name','achievements','metacritic','recommendations'].indexOf('{$category}') === -1"}
     .form-group.col-12.col-lg-4
-        label.capitalize(for='{$key}') {$key}
-        select.form-control(name='{$key}',multiple)
-            |{@iterate key=$value}
+        label.capitalize(for='{$category}') {$category}
+        select.form-control(name='{$category}',multiple)
+            |{@iterate key=$data}
+            |{@if cond="{$value.active}"}
+            option.capitalize(value='{#$value.id}{$value.id}{:else}{$value.name}{/$value.id}',selected="selected") {$value.name}
+            |{:else}
             option.capitalize(value='{#$value.id}{$value.id}{:else}{$value.name}{/$value.id}') {$value.name}
+            |{/if}
             |{/iterate}
+    |{/if}
     |{/iterate}
 button.btn.btn-primary(type='submit')= t('app.buttons.search')
