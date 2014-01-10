@@ -110,7 +110,7 @@ exports.getFields = function(callback){
                     filters[key] = [];
                     arguments[k].value.forEach(function(item){
                         if(item.name){
-                            var meta = {name:item.name,total:item.games.length};
+                            var meta = {name:item.name,total:item.games.length,category:key};
                             if(item.id){
                                 meta.id = item.id;
                             }
