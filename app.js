@@ -7,7 +7,7 @@ if(process.env.NEWRELIC){
 
 if(process.env.RUN_STEAM_LISTENER){
     var Steam = require('steam');
-    var Listener = Steam.SteamClient();
+    var Listener = new Steam.SteamClient();
 
     Listener.logOn({
         accountName: process.env.STEAM_USER,
