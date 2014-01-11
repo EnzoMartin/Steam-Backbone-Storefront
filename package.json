@@ -23,6 +23,7 @@
         "q": "latest",
         "jade": "latest",
         "i18next": "latest",
+        "steam": "latest",
         "passport": "latest",
         "passport-steam": "latest"
     },

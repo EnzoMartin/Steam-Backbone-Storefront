@@ -1,7 +1,32 @@
 var express = require('express');
+
 if(process.env.NEWRELIC){
     // Load new relic only if the API key is set
     require('newrelic');
+}
+
+if(process.env.STEAM_USER){
+    var Steam = require('steam');
+    var Listener = Steam.SteamClient();
+
+    Listener.logOn({
+        accountName: process.env.STEAM_USER,
+        password: process.env.STEAM_PASSWORD
+    });
+
+    Listener.on('loggedOn',function(){
+        console.log('Logged in to Steam!');
+    });
+
+    Listener.on('servers',function(servers){
+        console.log('got servers',servers);
+    });
+
+    Listener.on('fromGC',function(id,type,body){
+        console.log('GC arguments',JSON.stringify(arguments));
+        console.log('GC Message', id, type);
+        console.log('GC Body',body);
+    });
 }
 
 // Load configurations
