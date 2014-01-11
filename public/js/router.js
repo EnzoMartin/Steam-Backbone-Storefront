@@ -7,6 +7,9 @@
         'main'
     ], function(_, Backbone, BB, WR) {
         return Backbone.Router.extend({
+            /**
+             * Initializes the header, binds the route event to update header, and binds the history push on click
+             */
             initialize: function(){
                 var _this = this;
 
@@ -18,6 +21,7 @@
                     header.set_active(Backbone.history.fragment);
                 });
 
+                // Set up the history push on click
                 $(window.document).on('click', 'a[href^="/"]', function(event) {
                     if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
                         var href = this.getAttribute('href');
@@ -31,16 +35,25 @@
                 });
             },
 
+            /**
+             * Generic loading page route
+             */
             render_loading: function(){
                 var loading = BB.get({view:'loading'});
                 WR.render(loading);
             },
 
+            /**
+             * Generic coming soon page
+             */
             render_coming_soon: function(){
                 var coming_soon = BB.get({view:'coming_soon'});
                 WR.render(coming_soon);
             },
 
+            /**
+             * Home page which renders the current deals
+             */
             render_home: function(){
                 var collection = BB.get({collection:'games'});
                 var home = BB.get({view:'home',model:{name:'home',options:{collection:collection}},collection:collection});
@@ -48,6 +61,9 @@
                 WR.render(home);
             },
 
+            /**
+             * Featured page
+             */
             render_featured: function(){
                 var collection = BB.get({collection:'games'});
                 var featured = BB.get({view:'featured',model:{name:'featured',options:{collection:collection}},collection:collection});
@@ -55,6 +71,10 @@
                 WR.render(featured);
             },
 
+            /**
+             * Render a single game, fetches the latest data from the server, also creates it if not in the collection
+             * @param id
+             */
             render_game: function(id){
                 var collection = BB.get({collection:'games'});
                 var model = collection.get(id);
@@ -70,6 +90,9 @@
                 WR.render(game);
             },
 
+            /**
+             * Search page and results
+             */
             render_search: function(){
                 var collection = BB.get({collection:'games'});
                 var search = BB.get({view:'search',model:'search',collection:collection});
