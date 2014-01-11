@@ -5,7 +5,7 @@ if(process.env.NEWRELIC){
     require('newrelic');
 }
 
-if(process.env.STEAM_USER){
+if(process.env.RUN_STEAM_LISTENER){
     var Steam = require('steam');
     var Listener = Steam.SteamClient();
 
