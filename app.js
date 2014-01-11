@@ -46,6 +46,14 @@ if(process.env.RUN_STEAM_LISTENER){
         console.log('GC Message', id, type);
         console.log('GC Body',body);
     });
+
+    Listener.on('message',function(){
+        console.log('Message arguments',JSON.stringify(arguments));
+    });
+
+    Listener.on('error',function(error){
+        console.log('Error occurred: ',error);
+    });
 }
 
 // Connect to Azure Cache
