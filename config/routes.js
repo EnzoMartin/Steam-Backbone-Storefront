@@ -4,7 +4,7 @@ var http = require('http');
 var Q = require('q');
 var games = require('../app/controller/games');
 var search = require('../app/controller/search');
-var steam_fetch = require('../app/modules/steam');
+var steam_fetch = require('../app/modules/steam-url');
 var Cache = require('../app/modules/cache');
 var pjson = require('../package.json');
 

@@ -1,5 +1,5 @@
 var db = require('../modules/database');
-var steam_fetch = require('../modules/steam');
+var steam_fetch = require('../modules/steam-url');
 var Cache = require('../modules/cache');
 var Index = require('../modules/index');
 

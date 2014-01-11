@@ -1,20 +1,29 @@
-var http = require('http');
-var url = 'store.steampowered.com';
+var Steam = require('../steam_client');
+var SteamID = require('../steamID');
 
-module.exports = function(fragment,callback){
-    var options = {
-        host: url,
-        path: '/api/' + fragment
-    };
+var EMsg = Steam.EMsg;
+var schema = Steam.Internal;
 
-    http.request(options,function(response){
-        var str = '';
-        response.on('data',function(chunk){
-            str += chunk;
-        });
+var protoMask = 0x80000000;
 
-        response.on('end',function(){
-            callback(str);
-        });
-    }).end();
+// Methods
+
+var prototype = Steam.SteamClient.prototype;
+
+prototype.PICSChangesSince = function(p_LastChangeNumber, p_SendAppChangelist, p_SendPackageChangelist) 
+{
+  this._send(EMsg.PICSChangesSinceRequest | protoMask, schema.CMsgPICSChangesSinceRequest.serialize({
+    since_change_number: p_LastChangeNumber,
+    send_app_info_changes: p_SendAppChangelist,
+    send_package_info_changes: p_SendPackageChangelist
+  }));
+};
+
+// Handlers
+
+var handlers = prototype._handlers;
+
+handlers[EMsg.PICSChangesSinceResponse] = function(p_Data) 
+{
+  schema.CMsgPICSChangesSinceResponse.parse(p_Data); // Do something with this
 };
