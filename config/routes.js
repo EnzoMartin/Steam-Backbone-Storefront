@@ -82,7 +82,7 @@ module.exports = function(app,config){
 
         Q.allSettled(queue).spread(function(){
             if(json){
-                res.send(arguments[0].value);
+                res.send({results:arguments[0].value});
             } else {
                 var files = index();
                 var data = {filters: arguments[0].value};

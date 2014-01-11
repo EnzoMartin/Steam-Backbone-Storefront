@@ -9,16 +9,21 @@ i {
 }
 
 /* line 9, ../../scss/global.scss */
+.center {
+  text-align: center;
+}
+
+/* line 13, ../../scss/global.scss */
 .capitalize {
   text-transform: capitalize;
 }
 
-/* line 13, ../../scss/global.scss */
+/* line 17, ../../scss/global.scss */
 .btn + .btn {
   margin-left: 10px;
 }
 
-/* line 20, ../../scss/global.scss */
+/* line 24, ../../scss/global.scss */
 .table.table-align-middle tbody td {
   vertical-align: middle;
 }

@@ -1,7 +1,16 @@
-|{#.}
+|{#error}
+.row
+    .col-12.col-lg-12
+        p {error}
+|{:else}
+|{#loading}
+include tpl_spinner
+|{/loading}
+|{#results}
 .row
     .col-12.col-lg-12
         a(href='/game/{steam_appid}')
             img.img-rounded(src='http://cdn2.steampowered.com/v/gfx/apps/{steam_appid}/capsule_sm_120.jpg')
             p {name}
-|{/.}
+|{/results}
+|{/error}

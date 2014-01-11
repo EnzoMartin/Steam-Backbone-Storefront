@@ -58,7 +58,7 @@
 
                 // Fetch the results
                 //TODO: Make it fetch
-                //this.subviews.resultsView.model.sync();
+                this.subviews.resultsView.model.sync();
             },
 
             render: function(){
@@ -115,8 +115,7 @@
 
             render: function(){
                 var view = this;
-                //console.log('results',this.model.get('results'));
-                dust.render(this.template, this.model.get('results'), function(err, out) {
+                dust.render(this.template, this.model.toJSON(), function(err, out) {
                     view.$el.html(out);
                 });
             }

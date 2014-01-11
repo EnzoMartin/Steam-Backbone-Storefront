@@ -17,6 +17,7 @@
     .form-group.col-12.col-lg-4
         label.capitalize(for='{$category}') {$category}
         select.form-control(name='{$category}',multiple)
+            option.ignore.capitalize(value="") All
             |{@iterate key=$data}
             |{@if cond="{$value.active}"}
             option.capitalize(value='{#$value.id}{$value.id}{:else}{$value.name}{/$value.id}',selected="selected") {$value.name}
