@@ -38,6 +38,7 @@ var db = require('./app/modules/database')(config);
 
 // Connect to Azure Cache
 if(process.env.CACHE_ENDPOINT){
+    // If using Azure Cache, make sure to install Edge and run "node_modules\azurecache\tools\install.bat"
     require('./app/modules/cache')();
 } else {
     // If no Cache configured, this puts dummy functions in it's place
