@@ -14,7 +14,7 @@
             template: 'tpl_search',
 
             events: {
-
+                'submit #search-form': 'submit_form'
             },
 
             initialize: function(){
@@ -22,6 +22,43 @@
                 this.subviews = {};
                 this.subviews.resultsView = BB.get({view:'search_results',model:'results'});
                 this.subviews.formView = BB.get({view:'search_form',model:this.model});
+            },
+
+            submit_form: function (event) {
+                event.preventDefault();
+
+                // Grab form elements from the event object
+                var elements = event.target.elements;
+
+                var url = [];
+                var i = 0;
+                var len = elements.length;
+                while(i < len){
+                    var input = elements[i];
+                    if(input.nodeName === 'INPUT' || input.nodeName === 'SELECT'){
+                        var value = input.value;
+                        if(input.type == 'select-multiple'){
+                            for (var j in input.selectedOptions) {
+                                value = input.selectedOptions[j].value;
+                                if(value){
+                                    url.push(input.name + '=' + encodeURIComponent(input.selectedOptions[j].value));
+                                }
+                            }
+                        } else {
+                            if(value){
+                                url.push(input.name + '=' + encodeURIComponent(input.value));
+                            }
+                        }
+                    }
+                    i++;
+                }
+
+                // Push the new URL
+                history.pushState({}, document.title, '?' + url.join('&'));
+
+                // Fetch the results
+                //TODO: Make it fetch
+                //this.subviews.resultsView.model.sync();
             },
 
             render: function(){
