@@ -5,21 +5,40 @@ if(process.env.NEWRELIC){
     require('newrelic');
 }
 
+// Load configurations
+var env = process.env.NODE_ENV || 'development';
+var config = require('./config/config')[env];
+
+// Connect to mongo
+require('./app/modules/database')(config);
+
 if(process.env.RUN_STEAM_LISTENER){
+    var db = require('./app/modules/database');
     var Steam = require('steam');
+    var Servers = db.collection('steam_servers');
+    Servers.findOne({},function(err,data){
+        // Update the server list if we have it in the DB
+        if(data){
+            console.log('Found saved server list');
+            Steam.servers = data.list;
+        }
+
+        Listener.logOn({
+            accountName: process.env.STEAM_USER,
+            password: process.env.STEAM_PASSWORD
+        });
+    });
     var Listener = new Steam.SteamClient();
 
-    Listener.logOn({
-        accountName: process.env.STEAM_USER,
-        password: process.env.STEAM_PASSWORD
-    });
-
     Listener.on('loggedOn',function(){
-        console.log('Logged in to Steam!');
+        console.log('Logged in to Steam');
     });
 
-    Listener.on('servers',function(servers){
-        console.log('got servers',servers);
+    Listener.on('servers',function(list){
+        console.log('Got updated server list, total: ',list.length);
+        // Empty the collection and add new servers
+        Servers.remove();
+        Servers.save({list:list});
     });
 
     Listener.on('fromGC',function(id,type,body){
@@ -28,13 +47,6 @@ if(process.env.RUN_STEAM_LISTENER){
         console.log('GC Body',body);
     });
 }
-
-// Load configurations
-var env = process.env.NODE_ENV || 'development';
-var config = require('./config/config')[env];
-
-// Connect to mongo
-var db = require('./app/modules/database')(config);
 
 // Connect to Azure Cache
 if(process.env.CACHE_ENDPOINT){
