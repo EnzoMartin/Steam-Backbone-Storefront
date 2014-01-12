@@ -13,47 +13,7 @@ var config = require('./config/config')[env];
 require('./app/modules/database')(config);
 
 if(process.env.RUN_STEAM_LISTENER){
-    var db = require('./app/modules/database');
-    var Steam = require('steam');
-    var Servers = db.collection('steam_servers');
-    Servers.findOne({},function(err,data){
-        // Update the server list if we have it in the DB
-        if(data){
-            console.log('Found saved server list');
-            Steam.servers = data.list;
-        }
-
-        Listener.logOn({
-            accountName: process.env.STEAM_USER,
-            password: process.env.STEAM_PASSWORD
-        });
-    });
-    var Listener = new Steam.SteamClient();
-
-    Listener.on('loggedOn',function(){
-        console.log('Logged in to Steam');
-    });
-
-    Listener.on('servers',function(list){
-        console.log('Got updated server list, total: ',list.length);
-        // Empty the collection and add new servers
-        Servers.remove();
-        Servers.save({list:list});
-    });
-
-    Listener.on('fromGC',function(id,type,body){
-        console.log('GC arguments',JSON.stringify(arguments));
-        console.log('GC Message', id, type);
-        console.log('GC Body',body);
-    });
-
-    Listener.on('message',function(){
-        console.log('Message arguments',JSON.stringify(arguments));
-    });
-
-    Listener.on('error',function(error){
-        console.log('Error occurred: ',error);
-    });
+    require('./app/modules/steam')();
 }
 
 // Connect to Azure Cache
