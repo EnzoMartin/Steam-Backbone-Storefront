@@ -5,7 +5,7 @@
 |{:else}
 |{#loading}
 include tpl_spinner
-|{/loading}
+|{:else}
 |{#results}
 .row.result
     .col-12.col-lg-2
@@ -31,4 +31,5 @@ include tpl_spinner
 .row
     .col-12.col-lg-12.center Use the search options above to find matches
 |{/results}
+|{/loading}
 |{/error}
