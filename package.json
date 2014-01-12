@@ -1,7 +1,7 @@
 {
     "name": "steam-backbone-storefront",
     "description": "Backbone-powered Steam storefront",
-    "version": "0.0.5",
+    "version": "0.1.0",
     "repository": {
         "type": "git",
         "url": "git@github.com:EnzoMartin78/Steam-Backbone-Storefront.git"
