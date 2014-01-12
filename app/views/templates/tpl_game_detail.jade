@@ -1,31 +1,32 @@
 | {?name}
-.page-header
-    h1 {name}
-.page-content
-    .banner
-        img(src='{header_image}')
-    .categories
-        h3 Categories
-        ul
-            | {#categories}
-            li {description}
-            | {/categories}
-    .description
-        h3 Description
-        p {detailed_description|s}
-    .genres
-        h3 Genres
-        ul
-            | {#genres}
-            li {description}
-            | {/genres}
-    .screenshots
-        h3 Screenshots
-        ul
-            | {#screenshots}
-            li
-                img.img-rounded(src='{path_thumbnail}')
-            | {/screenshots}
+.background(style="background-image:url('http://cdn2.steampowered.com/v/gfx/apps/{id}/page_bg_generated.jpg')")
+    .page-header
+        h1 {name}
+    .page-content
+        .banner
+            img(src='{header_image}')
+        .categories
+            h3 Categories
+            ul
+                | {#categories}
+                li {description}
+                | {/categories}
+        .description
+            h3 Description
+            p {detailed_description|s}
+        .genres
+            h3 Genres
+            ul
+                | {#genres}
+                li {description}
+                | {/genres}
+        .screenshots
+            h3 Screenshots
+            ul
+                | {#screenshots}
+                li
+                    img.img-rounded(src='{path_thumbnail}')
+                | {/screenshots}
 | {:else}
 .page-header
     h1 Loading

@@ -46,3 +46,10 @@ a:hover img {
 #search .genres {
   margin-top: -2px;
 }
+
+/* line 2, ../../scss/game.scss */
+#game-detail .background {
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% auto;
+}
