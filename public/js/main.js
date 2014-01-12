@@ -41,8 +41,16 @@ window.requestAnimFrame = (function(){
         var _this = this;
         if(this.current_view && !persist){
             var old_view = BB.get({view: this.current_view});
+
+            // Delete any subviews
+            if(old_view.subviews){
+                for(var i in old_view.subviews){
+                    var sub = old_view.subviews[i];
+                    sub.remove();
+                }
+            }
+
             old_view.remove();
-            delete BB.view_instances[this.current_view];
         }
         this.current_view = view.name;
         var title = this.title;
