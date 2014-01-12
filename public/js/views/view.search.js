@@ -20,7 +20,7 @@
             initialize: function(){
                 this.listenTo(this.model, 'sync', this.renderForm);
                 this.subviews = {};
-                this.subviews.resultsView = BB.get({view:'search_results',model:'results'});
+                this.subviews.resultsView = BB.get({view:'search_results',model:{name:'results',reset:true}});
                 this.subviews.formView = BB.get({view:'search_form',model:this.model});
 
                 if(!this.subviews.resultsView.model.get('bootstrapped') && window.location.search){
@@ -88,7 +88,6 @@
             }
         });
 
-        // TODO: Add displaying current search params
         BB.view_definitions.search_form = Backbone.View.extend({
             template: 'tpl_search_form',
 
