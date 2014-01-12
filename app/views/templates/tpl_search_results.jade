@@ -1,6 +1,6 @@
 |{#error}
 .row
-    .col-12.col-lg-12
+    .col-12.col-lg-12.center
         p {error}
 |{:else}
 |{#loading}
@@ -26,5 +26,9 @@ include tpl_spinner
                     |{#categories}
                     a.label.label-primary(href='/search?categories={id}') {description}
                     |{/categories}
+|{/results}
+|{^results}
+.row
+    .col-12.col-lg-12.center Use the search options above to find matches
 |{/results}
 |{/error}

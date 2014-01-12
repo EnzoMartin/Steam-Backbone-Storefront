@@ -23,7 +23,7 @@
                 this.subviews.resultsView = BB.get({view:'search_results',model:'results'});
                 this.subviews.formView = BB.get({view:'search_form',model:this.model});
 
-                if(!this.subviews.resultsView.model.get('bootstrapped')){
+                if(!this.subviews.resultsView.model.get('bootstrapped') && window.location.search){
                     this.subviews.resultsView.model.sync();
                 } else {
                     this.model.unset('bootstrapped');
