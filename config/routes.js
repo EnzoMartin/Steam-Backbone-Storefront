@@ -95,18 +95,11 @@ module.exports = function(app,config){
         });
     });
 
-	// Home Route
-    app.get('/:locale?',function(req,res){
-        // Handle switching language
-        if(req.params.locale){
-            var locale = (req.params.locale || 'en-US').split('-');
-            if(locale.length != 2){
-                locale = ['en','US'];
-            }
-            req.i18n.setLng(locale[0] + '-' + locale[1].toUpperCase());
-        }
-
-        res.render('index',index());
+    /**
+     * New Relic ping reply
+     */
+    app.get('/newrelic',function(req,res){
+        res.send({success:true});
     });
 
     /**
@@ -215,13 +208,6 @@ module.exports = function(app,config){
     });
 
     /**
-     * New Relic ping reply
-     */
-    app.get('/newrelic',function(req,res){
-        res.send({success:true});
-    });
-
-    /**
      * JSON blob from listener service used to update/create Steam apps in the DB
      * @param secret {string}
      * @param data {{}}
@@ -234,6 +220,20 @@ module.exports = function(app,config){
             res.statusCode = 403;
             res.send({success:false});
         }
+    });
+
+    // Home Route
+    app.get('/:locale?',function(req,res){
+        // Handle switching language
+        if(req.params.locale){
+            var locale = (req.params.locale || 'en-US').split('-');
+            if(locale.length != 2){
+                locale = ['en','US'];
+            }
+            req.i18n.setLng(locale[0] + '-' + locale[1].toUpperCase());
+        }
+
+        res.render('index',index());
     });
 
     /**
