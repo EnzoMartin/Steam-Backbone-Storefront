@@ -156,11 +156,9 @@
         var model = model_data && !(model_data instanceof Backbone.Model) ? this.get_model(model_data) : model_data;
         var collection = collection_data && !(collection_data instanceof Backbone.Collection) ? this.get_collection(collection_data) : collection_data;
         view = view ? this.view_instances[name] = new view({model: model,collection: collection}) : '';
-        /* TODO: fix circular logic
         this.view_instances[name].listenTo(this.view_instances[name],'remove',_.bind(function(){
             delete this.view_instances[name]
         },this));
-        */
         view.name = name;
         return view;
     };
