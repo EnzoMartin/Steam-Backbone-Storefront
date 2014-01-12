@@ -18,12 +18,31 @@ i {
   text-transform: capitalize;
 }
 
-/* line 17, ../../scss/global.scss */
-.btn + .btn {
+/* line 18, ../../scss/global.scss */
+.btn + .btn,
+.label + .label {
   margin-left: 10px;
 }
 
-/* line 24, ../../scss/global.scss */
+/* line 23, ../../scss/global.scss */
+a:hover img {
+  opacity: 0.8;
+}
+
+/* line 31, ../../scss/global.scss */
 .table.table-align-middle tbody td {
   vertical-align: middle;
+}
+
+/* line 2, ../../scss/search.scss */
+#search .result + .result {
+  margin-top: 10px;
+}
+/* line 6, ../../scss/search.scss */
+#search .title {
+  padding-right: 10px;
+}
+/* line 10, ../../scss/search.scss */
+#search .genres {
+  margin-top: -2px;
 }

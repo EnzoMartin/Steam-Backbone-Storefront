@@ -14,8 +14,15 @@ i {
     text-transform: capitalize;
 }
 
-.btn + .btn {
+.btn + .btn,
+.label + .label {
     margin-left: 10px;
+}
+
+a:hover {
+    img {
+        opacity: 0.8;
+    }
 }
 
 .table {
