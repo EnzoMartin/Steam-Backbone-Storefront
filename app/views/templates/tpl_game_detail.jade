@@ -10,17 +10,50 @@
             h3 Categories
             ul
                 | {#categories}
-                li {description}
+                li
+                    a.label.label-primary(href='/search?categories={id}') {description}
                 | {/categories}
-        .description
-            h3 Description
-            p {detailed_description|s}
         .genres
             h3 Genres
             ul
                 | {#genres}
-                li {description}
+                li
+                    a.label.label-default(href='/search?genres={id}') {description}
                 | {/genres}
+        | {#achievements}
+        .achievements
+            h3 Achievements
+                small  - Total: {achievements.total}
+            ul
+                | {#achievements.highlighted}
+                li
+                    img(src='{path}')
+                    span  {name}
+                | {/achievements.highlighted}
+        | {/achievements}
+        .developers
+            h3 Developer(s)
+            ul
+                | {#developers}
+                li
+                    a.label.label-primary(href='/search?developers={.}') {.}
+                | {/developers}
+        .publishers
+            h3 Publisher(s)
+            ul
+                | {#publishers}
+                li
+                    a.label.label-primary(href='/search?publishers={.}') {.}
+                | {/publishers}
+        .description
+            h3 Description
+            p {detailed_description|s}
+        | {#legal_notice}
+        .legal
+            h3 Legal Notice
+            p {legal_notice}
+        | {/legal_notice}
+        .legal
         .screenshots
             h3 Screenshots
             ul
