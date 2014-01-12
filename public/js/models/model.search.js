@@ -28,6 +28,7 @@
                 var model = this.toJSON();
                 var search = window.location.search;
                 if(search){
+                    var params = {};
                     search = search.substring(1).split('&');
                     var i = 0;
                     var len = search.length;
@@ -39,17 +40,16 @@
                             var len_o = options.length;
                             while(o < len_o){
                                 var option = options[o];
-                                if(option.id == param[1] || option.name == param[1]){
-                                    option.active = true;
-                                }
+                                option.active = option.id == param[1] || option.name == param[1];
                                 o++;
                             }
+                            params[param[0]] = options;
                         } else {
-                            model[param[0]] = param[1];
+                            params[param[0]] = param[1];
                         }
                         i++;
                     }
-                    this.set(model);
+                    this.set(params);
                 }
             }
         });
