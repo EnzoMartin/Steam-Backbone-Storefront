@@ -217,7 +217,7 @@ module.exports = function(app,config){
     /**
      * New Relic ping reply
      */
-    app.get('/newrelic/',function(req,res){
+    app.get('/newrelic',function(req,res){
         res.send({success:true});
     });
 
