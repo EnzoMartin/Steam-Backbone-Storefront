@@ -215,6 +215,21 @@ module.exports = function(app,config){
     });
 
     /**
+     * JSON blob from listener service used to update/create Steam apps in the DB
+     * @param secret {string}
+     * @param data {{}}
+     */
+    app.post('/api/populate',function(req,res){
+        if(req.body.secret === config.listener_secret){
+            //TODO: Add the parsing logic once the listener is built
+            res.send({success:true});
+        } else {
+            res.statusCode = 403;
+            res.send({success:false});
+        }
+    });
+
+    /**
      * Backbone pass-through route
      */
     app.use(function(req, res){
