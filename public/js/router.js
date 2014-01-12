@@ -29,7 +29,7 @@
 
                         if (href.slice(protocol.length) !== protocol) {
                             event.preventDefault();
-                            _this.navigate(href, true);
+                            _this.navigate(href, {trigger:true});
                         }
                     }
                 });
