@@ -215,6 +215,13 @@ module.exports = function(app,config){
     });
 
     /**
+     * New Relic ping reply
+     */
+    app.get('/newrelic/',function(req,res){
+        res.send({success:true});
+    });
+
+    /**
      * JSON blob from listener service used to update/create Steam apps in the DB
      * @param secret {string}
      * @param data {{}}
