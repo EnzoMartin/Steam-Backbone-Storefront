@@ -22,6 +22,12 @@
                 this.subviews = {};
                 this.subviews.resultsView = BB.get({view:'search_results',model:'results'});
                 this.subviews.formView = BB.get({view:'search_form',model:this.model});
+
+                if(!this.subviews.resultsView.model.get('bootstrapped')){
+                    this.subviews.resultsView.model.sync();
+                } else {
+                    this.model.unset('bootstrapped');
+                }
             },
 
             submit_form: function (event) {
@@ -57,7 +63,6 @@
                 history.pushState({}, document.title, '?' + url.join('&'));
 
                 // Fetch the results
-                //TODO: Make it fetch
                 this.subviews.resultsView.model.sync();
             },
 

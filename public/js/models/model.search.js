@@ -18,6 +18,7 @@
                         contentType : 'application/json',
                         success: function(data){
                             model.set(data);
+                            model.trigger('sync');
                         }
                     });
                 }
@@ -67,7 +68,7 @@
                         BB.bootstrapped.results.forEach(function(item){
                             model.collection.add(new BB.model_definitions.game(item));
                         });
-                        this.set({results:BB.bootstrapped.results});
+                        this.set({results:BB.bootstrapped.results,bootstrapped:true});
                     } else {
                         this.set({error: 'Nothing matched your search terms, please try different ones'});
                     }
