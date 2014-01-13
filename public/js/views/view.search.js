@@ -123,7 +123,7 @@
                 this.model.sync();
             },
 
-            render: function(a,b,c,d){
+            render: function(){
                 var view = this;
                 dust.render(this.template, this.model.toJSON(), function(err, out) {
                     view.$el.html(out);
