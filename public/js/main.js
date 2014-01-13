@@ -22,8 +22,8 @@ window.requestAnimFrame = (function(){
     ], function ($, _, Backbone, BB, lib, exports) {
         return factory(root, exports, $, _, Backbone, BB, lib);
     });
-}(this, function (root, WRCON, $, _, Backbone, BB, Lib) {
-	WRCON = {
+}(this, function (root, BBS, $, _, Backbone, BB, Lib) {
+	BBS = {
 		// Object Variables
 		main_ele: '#content',
         $el: null,
@@ -37,7 +37,7 @@ window.requestAnimFrame = (function(){
      * @param view {*} View object
      * @param persist {boolean} If the view should not be recycled
      */
-    WRCON.render = function(view,persist){
+    BBS.render = function(view,persist){
         var _this = this;
         if(this.current_view && !persist){
             var old_view = BB.get({view: this.current_view});
@@ -71,7 +71,7 @@ window.requestAnimFrame = (function(){
      * Set the options passed in and cache the primary selector
      * @param options
      */
-    WRCON.set_options = function(options){
+    BBS.set_options = function(options){
         for (var index in options) {
             var option = options[index];
             this[index] = option;
@@ -85,7 +85,7 @@ window.requestAnimFrame = (function(){
      * Initializes the main object, makes references to the lib's properties, applies options if passed in, starts backbone's router
      * @param options
      */
-    WRCON.init = function(router,options){
+    BBS.init = function(router,options){
         // Create references to the lib's properties
         if(this.Lib){
             for(var i in this.Lib){
@@ -101,5 +101,5 @@ window.requestAnimFrame = (function(){
         Backbone.history.start({pushState: true});
     };
 
-    return WRCON;
+    return BBS;
 }));
