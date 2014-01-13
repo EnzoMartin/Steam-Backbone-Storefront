@@ -18,6 +18,7 @@
         "underscore": "latest",
         "moment": "latest",
         "mongojs": "latest",
+        "nano": "latest",
         "azurecache": "latest",
         "newrelic": "latest",
         "q": "latest",
