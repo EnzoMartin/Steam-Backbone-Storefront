@@ -12,10 +12,6 @@ var config = require('./config/config')[env];
 // Connect to mongo
 require('./app/modules/database')(config);
 
-if(process.env.RUN_STEAM_LISTENER){
-    require('./app/modules/steam')();
-}
-
 // Connect to Azure Cache
 if(process.env.CACHE_ENDPOINT){
     // If using Azure Cache, make sure to install Edge and run "node_modules\azurecache\tools\install.bat"
