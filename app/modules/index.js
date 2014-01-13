@@ -1,4 +1,5 @@
 var db = require('./database');
+var Cache = require('./cache');
 
 // Collections
 var Games = db.collection('games');
@@ -131,6 +132,9 @@ exports.parseGame = function(id,game,_id){
             updateLanguages(lang.split('<')[0].trim(),id);
         });
     }
+
+    // Invalidate filter cache
+    Cache.remove('filters');
 };
 
 /**
