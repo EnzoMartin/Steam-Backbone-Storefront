@@ -217,7 +217,7 @@ module.exports = function(app,config){
             if(req.body.data){
                 if(Object.keys(req.body.data).length > 0){
                     games.fetchParseGames(req.body.data);
-                    res.send({success:true,reason:'All\'s shiny, got the following keys: ' + Object.keys(req.body.data)});
+                    res.send({success:true,reason:'All\'s shiny, got ' + Object.keys(req.body.data).length + ' keys, they are: ' + Object.keys(req.body.data)});
                     console.log('Got ' + Object.keys(req.body.data).length + ' games');
                 } else {
                     res.statusCode = 400;
