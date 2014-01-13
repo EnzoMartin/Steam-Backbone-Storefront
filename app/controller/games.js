@@ -112,7 +112,7 @@ exports.fetchParseGames = function(games){
         var game = games[id];
         this.fetchParseGame(game.AppID);
         var revision = game.revision || false;
-        console.log('Fetching game: ' + game.AppID + '; ' + JSON.stringify(game.AppID));
+        console.log('Fetching game: ' + game.AppID + '; ' + JSON.stringify(game));
         if(revision){
             revisions.update(
                 {appid: game.AppID},

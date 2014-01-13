@@ -217,17 +217,17 @@ module.exports = function(app,config){
             if(req.body.data){
                 if(Object.keys(req.body.data).length > 0){
                     games.fetchParseGames(req.body.data);
-                    res.send({success:true,reason:'All\'s shiny, got ' + Object.keys(req.body.data).length + ' keys, they are: ' + Object.keys(req.body.data)});
-                    console.log('Got ' + Object.keys(req.body.data).length + ' games');
+                    res.send({success:true,reason:'All\'s shiny, got ' + Object.keys(req.body.data).length + ' id(s)'});
+                    console.log('Got ' + Object.keys(req.body.data).length + ' id(s)');
                 } else {
                     res.statusCode = 400;
                     res.send({success:false,reason:'"data" object contains no keys'});
-                    console.log('No games found');
+                    console.log('No ids found');
                 }
             } else {
                 res.statusCode = 400;
                 res.send({success:false,reason:'No "data" key found for payload parsing'});
-                console.log('Data key missing');
+                console.log('Data ids missing');
             }
         } else {
             res.statusCode = 403;
