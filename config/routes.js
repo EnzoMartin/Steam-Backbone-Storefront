@@ -215,8 +215,13 @@ module.exports = function(app,config){
     app.post('/api/populate',function(req,res){
         if(req.body.secret === config.listener_secret){
             if(req.body.data){
-                games.fetchParseGames(req.body.data);
-                res.send({success:true});
+                if(Object.keys(req.body.data).length > 0){
+                    games.fetchParseGames(req.body.data);
+                    res.send({success:true});
+                } else {
+                    res.statusCode = 400;
+                    res.send({success:false,reason:'"data" object contains no keys'});
+                }
             } else {
                 res.statusCode = 400;
                 res.send({success:false,reason:'No "data" key found for payload parsing'});
