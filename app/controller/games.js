@@ -10,14 +10,19 @@ var Games = db.collection('games');
  * Add game to the cache
  * @param id
  * @param game
+ * @param cache {boolean} Cache even if not already cached
  */
-var addToCache = function(id,game){
-    game.escaped_name = escape(game.name);
-    game.escaped_detailed_description = escape(game.detailed_description);
-    if(game.legal_notice){
-        game.escaped_legal_notice = escape(game.legal_notice);
-    }
-    Cache.put('app-'+id,game,7200);
+var addToCache = function(id,game,cache){
+    Cache.get('app-'+id, function(error, data){
+        if (data || cache) {
+            game.escaped_name = escape(game.name);
+            game.escaped_detailed_description = escape(game.detailed_description);
+            if (game.legal_notice) {
+                game.escaped_legal_notice = escape(game.legal_notice);
+            }
+            Cache.put('app-' + id, game, 7200);
+        }
+    });
 };
 
 /**
@@ -53,9 +58,11 @@ function fetchParseGame(id,callback,_id){
             game = game[id].data;
             game.steam_appid = parseInt(game.steam_appid,10);
             Index.parseGame(id,game,_id);
-            addToCache(id,game);
+            addToCache(id,game,typeof callback === 'function');
         }
-        callback(data);
+        if(typeof callback === 'function'){
+            callback(data);
+        }
     });
 }
 
@@ -94,6 +101,16 @@ exports.getGameById = function(id,callback){
 
 // Export it for Grunt use
 exports.fetchParseGame = fetchParseGame;
+
+/**
+ * Loops over multiple games and delegates to fetchParseGame
+ * @param games {{}}
+ */
+exports.fetchParseGames = function(games){
+    for(var id in games){
+        this.fetchParseGame(id);
+    }
+};
 
 // If cache is not initialized, skip caching and eliminate a function call
 if(typeof Cache === 'function'){
