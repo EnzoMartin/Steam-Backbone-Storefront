@@ -115,7 +115,10 @@ exports.fetchParseGames = function(games){
         if(revision){
             revisions.update(
                 {appid: id},
-                {$set : games[id].revision },
+                {$set : {
+                        revision: games[id].revision
+                    }
+                },
                 {upsert: true}
             );
         }
