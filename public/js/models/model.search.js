@@ -11,6 +11,7 @@
                 var model = this;
                 if(BB.bootstrapped.filters){
                     this.set(BB.bootstrapped.filters);
+                    BB.bootstrapped.filters = false;
                 } else {
                     $.ajax({
                         url: '/api/filters',
@@ -72,6 +73,7 @@
                             model.collection.add(new BB.model_definitions.game(item));
                         });
                         this.set({results:BB.bootstrapped.results,bootstrapped:true});
+                        BB.bootstrapped.results = false;
                     } else {
                         this.set({error: 'Nothing matched your search terms, please try different ones'});
                     }
