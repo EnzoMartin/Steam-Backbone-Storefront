@@ -111,6 +111,7 @@ exports.fetchParseGames = function(games){
     for(var id in games){
         this.fetchParseGame(id);
         var revision = games[id].revision || false;
+        console.log('Fetching game: ' + id + '; ' + JSON.stringify(games[id]));
         if(revision){
             revisions.update(
                 {appid: id},
