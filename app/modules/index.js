@@ -27,12 +27,14 @@ exports.parseGame = function(id,game,_id){
     // Save the game, update if it already exists
     if(_id){
         game._id = _id;
+        Games.save(game);
+    } else {
+        Games.update(
+            {steam_appid: id},
+            {$set: game},
+            {upsert: true}
+        );
     }
-    Games.update(
-        {steam_appid: id},
-        {$set: game},
-        {upsert: true}
-    );
 
     // Save the total achievement count for the game
     if(typeof game.achievements === 'object'){
