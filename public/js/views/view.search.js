@@ -110,14 +110,20 @@
             id: 'search-results',
 
             events: {
-
+                'click .label': 'search'
             },
 
             initialize: function(){
                 this.listenTo(this.model, 'change', this.render);
             },
 
-            render: function(){
+            search: function(event){
+                event.preventDefault();
+                history.pushState({}, document.title, event.currentTarget.href);
+                this.model.sync();
+            },
+
+            render: function(a,b,c,d){
                 var view = this;
                 dust.render(this.template, this.model.toJSON(), function(err, out) {
                     view.$el.html(out);
