@@ -28,6 +28,9 @@
                 } else {
                     this.model.unset('bootstrapped');
                 }
+
+                // Re-render form when updating the URL from results
+                this.listenTo(this.subviews.resultsView,'url',this.renderForm);
             },
 
             submit_form: function (event) {
@@ -120,6 +123,7 @@
             search: function(event){
                 event.preventDefault();
                 history.pushState({}, document.title, event.currentTarget.href);
+                this.trigger('url');
                 this.model.sync();
             },
 
