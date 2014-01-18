@@ -10,31 +10,55 @@ var indexes = {
      * Total achievement count index
      * @param doc {{}}
      */
-    achievements: function(doc){
-        index('achievements',typeof doc.achievements !== 'undefined' ? doc.achievements.total : 0);
+    achievements: {
+        views: {},
+        indexes: {
+            achievements: {
+                analyzer: 'standard',
+                index: function(doc){
+                    index('achievements',typeof doc.achievements !== 'undefined' ? doc.achievements.total : 0);
+                }
+            }
+        }
     },
 
     /**
      * Game has demo or not
      * @param doc {{}}
      */
-    demo: function(doc){
-        index('demo',typeof doc.demos === 'object');
+    demo: {
+        views: {},
+        indexes: {
+            demo: {
+                analyzer: 'standard',
+                index: function(doc){
+                    index('demo',typeof doc.demos === 'object');
+                }
+            }
+        }
     },
 
     /**
      * Categories types index by id
      * @param doc {{}}
      */
-    categoryId: function(doc){
-        if(typeof doc.categories !== 'undefined'){
-            var i = 0;
-            var len = doc.categories.length;
-        
-            while(i < len){
-                var category = doc.categories[i];
-                index('categoryId',parseInt(category.id,10));
-                i++;
+    categoryId: {
+        views: {},
+        indexes: {
+            categoryId: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.categories !== 'undefined'){
+                        var i = 0;
+                        var len = doc.categories.length;
+
+                        while(i < len){
+                            var category = doc.categories[i];
+                            index('categoryId',parseInt(category.id,10));
+                            i++;
+                        }
+                    }
+                }
             }
         }
     },
@@ -43,15 +67,23 @@ var indexes = {
      * Categories types index by name
      * @param doc {{}}
      */
-    categoryName: function(doc){
-        if(typeof doc.categories !== 'undefined'){
-            var i = 0;
-            var len = doc.categories.length;
+    categoryName: {
+        views: {},
+        indexes: {
+            categoryName: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.categories !== 'undefined'){
+                        var i = 0;
+                        var len = doc.categories.length;
 
-            while(i < len){
-                var category = doc.categories[i];
-                index('categoryName',category.description);
-                i++;
+                        while(i < len){
+                            var category = doc.categories[i];
+                            index('categoryName',category.description);
+                            i++;
+                        }
+                    }
+                }
             }
         }
     },
@@ -60,14 +92,22 @@ var indexes = {
      * Developers index
      * @param doc {{}}
      */
-    developers: function(doc){
-        if(typeof doc.developers !== 'undefined'){
-            var i = 0;
-            var len = doc.developers.length;
-        
-            while(i < len){
-                index('developer',doc.developers[i]);
-                i++;
+    developers: {
+        views: {},
+        indexes: {
+            developers: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.developers !== 'undefined'){
+                        var i = 0;
+                        var len = doc.developers.length;
+
+                        while(i < len){
+                            index('developer',doc.developers[i]);
+                            i++;
+                        }
+                    }
+                }
             }
         }
     },
@@ -76,14 +116,22 @@ var indexes = {
      * Genres types index by id
      * @param doc {{}}
      */
-    genreId: function(doc){
-        if(typeof doc.genres !== 'undefined'){
-            var i = 0;
-            var len = doc.genres.length;
-            while(i < len){
-                var genre = doc.genres[i];
-                index('genreId', parseInt(genre.id,10));
-                i++;
+    genreId: {
+        views: {},
+        indexes: {
+            genreId: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.genres !== 'undefined'){
+                        var i = 0;
+                        var len = doc.genres.length;
+                        while(i < len){
+                            var genre = doc.genres[i];
+                            index('genreId', parseInt(genre.id,10));
+                            i++;
+                        }
+                    }
+                }
             }
         }
     },
@@ -92,14 +140,22 @@ var indexes = {
      * Genres types index by name
      * @param doc {{}}
      */
-    genreName: function(doc){
-        if(typeof doc.genres !== 'undefined'){
-            var i = 0;
-            var len = doc.genres.length;
-            while(i < len){
-                var genre = doc.genres[i];
-                index('genreName', genre.description);
-                i++;
+    genreName: {
+        views: {},
+        indexes: {
+            genreName: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.genres !== 'undefined'){
+                        var i = 0;
+                        var len = doc.genres.length;
+                        while(i < len){
+                            var genre = doc.genres[i];
+                            index('genreName', genre.description);
+                            i++;
+                        }
+                    }
+                }
             }
         }
     },
@@ -108,9 +164,17 @@ var indexes = {
      * Metacritic index
      * @param doc {{}}
      */
-    metacritic: function(doc){
-        if(typeof doc.metacritic.score !== 'undefined'){
-            index('metacritic',game.metacritic.score);
+    metacritic: {
+        views: {},
+        indexes: {
+            metacritic: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.metacritic.score !== 'undefined'){
+                        index('metacritic',game.metacritic.score);
+                    }
+                }
+            }
         }
     },
 
@@ -118,10 +182,18 @@ var indexes = {
      * Platform index
      * @param doc {{}}
      */
-    platform: function(doc){
-        if(typeof doc.platforms === 'object'){
-            for(var platform in doc.platforms){
-                index('platform',doc.platforms[platform]);
+    platform: {
+        views: {},
+        indexes: {
+            platform: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.platforms === 'object'){
+                        for(var platform in doc.platforms){
+                            index('platform',doc.platforms[platform]);
+                        }
+                    }
+                }
             }
         }
     },
@@ -130,14 +202,22 @@ var indexes = {
      * Publishers index
      * @param doc {{}}
      */
-    publishers: function(doc){
-        if(typeof doc.publishers === 'object'){
-            var i = 0;
-            var len = doc.publishers.length;
-    
-            while(i < len){
-                index('publisher',doc.publishers[i]);
-                i++;
+    publishers: {
+        views: {},
+        indexes: {
+            publishers: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.publishers === 'object'){
+                        var i = 0;
+                        var len = doc.publishers.length;
+
+                        while(i < len){
+                            index('publisher',doc.publishers[i]);
+                            i++;
+                        }
+                    }
+                }
             }
         }
     },
@@ -146,9 +226,17 @@ var indexes = {
      * Recommendations count index
      * @param doc {{}}
      */
-    recommendations: function(doc){
-        if(typeof doc.recommendations === 'object'){
-            index('recommendations',parseInt(doc.recommendations.total,10));
+    recommendations: {
+        views: {},
+        indexes: {
+            recommendations: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.recommendations === 'object'){
+                        index('recommendations',parseInt(doc.recommendations.total,10));
+                    }
+                }
+            }
         }
     },
 
@@ -156,11 +244,19 @@ var indexes = {
      * Languages index
      * @param doc {{}}
      */
-    languages: function(doc){
-        if(typeof doc.supported_languages === 'string'){
-            doc.supported_languages.split(',').forEach(function(lang){
-                index('language',lang.split('<')[0].trim());
-            });
+    languages: {
+        views: {},
+        indexes: {
+            languages: {
+                analyzer: 'standard',
+                index: function(doc){
+                    if(typeof doc.supported_languages === 'string'){
+                        doc.supported_languages.split(',').forEach(function(lang){
+                            index('language',lang.split('<')[0].trim());
+                        });
+                    }
+                }
+            }
         }
     }
 };
@@ -185,23 +281,15 @@ function updateDesignDocs(revisions){
     // Build the design documents for bulk insert/update
     var docs = [];
     for(var name in indexes){
-        var indexObj = {
-            _id: '_design/' + name,
-            views: {},
-            language: 'javascript',
-            indexes: {}
-        };
+        var indexObj = indexes[name];
+        indexObj._id = '_design/' + name;
+        indexObj.language = 'javascript';
 
         // Check if document exists so we can specify the revision
         if(rows[indexObj._id]){
             indexObj._rev = rows[indexObj._id];
             delete rows[indexObj._id];
         }
-
-        indexObj.indexes[name] = {
-            analyzer: 'standard',
-            index: indexes[name]
-        };
 
         docs.push(indexObj);
     }
