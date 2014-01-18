@@ -1,10 +1,10 @@
-var db = require('../modules/database');
+var nano = require('../modules/database');
 var Cache = require('../modules/cache');
 var Q = require('q');
 
 // Collections
-var Games = db.collection('games');
-var AchievementsIndex = db.collection('achievements_index');
+var Games = nano.db.use('steam');
+/*var AchievementsIndex = db.collection('achievements_index');
 var CategoriesIndex = db.collection('categories_index');
 var DevelopersIndex = db.collection('developers_index');
 var GenresIndex = db.collection('genres_index');
@@ -13,7 +13,7 @@ var LanguagesIndex = db.collection('languages_index');
 var MetacriticIndex = db.collection('metacritic_index');
 var PlatformsIndex = db.collection('platforms_index');
 var PublishersIndex = db.collection('publishers_index');
-var RecommendationsIndex = db.collection('recommendations_index');
+var RecommendationsIndex = db.collection('recommendations_index');*/
 
 /**
  * Make a query promise and return the promise

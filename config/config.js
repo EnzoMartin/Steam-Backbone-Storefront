@@ -2,7 +2,9 @@ module.exports = {
     development:{
         root: require('path').normalize(__dirname + '/..'),
         port: 3000,
-		db: 'mongodb://localhost/steam',
+		cloudant_url: 'http://user:password@127.0.0.1:5984/',
+		cloudant_user: 'root',
+		cloudant_password: 'root',
         secret: 'c0g8+em8x%@=45%^kdrn=&+$1qgw91dsn@a6z3pwoyx_&y++fs',
         generate_templates: false,
         listener_secret: 'test',
@@ -14,7 +16,9 @@ module.exports = {
     staging:{
         root: require('path').normalize(__dirname + '/..'),
         port: process.env.PORT,
-		db: process.env.MONGO,
+		cloudant_url: process.env.CLOUDANT_URL,
+		cloudant_user: process.env.CLOUDANT_USER,
+		cloudant_password: process.env.CLOUDANT_PASSWORD,
 		secret: process.env.SECRET,
         generate_templates: true,
         listener_secret: process.env.LISTENER_SECRET,
@@ -29,7 +33,9 @@ module.exports = {
     production:{
         root: require('path').normalize(__dirname + '/..'),
         port: process.env.PORT,
-        db: process.env.MONGO,
+        cloudant_url: process.env.CLOUDANT_URL,
+		cloudant_user: process.env.CLOUDANT_USER,
+		cloudant_password: process.env.CLOUDANT_PASSWORD,
         secret: process.env.SECRET,
         generate_templates: true,
         listener_secret: process.env.LISTENER_SECRET,

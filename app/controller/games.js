@@ -1,10 +1,10 @@
-var db = require('../modules/database');
+var nano = require('../modules/database');
 var steam_fetch = require('../modules/steam-url');
 var Cache = require('../modules/cache');
 var Index = require('../modules/index');
 
 // Collections
-var Games = db.collection('games');
+var Games = nano.db.use('steam');
 
 /**
  * Add game to the cache
@@ -72,9 +72,7 @@ function fetchParseGame(id,callback,_id){
  * @param callback
  */
 var getGameById = function(id,callback){
-    Games.findOne({
-        steam_appid: id
-    },function(err, data){
+    Games.get(id,function(err, data){
         if(err || data == null){
             fetchParseGame(id,callback);
         } else {

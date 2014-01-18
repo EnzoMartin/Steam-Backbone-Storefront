@@ -24,13 +24,16 @@ You can view the in-development version here: http://steam-backbone.azurewebsite
 * [Node JS](http://nodejs.org/)
 * [Hosted on Azure](http://www.windowsazure.com/)
 * [New Relic](http://newrelic.com/)
+* [Cloudant](https://cloudant.com/)
  
 #####Backend
 * [Express](http://expressjs.com/)
 * [JADE](http://jade-lang.com/)
 * [i18next](http://i18next.com/node/)
 * [GruntJS](http://gruntjs.com/)
-* [MongoDB](http://www.mongodb.org/)
+* [Nano](https://github.com/dscape/nano)
+* [Q](https://github.com/kriskowal/q)
+* [CouchDB](http://couchdb.apache.org/)
 
 #####Frontend
 * [Backbone](http://backbonejs.org/)
