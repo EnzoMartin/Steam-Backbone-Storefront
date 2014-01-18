@@ -8,7 +8,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name : ['Steam Backbone'],
+  app_name : ['Steam Backbone Mongo'],
   /**
    * Your New Relic license key.
    */
