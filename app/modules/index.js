@@ -23,10 +23,10 @@ var indexes = {
     },
 
     /**
-     * Categories types index
+     * Categories types index by id
      * @param doc {{}}
      */
-    categories: function(doc){
+    categoryId: function(doc){
         if(typeof doc.categories !== 'undefined'){
             var i = 0;
             var len = doc.categories.length;
@@ -34,6 +34,22 @@ var indexes = {
             while(i < len){
                 var category = doc.categories[i];
                 index('categoryId',parseInt(category.id,10));
+                i++;
+            }
+        }
+    },
+
+    /**
+     * Categories types index by name
+     * @param doc {{}}
+     */
+    categoryName: function(doc){
+        if(typeof doc.categories !== 'undefined'){
+            var i = 0;
+            var len = doc.categories.length;
+
+            while(i < len){
+                var category = doc.categories[i];
                 index('categoryName',category.description);
                 i++;
             }
@@ -57,16 +73,31 @@ var indexes = {
     },
 
     /**
-     * Genres types index
+     * Genres types index by id
      * @param doc {{}}
      */
-    genres: function(doc){
+    genreId: function(doc){
         if(typeof doc.genres !== 'undefined'){
             var i = 0;
             var len = doc.genres.length;
             while(i < len){
                 var genre = doc.genres[i];
                 index('genreId', parseInt(genre.id,10));
+                i++;
+            }
+        }
+    },
+
+    /**
+     * Genres types index by name
+     * @param doc {{}}
+     */
+    genreName: function(doc){
+        if(typeof doc.genres !== 'undefined'){
+            var i = 0;
+            var len = doc.genres.length;
+            while(i < len){
+                var genre = doc.genres[i];
                 index('genreName', genre.description);
                 i++;
             }
