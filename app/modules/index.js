@@ -34,18 +34,9 @@ var indexes = {
      */
     demo: {
         views: {
-            hasDemo: {
+            demo: {
                 map: function(doc){
-                    if(typeof doc.demo === 'object'){
-                        emit(doc._id,true);
-                    }
-                }
-            },
-            noDemo: {
-                map: function(doc){
-                    if(typeof doc.demo !== 'object'){
-                        emit(doc._id,false);
-                    }
+                    emit(typeof doc.demos === 'object',null);
                 }
             }
         },
@@ -73,7 +64,7 @@ var indexes = {
 
                         while(i < len){
                             var category = doc.categories[i];
-                            emit(doc._id,parseInt(category.id,10));
+                            emit(parseInt(category.id,10),null);
                             i++;
                         }
                     }
@@ -113,7 +104,7 @@ var indexes = {
 
                         while(i < len){
                             var category = doc.categories[i];
-                            emit(doc._id,category.description);
+                            emit(category.description,null);
                             i++;
                         }
                     }
@@ -152,7 +143,7 @@ var indexes = {
                         var len = doc.developers.length;
 
                         while(i < len){
-                            emit(doc._id,doc.developers[i]);
+                            emit(doc.developers[i],null);
                             i++;
                         }
                     }
@@ -190,7 +181,7 @@ var indexes = {
                         var len = doc.genres.length;
                         while(i < len){
                             var genre = doc.genres[i];
-                            emit(doc._id, parseInt(genre.id,10));
+                            emit(parseInt(genre.id,10),null);
                             i++;
                         }
                     }
@@ -228,7 +219,7 @@ var indexes = {
                         var len = doc.genres.length;
                         while(i < len){
                             var genre = doc.genres[i];
-                            emit(doc._id, genre.description);
+                            emit(genre.description,null);
                             i++;
                         }
                     }
@@ -262,7 +253,7 @@ var indexes = {
             metacritic: {
                 map: function(doc){
                     if(typeof doc.metacritic !== 'undefined'){
-                        emit(doc._id,game.metacritic.score);
+                        emit(game.metacritic.score,null);
                     }
                 }
             }
@@ -289,7 +280,7 @@ var indexes = {
                 map: function(doc){
                     if(typeof doc.platforms === 'object'){
                         for(var platform in doc.platforms){
-                            index(doc._id,doc.platforms[platform]);
+                            emit(doc.platforms[platform],null);
                         }
                     }
                 }
@@ -322,7 +313,7 @@ var indexes = {
                         var len = doc.publishers.length;
 
                         while(i < len){
-                            emit(doc._id,doc.publishers[i]);
+                            emit(doc.publishers[i],null);
                             i++;
                         }
                     }
@@ -356,7 +347,7 @@ var indexes = {
             recommendations: {
                 map: function(doc){
                     if(typeof doc.recommendations === 'object'){
-                        index(doc._id,parseInt(doc.recommendations.total,10));
+                        emit(parseInt(doc.recommendations.total,10),null);
                     }
                 }
             }
@@ -383,7 +374,7 @@ var indexes = {
                 map: function(doc){
                     if(typeof doc.supported_languages === 'string'){
                         doc.supported_languages.split(',').forEach(function(lang){
-                            emit(doc._id,lang.split('<')[0].trim());
+                            emit(lang.split('<')[0].trim(),null);
                         });
                     }
                 }
