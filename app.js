@@ -13,7 +13,7 @@ var config = require('./config/config')[env];
 require('./app/modules/database')(config);
 
 // Connect to Azure Cache
-if(process.env.CACHE_ENDPOINT){
+if(config.use_cache){
     // If using Azure Cache, make sure to install Edge and run "node_modules\azurecache\tools\install.bat"
     require('./app/modules/cache')();
 } else {
