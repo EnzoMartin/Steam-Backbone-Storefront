@@ -11,7 +11,13 @@ var indexes = {
      * @param doc {{}}
      */
     achievements: {
-        views: {},
+        views: {
+            achievements: {
+                map: function(doc){
+                    emit(doc._id,typeof doc.achievements !== 'undefined' ? doc.achievements.total : 0);
+                }
+            }
+        },
         indexes: {
             achievements: {
                 analyzer: 'standard',
@@ -27,7 +33,22 @@ var indexes = {
      * @param doc {{}}
      */
     demo: {
-        views: {},
+        views: {
+            hasDemo: {
+                map: function(doc){
+                    if(typeof doc.demo === 'object'){
+                        emit(doc._id,true);
+                    }
+                }
+            },
+            noDemo: {
+                map: function(doc){
+                    if(typeof doc.demo !== 'object'){
+                        emit(doc._id,false);
+                    }
+                }
+            }
+        },
         indexes: {
             demo: {
                 analyzer: 'standard',
@@ -43,7 +64,22 @@ var indexes = {
      * @param doc {{}}
      */
     categoryId: {
-        views: {},
+        views: {
+            categoryId: {
+                map: function(doc){
+                    if(typeof doc.categories !== 'undefined'){
+                        var i = 0;
+                        var len = doc.categories.length;
+
+                        while(i < len){
+                            var category = doc.categories[i];
+                            emit(doc._id,parseInt(category.id,10));
+                            i++;
+                        }
+                    }
+                }
+            }
+        },
         indexes: {
             categoryId: {
                 analyzer: 'standard',
@@ -68,7 +104,22 @@ var indexes = {
      * @param doc {{}}
      */
     categoryName: {
-        views: {},
+        views: {
+            categoryName: {
+                map: function(doc){
+                    if(typeof doc.categories !== 'undefined'){
+                        var i = 0;
+                        var len = doc.categories.length;
+
+                        while(i < len){
+                            var category = doc.categories[i];
+                            emit(doc._id,category.description);
+                            i++;
+                        }
+                    }
+                }
+            }
+        },
         indexes: {
             categoryName: {
                 analyzer: 'standard',
@@ -93,7 +144,21 @@ var indexes = {
      * @param doc {{}}
      */
     developers: {
-        views: {},
+        views: {
+            developers: {
+                map: function(doc){
+                    if(typeof doc.developers !== 'undefined'){
+                        var i = 0;
+                        var len = doc.developers.length;
+
+                        while(i < len){
+                            emit(doc._id,doc.developers[i]);
+                            i++;
+                        }
+                    }
+                }
+            }
+        },
         indexes: {
             developers: {
                 analyzer: 'standard',
@@ -117,7 +182,21 @@ var indexes = {
      * @param doc {{}}
      */
     genreId: {
-        views: {},
+        views: {
+            genreId: {
+                map: function(doc){
+                    if(typeof doc.genres !== 'undefined'){
+                        var i = 0;
+                        var len = doc.genres.length;
+                        while(i < len){
+                            var genre = doc.genres[i];
+                            emit(doc._id, parseInt(genre.id,10));
+                            i++;
+                        }
+                    }
+                }
+            }
+        },
         indexes: {
             genreId: {
                 analyzer: 'standard',
@@ -141,7 +220,21 @@ var indexes = {
      * @param doc {{}}
      */
     genreName: {
-        views: {},
+        views: {
+            genreName: {
+                map: function(doc){
+                    if(typeof doc.genres !== 'undefined'){
+                        var i = 0;
+                        var len = doc.genres.length;
+                        while(i < len){
+                            var genre = doc.genres[i];
+                            emit(doc._id, genre.description);
+                            i++;
+                        }
+                    }
+                }
+            }
+        },
         indexes: {
             genreName: {
                 analyzer: 'standard',
@@ -165,12 +258,20 @@ var indexes = {
      * @param doc {{}}
      */
     metacritic: {
-        views: {},
+        views: {
+            metacritic: {
+                map: function(doc){
+                    if(typeof doc.metacritic !== 'undefined'){
+                        emit(doc._id,game.metacritic.score);
+                    }
+                }
+            }
+        },
         indexes: {
             metacritic: {
                 analyzer: 'standard',
                 index: function(doc){
-                    if(typeof doc.metacritic.score !== 'undefined'){
+                    if(typeof doc.metacritic !== 'undefined'){
                         index('metacritic',game.metacritic.score);
                     }
                 }
@@ -183,7 +284,17 @@ var indexes = {
      * @param doc {{}}
      */
     platform: {
-        views: {},
+        views: {
+            platform: {
+                map: function(doc){
+                    if(typeof doc.platforms === 'object'){
+                        for(var platform in doc.platforms){
+                            index(doc._id,doc.platforms[platform]);
+                        }
+                    }
+                }
+            }
+        },
         indexes: {
             platform: {
                 analyzer: 'standard',
@@ -203,7 +314,21 @@ var indexes = {
      * @param doc {{}}
      */
     publishers: {
-        views: {},
+        views: {
+            publishers: {
+                map: function(doc){
+                    if(typeof doc.publishers === 'object'){
+                        var i = 0;
+                        var len = doc.publishers.length;
+
+                        while(i < len){
+                            emit(doc._id,doc.publishers[i]);
+                            i++;
+                        }
+                    }
+                }
+            }
+        },
         indexes: {
             publishers: {
                 analyzer: 'standard',
@@ -227,7 +352,15 @@ var indexes = {
      * @param doc {{}}
      */
     recommendations: {
-        views: {},
+        views: {
+            recommendations: {
+                map: function(doc){
+                    if(typeof doc.recommendations === 'object'){
+                        index(doc._id,parseInt(doc.recommendations.total,10));
+                    }
+                }
+            }
+        },
         indexes: {
             recommendations: {
                 analyzer: 'standard',
@@ -245,7 +378,17 @@ var indexes = {
      * @param doc {{}}
      */
     languages: {
-        views: {},
+        views: {
+            languages: {
+                map: function(doc){
+                    if(typeof doc.supported_languages === 'string'){
+                        doc.supported_languages.split(',').forEach(function(lang){
+                            emit(doc._id,lang.split('<')[0].trim());
+                        });
+                    }
+                }
+            }
+        },
         indexes: {
             languages: {
                 analyzer: 'standard',
