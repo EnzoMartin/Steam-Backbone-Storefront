@@ -14,7 +14,7 @@ var indexes = {
         views: {
             achievements: {
                 map: function(doc){
-                    emit(doc._id,typeof doc.achievements !== 'undefined' ? doc.achievements.total : 0);
+                    emit(typeof doc.achievements !== 'undefined' ? doc.achievements.total : 0,null);
                 }
             }
         },
