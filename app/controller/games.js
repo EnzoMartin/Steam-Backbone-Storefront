@@ -105,22 +105,10 @@ exports.fetchParseGame = fetchParseGame;
  * @param games {{}}
  */
 exports.fetchParseGames = function(games){
-    var revisions = db.collection('revisions');
     for(var id in games){
         var game = games[id];
         this.fetchParseGame(game.AppID);
-        var revision = game.revision || false;
         console.log('Fetching game: ' + game.AppID + '; ' + JSON.stringify(game));
-        if(revision){
-            revisions.update(
-                {appid: game.AppID},
-                {$set : {
-                        revision: game.revision
-                    }
-                },
-                {upsert: true}
-            );
-        }
     }
 };
 
