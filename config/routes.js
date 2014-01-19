@@ -215,8 +215,18 @@ module.exports = function(app,config){
     app.post('/api/populate',function(req,res){
         if(req.body.secret === config.listener_secret){
             if(req.body.data){
-                games.GameQueue.push(req.body.data);
-                res.send({success:true,reason:'All\'s shiny. Request ' + req.body.current + ' of ' + req.body.total});
+                var len = req.body.data.length;
+                if(len){
+                    var i = 0;
+                    while(i < len){
+                        games.GameQueue.push(req.body.data[i]);
+                        i++;
+                    }
+                    res.send({success:true,reason:'All\'s shiny. Request ' + req.body.current + ' of ' + req.body.total});
+                } else {
+                    res.statusCode = 400;
+                    res.send({success:false,reason:'"data" object contains no keys'});
+                }
             } else {
                 res.statusCode = 400;
                 res.send({success:false,reason:'No "data" key found for payload parsing'});
