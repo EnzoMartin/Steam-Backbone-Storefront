@@ -59,7 +59,13 @@ function fetchParseGame(id,callback,data){
     steam_fetch('appdetails?appids=' + id,function(response){
         var game = JSON.parse(response);
 
-        if(game && game[id].data){
+        if(game){
+            if(typeof game[id].data === 'undefined'){
+                game[id].data = {
+                    name: 'Unknown'
+                }
+            }
+
             game = game[id].data;
             game.steam_appid = parseInt(game.steam_appid,10);
             Index.parseGame(id,game,data);
@@ -129,7 +135,7 @@ exports.processQueue = function(){
     while(i < len){
         var game = games[i];
         if(typeof game.AppID !== 'undefined'){
-            this.fetchParseGame(game.AppID,null,game);
+            this.fetchParseGame(game.AppID,null,game.data || {name: 'Unknown'});
         }
         i++;
     }
