@@ -216,7 +216,7 @@ module.exports = function(app,config){
         if(req.body.secret === config.listener_secret){
             if(req.body.data){
                 games.GameQueue.push(req.body.data);
-                res.send({success:true,reason:'All\'s shiny'});
+                res.send({success:true,reason:'All\'s shiny. Request ' + req.body.current + ' of ' + req.body.total});
             } else {
                 res.statusCode = 400;
                 res.send({success:false,reason:'No "data" key found for payload parsing'});
