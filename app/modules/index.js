@@ -373,9 +373,14 @@ var indexes = {
             languages: {
                 map: function(doc){
                     if(typeof doc.supported_languages === 'string'){
-                        doc.supported_languages.split(',').forEach(function(lang){
+                        var languages = doc.supported_languages.split(',');
+                        var i = 0;
+                        var len = languages.length;
+                        while(i < len){
+                            var lang = languages[i];
                             emit(lang.split('<')[0].trim(),null);
-                        });
+                            i++;
+                        }
                     }
                 }
             }
@@ -385,9 +390,14 @@ var indexes = {
                 analyzer: 'standard',
                 index: function(doc){
                     if(typeof doc.supported_languages === 'string'){
-                        doc.supported_languages.split(',').forEach(function(lang){
-                            index('language',lang.split('<')[0].trim());
-                        });
+                        var languages = doc.supported_languages.split(',');
+                        var i = 0;
+                        var len = languages.length;
+                        while(i < len){
+                            var lang = languages[i];
+                            emit(lang.split('<')[0].trim(),null);
+                            i++;
+                        }
                     }
                 }
             }
