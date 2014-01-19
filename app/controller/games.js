@@ -6,6 +6,10 @@ var Index = require('../modules/index');
 // Collections
 var Games = nano.db.use('steam');
 
+// Game processing queue
+var GameQueue = [];
+exports.GameQueue = GameQueue;
+
 /**
  * Add game to the cache
  * @param id
@@ -49,14 +53,16 @@ function responseFormat(id,data,escaped){
  * Fetch the game from Steam
  * @param id number
  * @param callback function
+ * @param data {{}} data received from listener
  */
-function fetchParseGame(id,callback){
-    steam_fetch('appdetails?appids=' + id,function(data){
-        var game = JSON.parse(data);
+function fetchParseGame(id,callback,data){
+    steam_fetch('appdetails?appids=' + id,function(response){
+        var game = JSON.parse(response);
+
         if(game && game[id].data){
             game = game[id].data;
             game.steam_appid = parseInt(game.steam_appid,10);
-            Index.parseGame(id,game);
+            Index.parseGame(id,game,data);
             addToCache(id,game,typeof callback === 'function');
         }
         if(typeof callback === 'function'){
@@ -107,6 +113,25 @@ exports.fetchParseGames = function(games){
     for(var id in games){
         var game = games[id];
         this.fetchParseGame(game.AppID);
+    }
+};
+
+/**
+ * Process the queue of games and reset it
+ */
+exports.processQueue = function(){
+    // Clone array and empty the queue
+    var games = JSON.parse(JSON.stringify(GameQueue));
+    GameQueue = [];
+
+    var i = 0;
+    var len = games.length;
+    while(i < len){
+        var game = games[i];
+        if(typeof game.AppID !== 'undefined'){
+            this.fetchParseGame(game.AppID,null,game);
+        }
+        i++;
     }
 };
 

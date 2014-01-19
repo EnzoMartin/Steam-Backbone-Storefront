@@ -215,16 +215,16 @@ module.exports = function(app,config){
     app.post('/api/populate',function(req,res){
         if(req.body.secret === config.listener_secret){
             if(req.body.data){
-                if(Object.keys(req.body.data).length > 0){
-                    games.fetchParseGames(req.body.data);
-                    res.send({success:true,reason:'All\'s shiny, got ' + Object.keys(req.body.data).length + ' id(s)'});
-                } else {
-                    res.statusCode = 400;
-                    res.send({success:false,reason:'"data" object contains no keys'});
-                }
+                games.GameQueue.push(req.body.data);
+                res.send({success:true,reason:'All\'s shiny'});
             } else {
                 res.statusCode = 400;
                 res.send({success:false,reason:'No "data" key found for payload parsing'});
+            }
+
+            if(req.body.current == req.body.total){
+                // Parse the accumulated queue
+                games.processQueue();
             }
         } else {
             res.statusCode = 403;

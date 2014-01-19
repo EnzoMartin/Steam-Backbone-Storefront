@@ -460,14 +460,24 @@ function updateDesignDocs(revisions){
 /**
  * Parses information from a game to build the search indexes
  * @param id number
- * @param game {{}}
+ * @param game {{}} data from steam api
+ * @param data {{}} data from listener
  */
-exports.parseGame = function(id,game){
+exports.parseGame = function(id,game,data){
     // Fetch head only to see if game already exists
     Games.head('app-'+id,function(err, _, headers){
         // Append current revision if document found
         if(typeof headers !== 'undefined'){
             game._rev = headers.etag.replace(/"/g,'');
+        }
+
+        if(typeof data === 'object'){
+            // If we're getting the game from the listener merge the data together
+            for(var key in data){
+                if(typeof game[key] === 'undefined'){
+                    game[key] = data[key];
+                }
+            }
         }
 
         // Insert/update game
