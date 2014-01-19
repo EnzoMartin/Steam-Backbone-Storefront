@@ -452,9 +452,7 @@ function updateDesignDocs(revisions){
     // Bulk insert/update/delete the docs
     Games.bulk({docs:docs}, function(err){
         if(err){
-            console.log('Failed updating design docs',err);
-        } else {
-            console.log('Design docs updated');
+            console.error('Failed updating design docs',err);
         }
     });
 }
@@ -473,11 +471,9 @@ exports.parseGame = function(id,game){
         }
 
         // Insert/update game
-        Games.insert(game,'app-'+id,function(err, body){
+        Games.insert(game,'app-'+id,function(err){
             if(err){
-                console.log('Error inserting item',err);
-            } else {
-                console.log('Game inserted', id, body.id);
+                console.error('Error inserting item',err);
             }
 
             // Invalidate filter cache

@@ -218,21 +218,17 @@ module.exports = function(app,config){
                 if(Object.keys(req.body.data).length > 0){
                     games.fetchParseGames(req.body.data);
                     res.send({success:true,reason:'All\'s shiny, got ' + Object.keys(req.body.data).length + ' id(s)'});
-                    console.log('Got ' + Object.keys(req.body.data).length + ' id(s)');
                 } else {
                     res.statusCode = 400;
                     res.send({success:false,reason:'"data" object contains no keys'});
-                    console.log('No ids found');
                 }
             } else {
                 res.statusCode = 400;
                 res.send({success:false,reason:'No "data" key found for payload parsing'});
-                console.log('Data ids missing');
             }
         } else {
             res.statusCode = 403;
             res.send({success:false,reason:'Auth failure',data:req.body});
-            console.log('Secret auth failed');
         }
     });
 

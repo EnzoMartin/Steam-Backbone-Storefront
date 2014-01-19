@@ -49,15 +49,14 @@ function responseFormat(id,data,escaped){
  * Fetch the game from Steam
  * @param id number
  * @param callback function
- * @param [_id] Mongo _id attribute if updating
  */
-function fetchParseGame(id,callback,_id){
+function fetchParseGame(id,callback){
     steam_fetch('appdetails?appids=' + id,function(data){
         var game = JSON.parse(data);
         if(game && game[id].data){
             game = game[id].data;
             game.steam_appid = parseInt(game.steam_appid,10);
-            Index.parseGame(id,game,_id);
+            Index.parseGame(id,game);
             addToCache(id,game,typeof callback === 'function');
         }
         if(typeof callback === 'function'){
@@ -108,7 +107,6 @@ exports.fetchParseGames = function(games){
     for(var id in games){
         var game = games[id];
         this.fetchParseGame(game.AppID);
-        console.log('Fetching game: ' + game.AppID + '; ' + JSON.stringify(game));
     }
 };
 
