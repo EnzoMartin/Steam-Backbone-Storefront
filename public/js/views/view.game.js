@@ -1,7 +1,7 @@
 (function (window){
     requirejs([
         'BB',
-        'Backbone',
+        'backbone',
         'dust'
     ], function(BB,Backbone,dust) {
         BB.view_definitions.game = Backbone.View.extend({

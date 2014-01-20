@@ -1,7 +1,7 @@
 (function (){
     requirejs([
         'BB',
-        'Backbone',
+        'backbone',
         'dust'
     ], function(BB,Backbone,dust) {
         BB.view_definitions.featured = Backbone.View.extend({

@@ -1,11 +1,11 @@
 // TODO: Convert route functions to have require and use bundles instead of doing it in the view/model/collection files
 (function(window){
     define([
-        'underscore',
-        'backbone',
         'BB',
+        'backbone',
+        'jquery',
         'main'
-    ], function(_, Backbone, BB, WR) {
+    ], function(BB,Backbone,$,BBS) {
         return Backbone.Router.extend({
             /**
              * Initializes the header, binds the route event to update header, and binds the history push on click
@@ -40,7 +40,7 @@
              */
             render_loading: function(){
                 var loading = BB.get({view:'loading'});
-                WR.render(loading);
+                BBS.render(loading);
             },
 
             /**
@@ -48,7 +48,7 @@
              */
             render_coming_soon: function(){
                 var coming_soon = BB.get({view:'coming_soon'});
-                WR.render(coming_soon);
+                BBS.render(coming_soon);
             },
 
             /**
@@ -58,7 +58,7 @@
                 var collection = BB.get({collection:'games'});
                 var home = BB.get({view:'home',model:{name:'home',options:{collection:collection}},collection:collection});
                 home.model.fetch();
-                WR.render(home);
+                BBS.render(home);
             },
 
             /**
@@ -68,7 +68,7 @@
                 var collection = BB.get({collection:'games'});
                 var featured = BB.get({view:'featured',model:{name:'featured',options:{collection:collection}},collection:collection});
                 featured.model.fetch();
-                WR.render(featured);
+                BBS.render(featured);
             },
 
             /**
@@ -78,6 +78,7 @@
             render_game: function(id){
                 var collection = BB.get({collection:'games'});
                 var model = collection.get(id);
+                console.log(model)
 
                 if(typeof model === 'undefined'){
                     // Game not found, create and fetch it
@@ -85,9 +86,9 @@
                     model = collection.get(id);
                 }
 
-                model.fetch();
+                //model.fetch();
                 var game = BB.get({view:'game',model:model,collection:collection});
-                WR.render(game);
+                BBS.render(game);
             },
 
             /**
@@ -96,7 +97,7 @@
             render_search: function(){
                 var collection = BB.get({collection:'games'});
                 var search = BB.get({view:'search',model:'search',collection:collection});
-                WR.render(search);
+                BBS.render(search);
             },
 
             routes: {

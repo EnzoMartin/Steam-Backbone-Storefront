@@ -13,16 +13,14 @@ window.requestAnimFrame = (function(){
 
 (function (root, factory) {
     define([
-        'jquery',
-        'underscore',
         'backbone',
         'BB',
         'lib',
         'exports'
-    ], function ($, _, Backbone, BB, lib, exports) {
-        return factory(root, exports, $, _, Backbone, BB, lib);
+    ], function (Backbone, BB, lib, exports) {
+        return factory(root, exports, Backbone, BB, lib);
     });
-}(this, function (root, BBS, $, _, Backbone, BB, Lib) {
+}(this, function (root, BBS, Backbone, BB, Lib) {
 	BBS = {
 		// Object Variables
 		main_ele: '#content',

@@ -76,7 +76,7 @@ block loaderscript
         (function (window, document) {
             "use strict";
             // Use RequireJS to get the base libraries, and then use yepnope to load the rest and show a nice progress bar
-            requirejs(['jquery', 'dust', 'main', 'BB', 'router', 'lib', 'dust-dump', 'dust-indexof'], function($, dust, WRCON, BB, router){
+            requirejs(['jquery', 'dust', 'main', 'BB', 'router', 'lib', 'dust-dump', 'dust-indexof'], function($, dust, BBS, BB, router){
                 // Save bootstrapped data
                 BB.bootstrapped = !{bootstrapped};
 
@@ -88,6 +88,6 @@ block loaderscript
                     dust.loadSource(dust.compile(element.text, element.id));
                     document.getElementById(element.id).parentNode.removeChild(element);
                 }
-                WRCON.init(router);
+                BBS.init(router);
             });
         })(window,document);
