@@ -33,13 +33,11 @@ window.requestAnimFrame = (function(){
     /**
      * Pass in the view to render as the main active view, it will recycle the previously active view unless persist is passed in
      * @param view {*} View object
-     * @param persist {boolean} If the view should not be recycled
      */
-    BBS.render = function(view,persist){
+    BBS.render = function(view){
         var _this = this;
-        if(this.current_view && !persist){
+        if(this.current_view){
             var old_view = BB.get({view: this.current_view});
-
             // Delete any subviews
             if(old_view.subviews){
                 for(var i in old_view.subviews){
