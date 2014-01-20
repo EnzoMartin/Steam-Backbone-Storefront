@@ -471,6 +471,8 @@ exports.parseGame = function(id,game,data){
             game._rev = headers.etag.replace(/"/g,'');
         }
 
+        game.id = id;
+
         if(typeof data === 'object'){
             // If we're getting the game from the listener merge the data together
             for(var key in data){
