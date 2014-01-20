@@ -4,7 +4,7 @@
         'backbone'
     ], function(BB,Backbone) {
         BB.model_definitions.game = Backbone.Model.extend({
-            idAttribute: 'id',
+            idAttribute: 'steam_appid',
 
             url: function(){
                 return '/game/' + this.id;
