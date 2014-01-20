@@ -135,24 +135,21 @@ module.exports = function(app,config){
     });
 
     /**
-     * Fetch package details based off ID(s)
-     * @param packageids {string}
+     * Fetch package details based off ID
+     * @param id {string}
      */
-    app.get('/api/packagedetails',function(req,res){
-        steam_fetch('packagedetails?packageids=' + req.query.packageids,function(data){
+    app.get('/api/package',function(req,res){
+        steam_fetch('packagedetails?packageids=' + parseInt(req.query.id,10),function(data){
             res.send(data);
         });
     });
 
     /**
-     * Fetch specific app based off ID(s)
-     * @param appids {string}
+     * Fetch specific app based off ID
+     * @param id {string}
      */
-    app.get('/api/games',function(req,res){
-        //TODO: Add support for fetching multiple
-        var gameId = parseInt(req.query.appids,10);
-
-        games.getGameById(gameId,function(data){
+    app.get('/api/app',function(req,res){
+        games.getGameById(parseInt(req.query.id,10),function(data){
             res.send(data);
         });
     });
@@ -162,7 +159,7 @@ module.exports = function(app,config){
      * @param id {string}
      */
     app.get('/api/salepage',function(req,res){
-        steam_fetch('salepage?id=' + req.query.id,function(data){
+        steam_fetch('salepage?id=' + parseInt(req.query.id,10),function(data){
             res.send(data);
         });
     });

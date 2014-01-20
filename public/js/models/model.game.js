@@ -8,7 +8,7 @@
             idAttribute: 'id',
 
             url: function(){
-                return '/api/games?appids=' + this.id;
+                return '/api/app?id=' + this.id;
             },
 
             parse: function(json){

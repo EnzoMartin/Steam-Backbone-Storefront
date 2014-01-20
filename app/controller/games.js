@@ -77,7 +77,7 @@ function fetchParseGame(id,callback,data){
  * @param callback
  */
 var getGameById = function(id,callback){
-    Games.get(id,function(err, data){
+    Games.get('app-'+id,function(err, data){
         if(err || data == null){
             fetchParseGame(id,callback);
         } else {
