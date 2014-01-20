@@ -78,15 +78,13 @@
             render_game: function(id){
                 var collection = BB.get({collection:'games'});
                 var model = collection.get(id);
-                console.log(model)
 
                 if(typeof model === 'undefined'){
                     // Game not found, create and fetch it
-                    collection.add(new BB.model_definitions.game({id:id}));
-                    model = collection.get(id);
+                    model = collection.add(new BB.model_definitions.game({steam_appid:id}));
+                    model.fetch();
                 }
 
-                //model.fetch();
                 var game = BB.get({view:'game',model:model,collection:collection});
                 BBS.render(game);
             },

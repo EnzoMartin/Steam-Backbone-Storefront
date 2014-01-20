@@ -95,6 +95,22 @@ module.exports = function(app,config){
         });
     });
 
+    // Game detail page bootstrapping, send json response if json request
+    app.get('/game/:id?',function(req,res){
+        games.getGameById(parseInt(req.params.id,10),function(data){
+            res.format({
+                'text/html': function(){
+                    var files = index();
+                    files.bootstrapped = JSON.stringify({games:data});
+                    res.render('index',files);
+                },
+                'application/json': function(){
+                    res.send(data);
+                }
+            });
+        });
+    });
+
     /**
      * New Relic ping reply
      */
