@@ -482,6 +482,8 @@ exports.parseGame = function(id,game,data){
             }
         }
 
+        delete game[id];
+
         // Insert/update game
         Games.insert(game,'app-'+id,function(err){
             if(err){
