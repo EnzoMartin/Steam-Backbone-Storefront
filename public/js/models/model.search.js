@@ -1,9 +1,9 @@
 (function (window){
     requirejs([
-        'underscore',
+        'BB',
         'backbone',
-        'BB'
-    ], function(_, Backbone, BB) {
+        'jquery'
+    ], function(BB,Backbone,$) {
         BB.model_definitions.search = Backbone.Model.extend({
             defaults: {},
 

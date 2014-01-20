@@ -1,11 +1,9 @@
 (function (window){
     requirejs([
-        'jquery',
-        'underscore',
-        'backbone',
+        'BB',
         'dust',
-        'BB'
-    ], function($, _, Backbone, dust, BB) {
+        'backbone'
+    ], function(BB,Backbone,dust) {
         BB.view_definitions.search = Backbone.View.extend({
             id: 'search',
 

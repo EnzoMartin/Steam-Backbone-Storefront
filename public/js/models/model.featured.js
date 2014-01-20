@@ -1,9 +1,8 @@
-(function (window){
+(function (){
     requirejs([
-        'underscore',
-        'backbone',
-        'BB'
-    ], function(_, Backbone, BB) {
+        'BB',
+        'backbone'
+    ], function(BB,Backbone) {
         BB.model_definitions.featured = Backbone.Model.extend({
             defaults: {
 
@@ -40,4 +39,4 @@
             }
         });
     });
-})(window);
+})();

@@ -1,11 +1,9 @@
-(function (window){
+(function (){
     requirejs([
-        'jquery',
-        'underscore',
+        'BB',
         'backbone',
-        'dust',
-        'BB'
-    ], function($, _, Backbone, dust, BB) {
+        'dust'
+    ], function(BB,Backbone,dust) {
         BB.view_definitions.home = Backbone.View.extend({
             id: 'home',
 
@@ -30,4 +28,4 @@
             }
         });
     });
-})(window);
+})();

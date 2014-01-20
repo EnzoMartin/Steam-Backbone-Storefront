@@ -1,11 +1,9 @@
 (function (window){
     requirejs([
-        'jquery',
-        'underscore',
+        'BB',
         'backbone',
-        'dust',
-        'BB'
-    ], function($, _, Backbone, dust, BB) {
+        'dust'
+    ], function(BB,Backbone,dust) {
         BB.view_definitions.header = Backbone.View.extend({
             events: {
 

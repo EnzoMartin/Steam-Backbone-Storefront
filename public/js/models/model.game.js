@@ -1,14 +1,13 @@
-(function (window){
+(function (){
     requirejs([
-        'underscore',
-        'backbone',
-        'BB'
-    ], function(_, Backbone, BB) {
+        'BB',
+        'backbone'
+    ], function(BB,Backbone) {
         BB.model_definitions.game = Backbone.Model.extend({
             idAttribute: 'id',
 
             url: function(){
-                return '/api/app?id=' + this.id;
+                return '/game/' + this.id;
             },
 
             parse: function(json){
@@ -16,4 +15,4 @@
             }
         });
     });
-})(window);
+})();

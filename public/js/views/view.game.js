@@ -1,11 +1,9 @@
 (function (window){
     requirejs([
-        'jquery',
-        'underscore',
-        'backbone',
-        'dust',
-        'BB'
-    ], function($, _, Backbone, dust, BB) {
+        'BB',
+        'Backbone',
+        'dust'
+    ], function(BB,Backbone,dust) {
         BB.view_definitions.game = Backbone.View.extend({
             id: 'game-detail',
 
