@@ -76,7 +76,7 @@ block loaderscript
         (function (window, document) {
             "use strict";
             // Use RequireJS to get the base libraries, and then use yepnope to load the rest and show a nice progress bar
-            requirejs(['lib', 'jquery', 'dust', 'main', 'BB', 'router', 'dust-dump', 'dust-indexof'], function($, yepnope, dust, WRCON, BB, router){
+            requirejs(['jquery', 'dust', 'main', 'BB', 'router', 'lib', 'dust-dump', 'dust-indexof'], function($, dust, WRCON, BB, router){
                 // Save bootstrapped data
                 BB.bootstrapped = !{bootstrapped};
 
