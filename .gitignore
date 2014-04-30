@@ -1,6 +1,7 @@
 lib-cov
 *.seed
 *.log
+*.csv
 *.dat
 *.out
 *.pid
@@ -9,8 +10,13 @@ lib-cov
 pids
 logs
 results
+chatlogs
+
+/.idea
+/.grunt
+/public/js/dist
+/.sass-cache
 
 npm-debug.log
 node_modules
-/.idea
-/.sass-cache
+bower_components
