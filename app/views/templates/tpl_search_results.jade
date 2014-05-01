@@ -1,6 +1,6 @@
 |{#error}
 .row
-    .col-12.col-lg-12.center
+    .col-xs-12.center
         p {error}
 |{:else}
 |{#loading}
@@ -8,12 +8,12 @@ include tpl_spinner
 |{:else}
 |{#results}
 .row.result
-    .col-12.col-lg-2
+    .col-xs-2
         a(href='/game/{steam_appid}')
             img.img-rounded(src='http://cdn2.steampowered.com/v/gfx/apps/{steam_appid}/capsule_sm_120.jpg')
-    .col-12.col-lg-10
+    .col-xs-10
         .row
-            .col-12.col-lg-12
+            .col-xs-12
                 .title.pull-left
                     a(href='/game/{steam_appid}') {name}
                 .genres.pull-left.label-list
@@ -21,7 +21,7 @@ include tpl_spinner
                     a.label.label-default(href='/search?genres={id}') {description}
                     |{/genres}
         .row
-            .col-12.col-lg-12
+            .col-xs-12
                 .categories.label-list
                     |{#categories}
                     a.label.label-primary(href='/search?categories={id}') {description}
@@ -29,7 +29,7 @@ include tpl_spinner
 |{/results}
 |{^results}
 .row
-    .col-12.col-lg-12.center Use the search options above to find matches
+    .col-xs-12.center Use the search options above to find matches
 |{/results}
 |{/loading}
 |{/error}

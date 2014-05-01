@@ -14,7 +14,7 @@
 .row
     |{@iterate key=. k="category" v="data"}
     |{@if cond="['name','achievements','metacritic','recommendations'].indexOf('{$category}') === -1"}
-    .form-group.col-12.col-lg-4
+    .form-group.col-xs-12.col-md-4
         label.capitalize(for='{$category}') {$category}
         select.form-control(name='{$category}',multiple)
             option.ignore.capitalize(value="") All

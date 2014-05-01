@@ -3,13 +3,16 @@ head
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
     meta(name='viewport', content='width=device-width,initial-scale=1')
 
-    title Loading
+    block title
+        title #{title} - #{headline}
     meta(http-equiv='Content-type', content='text/html;charset=UTF-8')
 
     link(href='/favicon.ico', rel='shortcut icon', type='image/x-icon')
-    //link(rel='stylesheet', href='/css/ui-lightness/jquery-ui-1.10.3.custom.min.css')
-    link(rel='stylesheet', href='/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/css/font-awesome.min.css')
-    link(rel='stylesheet', href='/css/structure.css')
+    link(rel='stylesheet', href='/css/contents' + ext + '.css')
+    link(rel='stylesheet', href='/css/highlight' + ext + '.css')
+    link(rel='stylesheet', href='/css/ui-lightness/jquery-ui' + ext + '.css')
+    link(rel='stylesheet', href='/css/bootstrap' + ext + '.css')
+    link(rel='stylesheet', href='/css/font-awesome' + ext + '.css')
+    link(rel='stylesheet', href='/css/structure' + ext + '.css')
 
     block templates

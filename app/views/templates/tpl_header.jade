@@ -1,28 +1,94 @@
-nav.navbar.navbar-inverse.navbar-fixed-top
-    .container
-        .navbar-header
+nav#header-nav.navbar.navbar-inverse.navbar-fixed-top
+    #alert-container.container
+        .navbar-header.hidden-sm
             a.navbar-brand(href='/')
                 | {name}
             button.navbar-toggle(data-target='.navbar-collapse', data-toggle='collapse', type='button')
-                span.sr-only= t('app.nav.toggle-nav')
+                span.sr-only= t('app.nav.toggle_nav')
                 span.icon-bar
                 span.icon-bar
                 span.icon-bar
         nav.collapse.navbar-collapse.navbar-inverse-collapse(role='navigation')
-            ul.nav.navbar-nav
+            ul.nav.navbar-nav.navbar-left
                 li
-                    a(href='/')
-                        i.fa.fa-home
-                        = t('app.nav.home')
+                    a(href='/playtests')
+                        i.fa.fa-gamepad
+                        = t('app.nav.playtests')
                 li
-                    a(href='/featured')
-                        i.fa.fa-tags
-                        = t('app.nav.featured')
+                    a(href='/stats')
+                        i.fa.fa-dashboard
+                        = t('app.nav.stats')
                 li
-                    a(href='/search')
-                        i.fa.fa-search
-                        = t('app.nav.search')
+                    a(href='')
+                        i.fa.fa-question-circle
+                        = t('app.nav.setup_guide')
                 li
-                    a(href='https://github.com/EnzoMartin78/Steam-Backbone-Storefront', target='_blank')
-                        i.fa.fa-github
-                        = t('app.nav.github')
+                    a(href='/about')
+                        i.fa.fa-info
+                        = t('app.nav.about')
+                li
+                    a(href='/docs')
+                        i.fa.fa-code-fork
+                        = t('app.nav.api')
+                li.dropdown
+                    a.dropdown-toggle(href='#',data-href='/admin', data-toggle='dropdown')
+                        i.fa.fa-beer
+                        = t('app.nav.admin')
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href='/admin/playtests')
+                                i.fa.fa-gamepad
+                                = t('app.nav.playtests')
+                        li
+                            a(href='/admin/audit-log')
+                                i.fa.fa-book
+                                = t('app.nav.audit')
+                        li
+                            a(href='/admin/naughty-list')
+                                i.fa.fa-legal
+                                = t('app.nav.naughty')
+            ul.nav.navbar-nav.navbar-right
+                li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown')
+                        i.fa.fa-user
+                        | {^loggedIn}
+                        = t('app.generic.account')
+                        | {:else}
+                        = t('app.generic.hi') + ' {firstName}!'
+                        | {/loggedIn}
+                        b.caret
+                    ul.dropdown-menu
+                        | {^loggedIn}
+                        li.visible-xs
+                            a(href='/login')
+                                i.fa.fa-sign-in
+                                = t('app.generic.signin')
+                        li.hidden-xs
+                            form#nav-login-form.form.navbar-form(role='login')
+                                #spinner
+                                    i.fa.fa-spinner.fa-spin
+                                    = t('app.generic.wait') + '...'
+                                .form-group
+                                    label(for='username')= t('app.generic.username')
+                                    input#username.form-control(name='username', type='text', placeholder='ex: DICE\\jdoe', required='required', autofocus='autofocus')
+                                .form-group
+                                    label(for='password')= t('app.generic.password')
+                                    input#password.form-control(name='password', type='password', required='required')
+                                .form-group
+                                    label.checkbox
+                                        input(name='remember', type='checkbox', checked='checked')
+                                        = t('app.generic.rememberme')
+                                .form-group.center
+                                    button.btn.btn-lg.btn-primary(type='submit')= t('app.generic.signin')
+                        | {:else}
+                        li
+                            a(href='/preferences')
+                                i.fa.fa-wrench
+                                = t('app.nav.preferences')
+                        li.divider
+                        li#logout
+                            a(href='/')
+                                i.fa.fa-sign-out
+                                = t('app.generic.signout')
+                        | {/loggedIn}

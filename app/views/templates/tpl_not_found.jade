@@ -1,0 +1,9 @@
+.row
+    .col-xs-12
+        .page-header
+            h1= t('app.error.page_not_found.title')
+        .page-content
+            span= t('app.error.page_not_found.description')
+                a(href='/')= t('app.error.page_not_found.home')
+            span= t('app.error.page_not_found.back')
+                a(href='javascript:history.back()')= t('app.error.page_not_found.previous')

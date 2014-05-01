@@ -1,5 +1,5 @@
 .row
-    .col-lg-12
+    .col-xs-12
         .page-header
             h1= t('app.featured.header')
         .page-content
@@ -7,25 +7,25 @@
             .row
                 h3 Coming Soon
                 | {#coming_soon.items}
-                .col-3.col-sm-3.col-lg-3.col-offset-1
+                .col-xs-3.col-xs-offset-1
                     | {>tpl_game_featured/}
                 | {/coming_soon.items}
             .row
                 h3 New Releases
                 | {#new_releases.items}
-                .col-3.col-sm-3.col-lg-3.col-offset-1
+                .col-xs-3.col-xs-offset-1
                     | {>tpl_game_featured/}
                 | {/new_releases.items}
             .row
                 h3 Specials
                 | {#specials.items}
-                .col-3.col-sm-3.col-lg-3.col-offset-1
+                .col-xs-3.col-xs-offset-1
                     | {>tpl_game_featured/}
                 | {/specials.items}
             .row
                 h3 Top Sellers
                 | {#top_sellers.items}
-                .col-3.col-sm-3.col-lg-3.col-offset-1
+                .col-xs-3.col-xs-offset-1
                     | {>tpl_game_featured/}
                 | {/top_sellers.items}
             | {:else}

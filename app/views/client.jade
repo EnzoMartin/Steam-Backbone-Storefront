@@ -1,0 +1,64 @@
+script(type='text/javascript').
+    requirejs.config(!{JSON.stringify(requireConfig)});
+
+    (function (window, document) {
+        "use strict";
+
+        requirejs(['jquery', 'dust', 'BBA', 'BB', 'router', 'i18next', 'lib', 'dust-dump', 'bootstrap', 'jqueryui'], function($, dust, BBA, BB, router, i18n){
+            // Set all AJAX calls to be JSON
+            $.ajaxSetup({
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                statusCode: {
+                    401: function(){
+                        BB.get({model:'header'}).set({referral:window.location.pathname});
+                        BBA.router.navigate('/login',{trigger:true});
+                    },
+                    302: function(error){
+                        window.location.replace(error.responseJSON.redirect);
+                    }
+                }
+            });
+
+            // Set the base name and headline of our app
+            var options = {
+                title: "#{title}",
+                headline: "#{headline}",
+                version: "#{version}"
+            };
+
+            // Data to pass to the router's initialize
+            var routerOptions = {
+                header: !{JSON.stringify(header)},
+                version: "#{version}"
+            }
+
+            // Save bootstrapped data
+            BB.bootstrapped = !{bootstrapped};
+            BB.title = options.title;
+
+            i18n.init({
+                fallbackLng: 'en-US',
+                preload: [],
+                dynamicLoad: true,
+                load: '#{locale}',
+                resGetPath: '/locales/__lng__/__ns__',
+                ns: 'client'
+            });
+
+
+            if(#{loadAllTemplates}){
+                // Build the templates, and then remove the script tags from the DOM
+                var elements = document.getElementsByClassName('dust-template');
+                var len = elements.length;
+                while(len--){
+                    var element = elements.item(0);
+                    dust.loadSource(dust.compile(element.text, element.id));
+                    document.getElementById(element.id).parentNode.removeChild(element);
+                }
+            }
+
+            // Start the application
+            BBA.init(router,options,routerOptions);
+        });
+    })(window,document);

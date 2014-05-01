@@ -1,8 +1,6 @@
 extends layouts/default
-
-block main
-    h1 Something went wrong - Error 500
-    #error-message-box
-        #error-stack-trace
-            pre
-                code!= error
+    block title
+    title= t('app.error.server_error')
+        block main
+    h1 An error occurred!
+    pre !{error}

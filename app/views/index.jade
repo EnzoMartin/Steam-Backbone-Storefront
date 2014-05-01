@@ -1,93 +1,11 @@
 extends layouts/default
-
 // Templates
 block templates
-    include templates
-
-// Show the initial loading page
-block main
-    include templates/tpl_loader
-
+    if loadAllTemplates
+        include templates
 // Include the footer, which includes RequiresJS
 block footer
     include includes/footer
-
 // Main loader script
 block loaderscript
-    script(type='text/javascript').
-        requirejs.config({
-            paths: {
-                // Third party libs
-                yepnope: ['//cdnjs.cloudflare.com/ajax/libs/yepnope/1.5.4/yepnope.min', '/js/libraries/yepnope-1.5.4'],
-                jquery: ['//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min', '/js/libraries/jquery-2.0.3.min'],
-                jqueryui: ['//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min', '/js/libraries/jquery-ui-1.10.3.custom.min'],
-                underscore: ['//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min', '/js/libraries/underscore-1.5.2.min'],
-                backbone: ['//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min', '/js/libraries/backbone-1.1.0.min'],
-                bootstrap: ['//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min', '/js/libraries/bootstrap-3.0.2.min'],
-                marionette: ['//cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.1.0-bundled/backbone.marionette.min', '/js/libraries/backbone-marionette-1.4.0.min'],
-                moment: ['//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min', '/js/libraries/moment-with-langs-2.4.0.min'],
-                dust: ['/js/libraries/dust-iterate-helper'],
-                'dust-dump': ['/js/libraries/dust-contextdump-helper'],
-                'dust-indexof': ['/js/libraries/dust-indexof-helper'],
-                'dust-helpers': ['/js/libraries/dust-all-helpers'],
-                'dust-full': ['/js/libraries/dust-full-2.2.0'],
-                // My libs
-                lib: ['/js/libraries/lib'],
-                BB: ['/js/libraries/backbone-helper'],
-                main: ['/js/main'],
-                router: ['/js/router'],
-            },
-            shim: {
-                'backbone': {
-                    deps: ['underscore', 'jquery'],
-                    exports: 'Backbone'
-                },
-                'dust': {
-                    deps: ['dust-helpers'],
-                    exports: 'dust'
-                },
-                'dust-dump': ['dust-helpers'],
-                'dust-indexof': ['dust-helpers'],
-                'dust-helpers': ['dust-full'],
-                'jqueryui': ['jquery'],
-                'bootstrap': ['jquery'],
-                'router': [
-                    // Models
-                    #{models}
-                    // Collections
-                    #{collections}
-                    // Views
-                    #{views}
-                    'backbone','main'
-                ],
-                'BB': ['backbone'],
-                'marionette': {
-                    deps: ['backbone'],
-                    exports: 'Marionette'
-                },
-                'main': ['BB'],
-                'underscore': {
-                    exports: '_'
-                }
-            }
-        });
-
-
-        (function (window, document) {
-            "use strict";
-            // Use RequireJS to get the base libraries, and then use yepnope to load the rest and show a nice progress bar
-            requirejs(['jquery', 'dust', 'main', 'BB', 'router', 'lib', 'dust-dump', 'dust-indexof'], function($, dust, BBS, BB, router){
-                // Save bootstrapped data
-                BB.bootstrapped = !{bootstrapped};
-
-                // Build the templates, and then remove the script tags from the DOM
-                var elements = document.getElementsByClassName('dust-template');
-                var len = elements.length;
-                while(len--){
-                    var element = elements.item(0);
-                    dust.loadSource(dust.compile(element.text, element.id));
-                    document.getElementById(element.id).parentNode.removeChild(element);
-                }
-                BBS.init(router);
-            });
-        })(window,document);
+    include client

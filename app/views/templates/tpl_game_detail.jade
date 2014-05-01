@@ -1,69 +1,73 @@
 | {?name}
 //.background(style="background-image:url('http://cdn2.steampowered.com/v/gfx/apps/{id}/page_bg_generated.jpg')")
 .background
-    .page-header
-        h1 {name}
-    .page-content
-        .banner
-            img(src='{header_image}')
-        .categories
-            h3 Categories
-            ul
-                | {#categories}
-                li
-                    a.label.label-primary(href='/search?categories={id}') {description}
-                | {/categories}
-        .genres
-            h3 Genres
-            ul
-                | {#genres}
-                li
-                    a.label.label-default(href='/search?genres={id}') {description}
-                | {/genres}
-        | {#achievements}
-        .achievements
-            h3 Achievements
-                small  - Total: {achievements.total}
-            ul
-                | {#achievements.highlighted}
-                li
-                    img(src='{path}')
-                    span  {name}
-                | {/achievements.highlighted}
-        | {/achievements}
-        .developers
-            h3 Developer(s)
-            ul
-                | {#developers}
-                li
-                    a.label.label-primary(href='/search?developers={.}') {.}
-                | {/developers}
-        .publishers
-            h3 Publisher(s)
-            ul
-                | {#publishers}
-                li
-                    a.label.label-primary(href='/search?publishers={.}') {.}
-                | {/publishers}
-        .description
-            h3 Description
-            p {detailed_description|s}
-        | {#legal_notice}
-        .legal
-            h3 Legal Notice
-            p {legal_notice}
-        | {/legal_notice}
-        .legal
-        .screenshots
-            h3 Screenshots
-            ul
-                | {#screenshots}
-                li
-                    img.img-rounded(src='{path_thumbnail}')
-                | {/screenshots}
+    .row
+        .col-xs-12
+            .page-header
+                h1 {name}
+            .page-content
+                .banner
+                    img(src='{header_image}')
+                .categories
+                    h3 Categories
+                    ul
+                        | {#categories}
+                        li
+                            a.label.label-primary(href='/search?categories={id}') {description}
+                        | {/categories}
+                .genres
+                    h3 Genres
+                    ul
+                        | {#genres}
+                        li
+                            a.label.label-default(href='/search?genres={id}') {description}
+                        | {/genres}
+                | {#achievements}
+                .achievements
+                    h3 Achievements
+                        small  - Total: {achievements.total}
+                    ul
+                        | {#achievements.highlighted}
+                        li
+                            img(src='{path}')
+                            span  {name}
+                        | {/achievements.highlighted}
+                | {/achievements}
+                .developers
+                    h3 Developer(s)
+                    ul
+                        | {#developers}
+                        li
+                            a.label.label-primary(href='/search?developers={.}') {.}
+                        | {/developers}
+                .publishers
+                    h3 Publisher(s)
+                    ul
+                        | {#publishers}
+                        li
+                            a.label.label-primary(href='/search?publishers={.}') {.}
+                        | {/publishers}
+                .description
+                    h3 Description
+                    p {detailed_description|s}
+                | {#legal_notice}
+                .legal
+                    h3 Legal Notice
+                    p {legal_notice}
+                | {/legal_notice}
+                .legal
+                .screenshots
+                    h3 Screenshots
+                    ul
+                        | {#screenshots}
+                        li
+                            img.img-rounded(src='{path_thumbnail}')
+                        | {/screenshots}
 | {:else}
-.page-header
-    h1 Loading
-.page-content
-    include tpl_loader
+.row
+    .col-xs-12
+        .page-header
+            h1 Loading
+        .page-content
+            include tpl_loader
 | {/name}

@@ -1,0 +1,8 @@
+.row
+    .alert(id="{id}",class="alert-{type} fade in")
+        button.close(type="button",data-dismiss="alert",aria-hidden="true") &times;
+        | {#icon}
+        i.fa(class="{icon}")
+        | {/icon}
+        strong {title}
+        span  {message}

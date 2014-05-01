@@ -1,0 +1,27 @@
+|{^loggedIn}
+.row
+    .col-xs-12.col-sm-6.col-sm-offset-3
+        .page-header
+            h1= t('app.account.login')
+        .page-content
+            form.form-signin(role='form')
+                .form-group
+                    label(for='username')= t('app.generic.username')
+                    input#username.form-control(name='username', type='text', placeholder='ex: DICE\\jdoe', required='required', autofocus='autofocus')
+                .form-group
+                    label(for='password')= t('app.generic.password')
+                    input#password.form-control(name='password', type='password', required='required')
+                .form-group
+                    label.checkbox
+                        input(name='remember', type='checkbox', checked='checked')
+                        = t('app.generic.rememberme')
+                .form-group.center
+                    button.btn.btn-lg.btn-primary(type='submit')= t('app.generic.signin')
+|{:else}
+.row
+    .col-xs-12
+        .page-header
+            h1= t('app.account.loggedin')
+        .page-content
+            p= t('app.account.loggedin_text')
+|{/loggedIn}
