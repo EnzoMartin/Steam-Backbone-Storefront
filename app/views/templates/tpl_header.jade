@@ -11,44 +11,22 @@ nav#header-nav.navbar.navbar-inverse.navbar-fixed-top
         nav.collapse.navbar-collapse.navbar-inverse-collapse(role='navigation')
             ul.nav.navbar-nav.navbar-left
                 li
-                    a(href='/playtests')
-                        i.fa.fa-gamepad
-                        = t('app.nav.playtests')
+                    a(href='/')
+                        i.fa.fa-home
+                        = t('app.nav.home')
                 li
-                    a(href='/stats')
-                        i.fa.fa-dashboard
-                        = t('app.nav.stats')
+                    a(href='/featured')
+                        i.fa.fa-tags
+                        = t('app.nav.featured')
                 li
-                    a(href='')
-                        i.fa.fa-question-circle
-                        = t('app.nav.setup_guide')
+                    a(href='/search')
+                        i.fa.fa-search
+                        = t('app.nav.search')
                 li
-                    a(href='/about')
-                        i.fa.fa-info
-                        = t('app.nav.about')
-                li
-                    a(href='/docs')
-                        i.fa.fa-code-fork
-                        = t('app.nav.api')
-                li.dropdown
-                    a.dropdown-toggle(href='#',data-href='/admin', data-toggle='dropdown')
-                        i.fa.fa-beer
-                        = t('app.nav.admin')
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href='/admin/playtests')
-                                i.fa.fa-gamepad
-                                = t('app.nav.playtests')
-                        li
-                            a(href='/admin/audit-log')
-                                i.fa.fa-book
-                                = t('app.nav.audit')
-                        li
-                            a(href='/admin/naughty-list')
-                                i.fa.fa-legal
-                                = t('app.nav.naughty')
-            ul.nav.navbar-nav.navbar-right
+                    a(href='https://github.com/EnzoMartin78/Steam-Backbone-Storefront', target='_blank')
+                        i.fa.fa-github
+                        = t('app.nav.github')
+            //ul.nav.navbar-nav.navbar-right
                 li.dropdown
                     a.dropdown-toggle(href='#', data-toggle='dropdown')
                         i.fa.fa-user
