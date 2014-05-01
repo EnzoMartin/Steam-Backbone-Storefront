@@ -26,7 +26,7 @@ if(config.use_cache){
 
 // Run DB migration if not dev/test
 console.log('Running in "%s" mode',env);
-if(env !== 'development' && env !== 'test'){
+/*if(env !== 'development' && env !== 'test'){
     console.log('Provisioning database');
     var sys = require('sys');
     var exec = require('child_process').exec;
@@ -40,10 +40,10 @@ if(env !== 'development' && env !== 'test'){
     var command = '/usr/local/bin/node node_modules/db-migrate/bin/db-migrate up --env ' + env + ' --config ./config/database.json --verbose';
     console.log('Executing command: "%s"',command);
     exec(command,puts);
-}
+}*/
 
 // Connect to MySQL
-require('./app/modules/database')(function(){
+require('./app/modules/nosql')(function(){
     var session = require('express-session');
     var MySQLStore = require('connect-mysql')({session:session});
 
@@ -62,12 +62,6 @@ require('./app/modules/database')(function(){
 
     // Start socket layer
     require('./app/modules/sockets')(http,sessionStore);
-
-    // Set up the client endpoints
-    require('./app/modules/socket-api');
-
-    // Set up the listeners for the chat rooms
-    require('./app/modules/chat');
 
     // Start
     if(env == 'development'){
