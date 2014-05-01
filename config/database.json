@@ -1,0 +1,26 @@
+{
+    "development": {
+        "driver": "mysql",
+        "host": "127.0.0.1",
+        "user": "root",
+        "port": "3306",
+        "password": "root",
+        "database": "backbone-steam"
+    },
+    "test": {
+        "driver": "mysql",
+        "host": {"ENV": "DB_HOST"},
+        "user": {"ENV": "DB_USER"},
+        "port": {"ENV": "DB_PORT"},
+        "password": {"ENV": "DB_PASSWORD"},
+        "database": {"ENV": "DB_DATABASE"}
+    },
+    "production": {
+        "driver": "mysql",
+        "host": {"ENV": "DB_HOST"},
+        "user": {"ENV": "DB_USER"},
+        "port": {"ENV": "DB_PORT"},
+        "password": {"ENV": "DB_PASSWORD"},
+        "database": {"ENV": "DB_DATABASE"}
+    }
+}

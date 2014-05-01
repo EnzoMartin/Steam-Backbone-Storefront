@@ -1,48 +1,139 @@
 var fs = require('fs');
+var pjson = require('../package.json');
+var config = require('./config');
 var i18n = require('i18next');
 var http = require('http');
 var Q = require('q');
+
 var games = require('../app/controller/games');
 var search = require('../app/controller/search');
 var steam_fetch = require('../app/modules/steam-url');
 var Cache = require('../app/modules/cache');
-var pjson = require('../package.json');
 
-// Load all the JS files for backbone
-var files = {};
-files.views = fs.readdirSync('public/js/views');
-files.models = fs.readdirSync('public/js/models');
-files.collections = fs.readdirSync('public/js/collections');
-var processed = {};
-var version = Math.floor(100000000 + Math.random() * 900000000);
-
-for (var i in files) {
-    var j = 0;
-    processed[i] = '';
-    while(j < files[i].length){
-        var file = files[i][j];
-        if(file.indexOf('.js') != -1){
-            processed[i] += '\'/js/' + i + '/' + file + '?' + version + '\',\n';
-        }
-        j++;
+// Authentication middleware
+function ensureAuthenticated(req, res, next) {
+    if(req.isAuthenticated()){
+        next();
+    } else {
+        res.format({
+            'text/html': function(){
+                req.session.redirectTo = req.originalUrl;
+                res.redirect('/login');
+            },
+            'application/json': function(){
+                res.status(401);
+                res.send({error:'Not authenticated'});
+            }
+        });
     }
 }
 
+
+// Global objects to store all the files and modules to include
+var requireConfig = require('../config/require')(config.env);
+
+// Set the .min extension for CSS for production only
+var ext = config.env === 'development'? '' : '.min';
+
+var gamesList = '{}';
+var platformsList = '{}';
+var networktypesList = '{}';
+
+
+// TODO: Move this into a promise/callback correctly
+Games.getGames(function(err,games){
+    gamesList = JSON.stringify(games);
+});
+
+Platforms.getPlatforms(function(err,platforms){
+    platformsList = JSON.stringify(platforms);
+});
+
+NetworkTypes.getNetworkTypes(function(err,networktypes){
+    networktypesList = JSON.stringify(networktypes);
+});
+
+var maxAge = 60 * 60 * 24 * 30;
+
+// Specify requirejs URL to load based off the require config
+var requireUrl = requireConfig.baseUrl + requireConfig.paths.require + '.js';
+
 /**
- * Get base file definitions and global app data
- * @returns {{lang: string, version: (string|version|*), models: (*|models|models), collections: (*|Function), views: *}}
+ * Get base file definitions and global app data to pass to template
+ * @param req {*} Express request object
+ * @param [bootstrapped] {*} Pass in data to be stringified and passed to the front end as model/collection bootstrapping
+ * @param [locale] string
+ * @returns {{bootstrapped: string, loadAllTemplates: boolean, lang: string, requireUrl: string, locale: string, title: string, headline: string, version: string, requireConfig: *}}
  */
-function index(){
+function getFiles(req,bootstrapped,locale){
     // TODO: Pass frontend translations
     // Render index page and pass through all the variables
-    return {
-        lang: 'en',
+    var data = {
         bootstrapped: '{}',
+        loadAllTemplates: config.loadAllTemplates,
+        lang: 'en',
+        gamesList: gamesList,
+        platformsList: platformsList,
+        networktypesList: networktypesList,
+        requireUrl: requireUrl,
+        ext: ext,
+        locale: i18n.options.lng,
+        title: pjson.title,
+        headline: pjson.headline,
         version: pjson.version,
-        models:processed.models,
-        collections:processed.collections,
-        views:processed.views
+        requireConfig: requireConfig
     };
+
+    var authed = {loggedIn:false};
+    if(req.isAuthenticated()){
+        var user = req.user;
+        authed = {
+            username: user.sAMAccountName,
+            firstName: user.givenName,
+            displayName: user.displayName,
+            loggedIn: true
+        };
+    }
+    data.header = authed;
+
+    if(bootstrapped){
+        data.bootstrapped = JSON.stringify(bootstrapped);
+    }
+
+    // Add google analytics if configured
+    if(config.googleAnalytics){
+        data.googleAnalytics = config.googleAnalytics
+    }
+
+    return data;
+}
+
+/**
+ * Handle sending the index page or a JSON response, handling the error code
+ * @param err {*} Error object
+ * @param req {*} Express request object
+ * @param res {*} Express response object
+ * @param key string Name of response key
+ * @param data {*} Data blob
+ */
+function sendResponse(err,req,res,key,data){
+    res.format({
+        'text/html': function(){
+            var out = {};
+            if(err){
+                out = {error:err};
+            } else {
+                out[key] = data;
+            }
+            res.render('index',getFiles(req,out));
+        },
+        'application/json': function(){
+            if(err){
+                res.status(500);
+            }
+            res.send(data || err);
+        }
+    });
 }
 
 /**
@@ -64,7 +155,49 @@ function makePromise(method,params){
     return d.promise;
 }
 
-module.exports = function(app,config){
+/**
+ * @module Express Router
+ * @memberOf App
+ * @param app {*}
+ * @param passport {*}
+ */
+module.exports = function(app,passport){
+    // For development, we reload the module list on every refresh
+     if(config.env === 'development'){
+        app.use(function(req, res, next){
+            requireConfig = requireConfig.getFiles(requireConfig);
+            next();
+        });
+     }
+
+    /**
+     * Sends client translations
+     */
+    app.get('/locales/:locale/:namespace/:ext?',function(req, res){
+        var resources = {};
+
+        res.contentType('json');
+        if (config.env === 'production') {
+            res.header('Cache-Control', 'public max-age=' + maxAge);
+            res.header('Expires', (new Date(new Date().getTime() + maxAge * 1000)).toUTCString());
+        }
+
+        var languages = req.params.locale ? req.params.locale.split(' ') : [];
+        var opts = { ns: { namespaces: req.params.namespace ? req.params.namespace.split(' ') : [] } };
+
+        i18n.sync.load(languages, opts, function() {
+            languages.forEach(function(lng) {
+                if (!resources[lng]) resources[lng] = {};
+
+                opts.ns.namespaces.forEach(function(ns) {
+                    if (!resources[lng][ns]) resources[lng][ns] = i18n.sync.resStore[lng][ns] || {};
+                });
+            });
+
+            res.send(resources);
+        });
+    });
+
     // Search page, return with available search filters
     app.get('/search',function(req,res){
         var json = req.is('json');
@@ -255,24 +388,71 @@ module.exports = function(app,config){
         }
     });
 
-    // Home Route
-    app.get('/:locale?',function(req,res){
-        // Handle switching language
-        if(req.params.locale){
-            var locale = (req.params.locale || 'en-US').split('-');
-            if(locale.length != 2){
-                locale = ['en','US'];
+    /**
+     * Backbone catch-all pass-through route
+     */
+    if(config.env === 'development'){
+        app.use(function(req, res, next){
+            if(req.originalUrl.indexOf('js') !== -1){
+                res.send({});
+            } else {
+                res.render('index',getFiles(req),function(err,html) {
+                    if(err) {
+                        next(err);
+                    } else {
+                        res.end(html);
+                    }
+                });
             }
-            req.i18n.setLng(locale[0] + '-' + locale[1].toUpperCase());
-        }
-
-        res.render('index',index());
-    });
+        });
+    } else {
+        app.use(function(req, res, next){
+             res.format({
+                'text/html': function(){
+                    res.render('index',getFiles(req),function(err,html) {
+                        if(err) {
+                            next(err);
+                        } else {
+                            res.end(html);
+                        }
+                    });
+                },
+                'application/json': function(){
+                    res.status(501);
+                    res.send();
+                }
+            });
+        });
+    }
 
     /**
-     * Backbone pass-through route
+     * Our 500 error page
      */
-    app.use(function(req, res){
-        res.render('index',index());
-    });
+    if(config.stackError){
+        app.use(function(err, req, res, next){
+            console.error(err);
+            console.trace();
+            res.status(500);
+            res.format({
+                'text/html': function(){
+                    res.render('500',{lang:'en',error:err,ext:ext});
+                },
+                'application/json': function(){
+                    res.send({error:err});
+                }
+            });
+        });
+    } else {
+        app.use(function(err, req, res, next){
+            res.status(500);
+            res.format({
+                'text/html': function(){
+                    res.render('500',{auth:false,lang:'en',error:err,ext:ext});
+                },
+                'application/json': function(){
+                    res.send({error:err});
+                }
+            });
+        });
+    }
 };
