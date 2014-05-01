@@ -4,7 +4,7 @@
         'backbone',
         'dust'
     ], function(BB,Backbone,dust) {
-        BB.view_definitions.search = Backbone.View.extend({
+        return BB.view_definitions.search = Backbone.View.extend({
             id: 'search',
 
             title: 'Search',
@@ -86,50 +86,6 @@
             renderResults: function(){
                 this.subviews.resultsView.render();
                 return this.subviews.resultsView.el;
-            }
-        });
-
-        BB.view_definitions.search_form = Backbone.View.extend({
-            template: 'tpl_search_form',
-
-            events: {
-
-            },
-
-            render: function(){
-                var view = this;
-                dust.render(this.template, this.model.toJSON(), function(err, out) {
-                    view.$el.html(out);
-                });
-            }
-        });
-
-        //TODO: Add pagination
-        BB.view_definitions.search_results = Backbone.View.extend({
-            template: 'tpl_search_results',
-
-            id: 'search-results',
-
-            events: {
-                'click .label': 'search'
-            },
-
-            initialize: function(){
-                this.listenTo(this.model, 'change', this.render);
-            },
-
-            search: function(event){
-                event.preventDefault();
-                history.pushState({}, document.title, event.currentTarget.href);
-                this.trigger('url');
-                this.model.sync();
-            },
-
-            render: function(){
-                var view = this;
-                dust.render(this.template, this.model.toJSON(), function(err, out) {
-                    view.$el.html(out);
-                });
             }
         });
     });

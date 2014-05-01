@@ -1,9 +1,14 @@
+/**
+ * @name Homepage Games Model
+ * @module Games
+ * @memberOf Model
+ */
 (function (){
     requirejs([
         'BB',
         'backbone'
     ], function(BB,Backbone) {
-        BB.model_definitions.home = Backbone.Model.extend({
+        return BB.model_definitions.home = Backbone.Model.extend({
             defaults: {
 
             },

@@ -1,9 +1,14 @@
+/**
+ * @name Featured Games Model
+ * @module Games
+ * @memberOf Model
+ */
 (function (){
     requirejs([
         'BB',
         'backbone'
     ], function(BB,Backbone) {
-        BB.model_definitions.featured = Backbone.Model.extend({
+        return BB.model_definitions.featured = Backbone.Model.extend({
             defaults: {
 
             },

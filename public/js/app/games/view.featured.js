@@ -1,10 +1,15 @@
+/**
+ * @name Featured View
+ * @module Games
+ * @memberOf Views
+ */
 (function (){
     requirejs([
         'BB',
         'backbone',
         'dust'
     ], function(BB,Backbone,dust) {
-        BB.view_definitions.featured = Backbone.View.extend({
+        return BB.view_definitions.featured = Backbone.View.extend({
             id: 'featured',
 
             title: 'Featured',

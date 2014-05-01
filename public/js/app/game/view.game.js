@@ -1,10 +1,15 @@
+/**
+ * @name Game View
+ * @module Game
+ * @memberOf Views
+ */
 (function (window){
     requirejs([
         'BB',
         'backbone',
         'dust'
     ], function(BB,Backbone,dust) {
-        BB.view_definitions.game = Backbone.View.extend({
+        return BB.view_definitions.game = Backbone.View.extend({
             id: 'game-detail',
 
             title: function(){
