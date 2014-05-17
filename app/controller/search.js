@@ -1,5 +1,4 @@
-var nano = require('../modules/database');
-var Cache = require('../modules/cache');
+var nano = require('../modules/nosql');
 var Q = require('q');
 
 // Collections
@@ -84,7 +83,7 @@ function parseParam(param,ints){
 }
 
 /**
- * Gets all the available sorting fields, saves/gets from Cache if available
+ * Gets all the available sorting fields
  * @param callback
  */
 exports.getFields = function(callback){

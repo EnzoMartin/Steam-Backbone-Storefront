@@ -15,15 +15,6 @@ if(process.env.NEWRELIC){
 var env = process.env.NODE_ENV || 'development';
 var config = require('./config/config')(env);
 
-// Connect to Azure Cache
-if(config.use_cache){
-    // If using Azure Cache, make sure to install Edge and run "node_modules\azurecache\tools\install.bat"
-    require('./app/modules/cache')();
-} else {
-    // If no Cache configured, this puts dummy functions in it's place
-    require('./app/modules/cache')(true);
-}
-
 // Run DB migration if not dev/test
 console.log('Running in "%s" mode',env);
 /*if(env !== 'development' && env !== 'test'){
@@ -61,7 +52,7 @@ require('./app/modules/nosql')(function(){
     var http = app.listen(config.port);
 
     // Start socket layer
-    require('./app/modules/sockets')(http,sessionStore);
+    //require('./app/modules/sockets')(http,sessionStore);
 
     // Start
     if(env == 'development'){

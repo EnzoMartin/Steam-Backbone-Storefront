@@ -1,11 +1,14 @@
 extends layouts/default
+
 // Templates
 block templates
     if loadAllTemplates
         include templates
+
 // Include the footer, which includes RequiresJS
 block footer
     include includes/footer
+
 // Main loader script
 block loaderscript
     include client

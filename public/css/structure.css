@@ -1,55 +1,93 @@
-/* line 1, ../../scss/global.scss */
+/* line 2, E:\GitHub\Steam-Backbone-Storefront/scss/global */
 body {
   padding-top: 53px;
-}
+  position: relative;
+  padding-bottom: 50px; }
 
-/* line 5, ../../scss/global.scss */
+/* line 8, E:\GitHub\Steam-Backbone-Storefront/scss/global */
 i {
-  margin-right: 5px;
-}
+  margin-right: 5px; }
 
-/* line 9, ../../scss/global.scss */
+/* line 12, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+ul, ul, dl {
+  padding: 0; }
+
+/* line 16, E:\GitHub\Steam-Backbone-Storefront/scss/global */
 .center {
-  text-align: center;
-}
+  text-align: center; }
 
-/* line 13, ../../scss/global.scss */
+/* line 20, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+.right {
+  text-align: right; }
+
+/* line 24, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+.left {
+  text-align: left; }
+
+/* line 28, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+ol.breadcrumb {
+  margin: 5px 0 -5px; }
+
+/* line 32, E:\GitHub\Steam-Backbone-Storefront/scss/global */
 .capitalize {
-  text-transform: capitalize;
-}
+  text-transform: capitalize; }
 
-/* line 18, ../../scss/global.scss */
-.btn + .btn,
-.label + .label {
-  margin-left: 10px;
-}
+/* line 37, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+.btn + .btn, .label + .label {
+  margin-left: 10px; }
 
-/* line 23, ../../scss/global.scss */
+/* line 42, E:\GitHub\Steam-Backbone-Storefront/scss/global */
 a:hover img {
-  opacity: 0.8;
-}
+  opacity: 0.8; }
 
-/* line 31, ../../scss/global.scss */
+/* line 47, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+#header-alert {
+  position: absolute;
+  top: 110%; }
+
+/* line 53, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+#static-alerts .row {
+  margin-top: 10px; }
+/* line 57, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+#static-alerts .alert {
+  margin-bottom: 0; }
+
+/* line 65, E:\GitHub\Steam-Backbone-Storefront/scss/global */
 .table.table-align-middle tbody td {
-  vertical-align: middle;
-}
+  vertical-align: middle; }
+/* line 73, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+.table tbody td.actions {
+  text-align: right; }
 
-/* line 2, ../../scss/search.scss */
+/* line 80, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+#content {
+  padding-bottom: 55px; }
+
+/* line 84, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+#footer {
+  display: none;
+  background-color: #f5f5f5;
+  padding: 15px 0;
+  font-size: 12px;
+  position: absolute;
+  bottom: -50px;
+  width: 100%; }
+  /* line 93, E:\GitHub\Steam-Backbone-Storefront/scss/global */
+  #footer p {
+    margin: 0; }
+
+/* line 2, E:\GitHub\Steam-Backbone-Storefront/scss/search */
 #search .result + .result {
-  margin-top: 10px;
-}
-/* line 6, ../../scss/search.scss */
+  margin-top: 10px; }
+/* line 6, E:\GitHub\Steam-Backbone-Storefront/scss/search */
 #search .title {
-  padding-right: 10px;
-}
-/* line 10, ../../scss/search.scss */
+  padding-right: 10px; }
+/* line 10, E:\GitHub\Steam-Backbone-Storefront/scss/search */
 #search .genres {
-  margin-top: -2px;
-}
+  margin-top: -2px; }
 
-/* line 2, ../../scss/game.scss */
+/* line 2, E:\GitHub\Steam-Backbone-Storefront/scss/game */
 #game-detail .background {
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: 100% auto;
-}
+  background-size: 100% auto; }

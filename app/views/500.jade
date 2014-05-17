@@ -1,6 +1,8 @@
 extends layouts/default
+
 block title
     title= t('app.error.server_error')
+
 block main
-    h1 An error occurred!
+    h1= t('app.error.server_error')
     pre !{error}

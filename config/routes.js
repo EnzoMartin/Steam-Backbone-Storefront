@@ -8,7 +8,6 @@ var Q = require('q');
 var games = require('../app/controller/games');
 var search = require('../app/controller/search');
 var steam_fetch = require('../app/modules/steam-url');
-var Cache = require('../app/modules/cache');
 
 // Authentication middleware
 function ensureAuthenticated(req, res, next) {
@@ -28,30 +27,11 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
-
 // Global objects to store all the files and modules to include
 var requireConfig = require('../config/require')(config.env);
 
 // Set the .min extension for CSS for production only
 var ext = config.env === 'development'? '' : '.min';
-
-var gamesList = '{}';
-var platformsList = '{}';
-var networktypesList = '{}';
-
-
-// TODO: Move this into a promise/callback correctly
-Games.getGames(function(err,games){
-    gamesList = JSON.stringify(games);
-});
-
-Platforms.getPlatforms(function(err,platforms){
-    platformsList = JSON.stringify(platforms);
-});
-
-NetworkTypes.getNetworkTypes(function(err,networktypes){
-    networktypesList = JSON.stringify(networktypes);
-});
 
 var maxAge = 60 * 60 * 24 * 30;
 
@@ -72,9 +52,6 @@ function getFiles(req,bootstrapped,locale){
         bootstrapped: '{}',
         loadAllTemplates: config.loadAllTemplates,
         lang: 'en',
-        gamesList: gamesList,
-        platformsList: platformsList,
-        networktypesList: networktypesList,
         requireUrl: requireUrl,
         ext: ext,
         locale: i18n.options.lng,
@@ -228,22 +205,6 @@ module.exports = function(app,passport){
         });
     });
 
-    // Game detail page bootstrapping, send json response if json request
-    app.get('/game/:id?',function(req,res){
-        games.getGameById(parseInt(req.params.id,10),function(data){
-            res.format({
-                'text/html': function(){
-                    var files = index();
-                    files.bootstrapped = JSON.stringify({games:data});
-                    res.render('index',files);
-                },
-                'application/json': function(){
-                    res.send(data);
-                }
-            });
-        });
-    });
-
     /**
      * New Relic ping reply
      */
@@ -297,9 +258,9 @@ module.exports = function(app,passport){
      * Fetch specific app based off ID
      * @param id {string}
      */
-    app.get('/api/app',function(req,res){
-        games.getGameById(parseInt(req.query.id,10),function(data){
-            res.send(data);
+    app.get('/game/:id',function(req,res){
+        games.getGameById(parseInt(req.params.id,10),function(err,data){
+            sendResponse(err,req,res,'game',data);
         });
     });
 

@@ -1,497 +1,238 @@
-var nano = require('./database');
-var Cache = require('./cache');
-
-// Grab Steam DB
-var Games = nano.db.use('steam');
-
-// Update the indexes
-var indexes = {
-    /**
-     * Total achievement count index
-     * @param doc {{}}
-     */
-    achievements: {
-        views: {
-            achievements: {
-                map: function(doc){
-                    emit(typeof doc.achievements !== 'undefined' ? doc.achievements.total : 0,null);
-                }
-            }
-        },
-        indexes: {
-            achievements: {
-                analyzer: 'standard',
-                index: function(doc){
-                    index('achievements',typeof doc.achievements !== 'undefined' ? doc.achievements.total : 0);
-                }
-            }
-        }
-    },
-
-    /**
-     * Game has demo or not
-     * @param doc {{}}
-     */
-    demo: {
-        views: {
-            demo: {
-                map: function(doc){
-                    emit(typeof doc.demos === 'object',null);
-                }
-            }
-        },
-        indexes: {
-            demo: {
-                analyzer: 'standard',
-                index: function(doc){
-                    index('demo',typeof doc.demos === 'object');
-                }
-            }
-        }
-    },
-
-    /**
-     * Categories types index by id
-     * @param doc {{}}
-     */
-    categoryId: {
-        views: {
-            categoryId: {
-                map: function(doc){
-                    if(typeof doc.categories !== 'undefined'){
-                        var i = 0;
-                        var len = doc.categories.length;
-
-                        while(i < len){
-                            var category = doc.categories[i];
-                            emit(parseInt(category.id,10),null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            categoryId: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.categories !== 'undefined'){
-                        var i = 0;
-                        var len = doc.categories.length;
-
-                        while(i < len){
-                            var category = doc.categories[i];
-                            index('categoryId',parseInt(category.id,10));
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Categories types index by name
-     * @param doc {{}}
-     */
-    categoryName: {
-        views: {
-            categoryName: {
-                map: function(doc){
-                    if(typeof doc.categories !== 'undefined'){
-                        var i = 0;
-                        var len = doc.categories.length;
-
-                        while(i < len){
-                            var category = doc.categories[i];
-                            emit(category.description,null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            categoryName: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.categories !== 'undefined'){
-                        var i = 0;
-                        var len = doc.categories.length;
-
-                        while(i < len){
-                            var category = doc.categories[i];
-                            index('categoryName',category.description);
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Developers index
-     * @param doc {{}}
-     */
-    developers: {
-        views: {
-            developers: {
-                map: function(doc){
-                    if(typeof doc.developers !== 'undefined'){
-                        var i = 0;
-                        var len = doc.developers.length;
-
-                        while(i < len){
-                            emit(doc.developers[i],null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            developers: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.developers !== 'undefined'){
-                        var i = 0;
-                        var len = doc.developers.length;
-
-                        while(i < len){
-                            index('developer',doc.developers[i]);
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Genres types index by id
-     * @param doc {{}}
-     */
-    genreId: {
-        views: {
-            genreId: {
-                map: function(doc){
-                    if(typeof doc.genres !== 'undefined'){
-                        var i = 0;
-                        var len = doc.genres.length;
-                        while(i < len){
-                            var genre = doc.genres[i];
-                            emit(parseInt(genre.id,10),null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            genreId: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.genres !== 'undefined'){
-                        var i = 0;
-                        var len = doc.genres.length;
-                        while(i < len){
-                            var genre = doc.genres[i];
-                            index('genreId', parseInt(genre.id,10));
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Genres types index by name
-     * @param doc {{}}
-     */
-    genreName: {
-        views: {
-            genreName: {
-                map: function(doc){
-                    if(typeof doc.genres !== 'undefined'){
-                        var i = 0;
-                        var len = doc.genres.length;
-                        while(i < len){
-                            var genre = doc.genres[i];
-                            emit(genre.description,null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            genreName: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.genres !== 'undefined'){
-                        var i = 0;
-                        var len = doc.genres.length;
-                        while(i < len){
-                            var genre = doc.genres[i];
-                            index('genreName', genre.description);
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Metacritic index
-     * @param doc {{}}
-     */
-    metacritic: {
-        views: {
-            metacritic: {
-                map: function(doc){
-                    if(typeof doc.metacritic !== 'undefined'){
-                        emit(game.metacritic.score,null);
-                    }
-                }
-            }
-        },
-        indexes: {
-            metacritic: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.metacritic !== 'undefined'){
-                        index('metacritic',game.metacritic.score);
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Platform index
-     * @param doc {{}}
-     */
-    platform: {
-        views: {
-            platform: {
-                map: function(doc){
-                    if(typeof doc.platforms === 'object'){
-                        for(var platform in doc.platforms){
-                            emit(doc.platforms[platform],null);
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            platform: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.platforms === 'object'){
-                        for(var platform in doc.platforms){
-                            index('platform',doc.platforms[platform]);
-                        }
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Publishers index
-     * @param doc {{}}
-     */
-    publishers: {
-        views: {
-            publishers: {
-                map: function(doc){
-                    if(typeof doc.publishers === 'object'){
-                        var i = 0;
-                        var len = doc.publishers.length;
-
-                        while(i < len){
-                            emit(doc.publishers[i],null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            publishers: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.publishers === 'object'){
-                        var i = 0;
-                        var len = doc.publishers.length;
-
-                        while(i < len){
-                            index('publisher',doc.publishers[i]);
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Recommendations count index
-     * @param doc {{}}
-     */
-    recommendations: {
-        views: {
-            recommendations: {
-                map: function(doc){
-                    if(typeof doc.recommendations === 'object'){
-                        emit(parseInt(doc.recommendations.total,10),null);
-                    }
-                }
-            }
-        },
-        indexes: {
-            recommendations: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.recommendations === 'object'){
-                        index('recommendations',parseInt(doc.recommendations.total,10));
-                    }
-                }
-            }
-        }
-    },
-
-    /**
-     * Languages index
-     * @param doc {{}}
-     */
-    languages: {
-        views: {
-            languages: {
-                map: function(doc){
-                    if(typeof doc.supported_languages === 'string'){
-                        var languages = doc.supported_languages.split(',');
-                        var i = 0;
-                        var len = languages.length;
-                        while(i < len){
-                            var lang = languages[i];
-                            emit(lang.split('<')[0].trim(),null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        },
-        indexes: {
-            languages: {
-                analyzer: 'standard',
-                index: function(doc){
-                    if(typeof doc.supported_languages === 'string'){
-                        var languages = doc.supported_languages.split(',');
-                        var i = 0;
-                        var len = languages.length;
-                        while(i < len){
-                            var lang = languages[i];
-                            emit(lang.split('<')[0].trim(),null);
-                            i++;
-                        }
-                    }
-                }
-            }
-        }
-    }
-};
-
-// Find existing design docs
-Games.list({startkey:'_design',endkey:'_e'},function(err,data){
-    updateDesignDocs(data);
-});
-
-function updateDesignDocs(revisions){
-    var rows = {};
-    if(revisions && revisions.rows && revisions.rows.length){
-        var i = 0;
-        var len = revisions.rows.length;
-        while(i < len){
-            var row = revisions.rows[i];
-            rows[row.id] = row.value.rev;
-            i++;
-        }
-    }
-
-    // Build the design documents for bulk insert/update
-    var docs = [];
-    for(var name in indexes){
-        var indexObj = indexes[name];
-        indexObj._id = '_design/' + name;
-        indexObj.language = 'javascript';
-
-        // Check if document exists so we can specify the revision
-        if(rows[indexObj._id]){
-            indexObj._rev = rows[indexObj._id];
-            delete rows[indexObj._id];
-        }
-
-        docs.push(indexObj);
-    }
-
-    // Delete any remaining docs
-    if(Object.keys(rows).length){
-        for(var id in rows){
-            docs.push({
-                _id: id,
-                _rev: rows[id],
-                _deleted: true
-            });
-        }
-    }
-
-    // Bulk insert/update/delete the docs
-    Games.bulk({docs:docs}, function(err){
-        if(err){
-            console.error('Failed updating design docs',err);
-        }
-    });
-}
+var db = require('./database');
+var uuid = require('node-uuid');
 
 /**
  * Parses information from a game to build the search indexes
  * @param id number
- * @param game {{}} data from steam api
- * @param data {{}} data from listener
+ * @param game {{}}
+ * @param [_id] Mongo ID if updating
  */
-exports.parseGame = function(id,game,data){
-    // Fetch head only to see if game already exists
-    Games.head('app-'+id,function(err, _, headers){
-        // Append current revision if document found
-        if(typeof headers !== 'undefined'){
-            game._rev = headers.etag.replace(/"/g,'');
+exports.parseGame = function(id,game,_id){
+    var i;
+    var len;
+
+    // Save the game, update if it already exists
+    if(_id){
+        game._id = _id;
+        Games.save(game);
+    } else {
+        Games.update(
+            {steam_appid: id},
+            {$set: game},
+            {upsert: true}
+        );
+    }
+
+    // Save the total achievement count for the game
+    if(typeof game.achievements === 'object'){
+        AchievementsIndex.update(
+            {id: id, games: [id]},
+            {$set: {
+                total: game.achievements.total
+            }},
+            {upsert: true}
+        );
+    }
+
+    // Save if it has a demo
+    // TODO: Remove if no demo
+    if(typeof game.demos === 'object'){
+        DemosIndex.save({hasDemo: true, games: [id], id: id, demos: game.demos});
+    }
+
+    // Save the game categories
+    if(typeof game.categories === 'object'){
+        i = 0;
+        len = game.categories.length;
+
+        while(i < len){
+            var category = game.categories[i];
+            category.id = parseInt(category.id,10);
+            updateCategoryType(category,id);
+            i++;
         }
+    }
 
-        game.id = id;
+    // Save the game developers
+    if(typeof game.developers === 'object'){
+        i = 0;
+        len = game.developers.length;
 
-        if(typeof data === 'object'){
-            // If we're getting the game from the listener merge the data together
-            for(var key in data){
-                if(typeof game[key] === 'undefined'){
-                    game[key] = data[key];
-                }
-            }
+        while(i < len){
+            updateDevelopers(game.developers[i],id);
+            i++;
         }
+    }
 
-        delete game[id];
+    // Save the genres
+    if(typeof game.genres === 'object'){
+        i = 0;
+        len = game.genres.length;
 
-        // Insert/update game
-        Games.insert(game,'app-'+id,function(err){
-            if(err){
-                console.error('Error inserting item',err);
-            }
+        while(i < len){
+            var genre = game.genres[i];
+            genre.id = parseInt(genre.id,10);
+            updateGenreType(genre,id);
+            i++;
+        }
+    }
 
-            // Invalidate filter cache
-            Cache.remove('filters');
+    // Save the metacritic score
+    if(typeof game.metacritic === 'object'){
+        MetacriticIndex.update(
+            {id: id, games: [id]},
+            {$set: {
+                score: game.metacritic.score
+            }},
+            {upsert: true}
+        );
+    }
+
+    // Save the platforms
+    if(typeof game.platforms === 'object'){
+        updatePlatforms(game.platforms,id);
+    }
+
+    // Save the publishers
+    if(typeof game.publishers === 'object'){
+        i = 0;
+        len = game.publishers.length;
+
+        while(i < len){
+            updatePublishers(game.publishers[i],id);
+            i++;
+        }
+    }
+
+    // Save the recommendations
+    if(typeof game.recommendations === 'object'){
+        RecommendationsIndex.update(
+            {id: id, games: [id]},
+            {$set : {
+                total: game.recommendations.total
+            }},
+            {upsert: true}
+        );
+    }
+
+    // Save the languages
+    if(typeof game.supported_languages === 'string'){
+        game.supported_languages.split(',').forEach(function(lang){
+            updateLanguages(lang.split('<')[0].trim(),id);
         });
+    }
+
+    // Invalidate filter cache
+    Cache.remove('filters');
+};
+
+/**
+ * If category not found, creates category and category index, otherwise adds the game to that category's list array
+ * @param category
+ * @param id
+ */
+var updateCategoryType = function(category,id){
+    CategoriesIndex.findOne({id:category.id},function(err,res){
+        if(err || res == null){
+            // Create the category type
+            category.name = category.description;
+            delete category.description;
+            category.games = [id];
+            category.total = 1;
+            CategoriesIndex.save(category);
+        } else {
+            // Append new game to the category index
+            CategoriesIndex.findAndModify({
+                query: {id: category.id},
+                update: {
+                    $addToSet: {games: id},
+                    $inc: {total: 1}
+                }
+            });
+        }
+    });
+};
+
+/**
+ * Creates/updates the developers with a game id array
+ * @param developer
+ * @param id
+ */
+var updateDevelopers = function(developer,id){
+    DevelopersIndex.findAndModify({
+        query: {name: developer},
+        update: {$addToSet: {games: id}},
+        upsert: true
+    });
+};
+
+/**
+ * If genre not found, creates genre and genre index, otherwise adds the game to that genre's list array
+ * @param genre
+ * @param id
+ */
+var updateGenreType = function(genre,id){
+    GenresIndex.findOne({id:genre.id},function(err,res){
+        if(err || res == null){
+            // Create the genre type
+            genre.name = genre.description;
+            delete genre.description;
+            genre.games = [id];
+            genre.total = 1;
+            GenresIndex.save(genre);
+        } else {
+            // Append new game to the genre index
+            GenresIndex.findAndModify({
+                query: {id: genre.id},
+                update: {
+                    $addToSet: {games: id},
+                    $inc: {total: 1}
+                }
+            });
+        }
+    });
+};
+
+/**
+ * Creates/updates the platforms with a game id array, or removes the game from a platform
+ * @param platforms
+ * @param id
+ */
+var updatePlatforms = function(platforms,id){
+    for(var platform in platforms){
+        var available = platforms[platform];
+        var action = available ? {$addToSet: {games: id}} : {$pull: {games: id}};
+
+        PlatformsIndex.findAndModify({
+            query: {name: platform},
+            update: action,
+            upsert: true
+        });
+    }
+};
+
+/**
+ * Creates/updates the publishers with a game id array
+ * @param publisher
+ * @param id
+ */
+var updatePublishers = function(publisher,id){
+    PublishersIndex.findAndModify({
+        query: {name: publisher},
+        update: {$addToSet: {games: id}},
+        upsert: true
+    });
+};
+
+/**
+ * If language not found, creates language and language index, otherwise adds the game to that language's list array
+ * @param language
+ * @param id
+ */
+var updateLanguages = function(language,id){
+    LanguagesIndex.findAndModify({
+        query: {name: language},
+        update: {$addToSet: {games: id}},
+        upsert: true
     });
 };

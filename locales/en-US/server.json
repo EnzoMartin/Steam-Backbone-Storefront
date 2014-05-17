@@ -5,10 +5,12 @@
             "search": "Search",
             "toggle-nav": "Toggle Nav",
             "featured": "Featured",
-            "github": "GitHub Project"
+            "github": "GitHub Project",
+            "toggle_nav": "app.nav.toggle_nav"
         },
         "home": {
-            "header": "Games"
+            "header": "Games",
+            "content": "app.home.content"
         },
         "featured": {
             "header": "Featured"
@@ -41,15 +43,38 @@
             "coming-soon": {
                 "title": "Coming Soon!",
                 "body": "This page hasn't been built yet, but don't worry, it's coming soon!"
-            }
+            },
+            "coming_soon": {
+                "title": "app.generic.coming_soon.title",
+                "body": "app.generic.coming_soon.body"
+            },
+            "username": "app.generic.username",
+            "password": "app.generic.password",
+            "rememberme": "app.generic.rememberme",
+            "signin": "app.generic.signin"
         },
         "error": {
             "maximumminimum": "Maximum can't be lower than Minimum",
             "minimummaximum": "Minimum can't be higher than Maximum",
-            "required": "This field is required"
+            "required": "This field is required",
+            "server_error": "An error occurred!",
+            "page_not_found": {
+                "title": "app.error.page_not_found.title",
+                "description": "app.error.page_not_found.description",
+                "home": "app.error.page_not_found.home",
+                "back": "app.error.page_not_found.back",
+                "previous": "app.error.page_not_found.previous"
+            }
         },
         "search": {
             "header": "Search"
+        },
+        "account": {
+            "loggedout": "app.account.loggedout",
+            "seeyousoon": "app.account.seeyousoon",
+            "login": "app.account.login",
+            "loggedin": "app.account.loggedin",
+            "loggedin_text": "app.account.loggedin_text"
         }
     }
 }
